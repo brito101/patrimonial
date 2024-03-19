@@ -264,6 +264,26 @@ return [
             ],
         ],
         [
+            'text'        => 'Setores',
+            'url'         => '#',
+            'icon'        => 'fas fa-fw fa-building mr-2',
+            'can'         => 'Acessar Setores',
+            'submenu' => [
+                [
+                    'text' => 'Listagem de Setores',
+                    'url'  => 'admin/departments',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Listar Setores',
+                ],
+                [
+                    'text' => 'Cadastro de Setores',
+                    'url'  => 'admin/departments/create',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Criar Setores',
+                ],
+            ],
+        ],
+        [
             'text'    => 'ACL',
             'icon'    => 'fas fa-fw fa-user-shield mr-2',
             'can'     => 'Acessar ACL',

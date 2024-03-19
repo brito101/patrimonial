@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{
     ACL\PermissionController,
     ACL\RoleController,
     ChangelogController,
+    DepartmentController,
 };
 
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,10 @@ Route::group(['middleware' => ['auth']], function () {
 
         /** Users */
         Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
-        Route::resource('users', UserController::class);
+        Route::resource('users', UserController::class)->except('show');
+
+        /** Departments */
+        Route::resource('departments', DepartmentController::class)->except('show');
 
         /**
          * ACL

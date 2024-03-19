@@ -44,6 +44,7 @@
                                     <ul>
                                         <li>Módulo de ACL com perfis e permissões</li>
                                         <li>Módulo de Usuários</li>
+                                        <li>Módulo de Setores</li>
                                         <li>Changelog</li>
                                     </ul>
                                 </x-adminlte-callout>

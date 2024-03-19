@@ -4,8 +4,9 @@
 
 ### Resources
 
-Basic user controller
-Visitors log
+- Basic user controller
+- Visitors log
+- Departments controller
 
 ### Usage
 
