@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\{
     ACL\RoleController,
     ChangelogController,
     DepartmentController,
+    GroupController,
+    MaterialController,
 };
 
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +37,12 @@ Route::group(['middleware' => ['auth']], function () {
 
         /** Departments */
         Route::resource('departments', DepartmentController::class)->except('show');
+
+        /** Groups */
+        Route::resource('groups', GroupController::class)->except('show');
+
+        /** Materials */
+        Route::resource('materials', MaterialController::class)->except('show');
 
         /**
          * ACL

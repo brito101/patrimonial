@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', '- Edição de Setor')
+@section('title', '- Edição de Grupo')
 
 @section('content')
 
@@ -8,15 +8,15 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><i class="fas fa-fw fa-building"></i> Editar Setor {{ $department->name }}</h1>
+                    <h1><i class="fas fa-fw fa-layer-group"></i> Editar Grupo {{ $group->name }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                        @can('Listar Setores')
-                            <li class="breadcrumb-item"><a href="{{ route('admin.departments.index') }}">Setores</a></li>
+                        @can('Listar Grupos')
+                            <li class="breadcrumb-item"><a href="{{ route('admin.groups.index') }}">Grupos</a></li>
                         @endcan
-                        <li class="breadcrumb-item active">Editar Setor</li>
+                        <li class="breadcrumb-item active">Editar Grupo</li>
                     </ol>
                 </div>
             </div>
@@ -32,14 +32,13 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Dados Cadastrais do Setor</h3>
+                            <h3 class="card-title">Dados Cadastrais do Grupo</h3>
                         </div>
 
-                        <form method="POST"
-                            action="{{ route('admin.departments.update', ['department' => $department->id]) }}">
+                        <form method="POST" action="{{ route('admin.groups.update', ['group' => $group->id]) }}">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" name="id" value="{{ $department->id }}">
+                            <input type="hidden" name="id" value="{{ $group->id }}">
                             <div class="card-body">
 
                                 <div class="d-flex flex-wrap justify-content-between">
@@ -47,13 +46,13 @@
                                         <label for="code">Código</label>
                                         <input type="text" class="form-control" id="code"
                                             placeholder="Código de referência" name="code"
-                                            value="{{ old('code') ?? $department->code }}">
+                                            value="{{ old('code') ?? $group->code }}">
                                     </div>
                                     <div class="col-12 col-md-8 form-group px-0 pl-md-2">
                                         <label for="name">Nome *</label>
                                         <input type="text" class="form-control" id="name"
-                                            placeholder="Nome do Setor" name="name"
-                                            value="{{ old('name') ?? $department->name }}" required>
+                                            placeholder="Nome do Grupo" name="name"
+                                            value="{{ old('name') ?? $group->name }}" required>
                                     </div>
                                 </div>
 

@@ -264,6 +264,26 @@ return [
             ],
         ],
         [
+            'text'        => 'Materiais',
+            'url'         => '#',
+            'icon'        => 'fas fa-fw fa-box mr-2',
+            'can'         => 'Acessar Materiais',
+            'submenu' => [
+                [
+                    'text' => 'Listagem de Materiais',
+                    'url'  => 'admin/materials',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Listar Materiais',
+                ],
+                [
+                    'text' => 'Cadastro de Materiais',
+                    'url'  => 'admin/materials/create',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Criar Materiais',
+                ],
+            ],
+        ],
+        [
             'text'        => 'Setores',
             'url'         => '#',
             'icon'        => 'fas fa-fw fa-building mr-2',
@@ -280,6 +300,26 @@ return [
                     'url'  => 'admin/departments/create',
                     'icon' => 'fas fa-fw fa-chevron-right',
                     'can'  => 'Criar Setores',
+                ],
+            ],
+        ],
+        [
+            'text'        => 'Grupos',
+            'url'         => '#',
+            'icon'        => 'fas fa-fw fa-layer-group mr-2',
+            'can'         => 'Acessar Grupos',
+            'submenu' => [
+                [
+                    'text' => 'Listagem de Grupos',
+                    'url'  => 'admin/groups',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Listar Grupos',
+                ],
+                [
+                    'text' => 'Cadastro de Grupos',
+                    'url'  => 'admin/groups/create',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Criar Grupos',
                 ],
             ],
         ],

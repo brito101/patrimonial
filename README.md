@@ -7,6 +7,8 @@
 - Basic user controller
 - Visitors log
 - Departments controller
+- Groups controller
+- Material controller
 
 ### Usage
 
