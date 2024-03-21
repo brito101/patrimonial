@@ -45,6 +45,7 @@
                                 'RM',
                                 'Descrição',
                                 'Setor',
+                                'Status',
                                 ['label' => 'Ações', 'no-export' => true, 'width' => 10],
                             ];
                             $config = [
@@ -54,6 +55,7 @@
                                     ['data' => 'registration', 'name' => 'registration'],
                                     ['data' => 'description', 'name' => 'description'],
                                     ['data' => 'department_name', 'name' => 'department_name'],
+                                    ['data' => 'status', 'name' => 'status'],
                                     [
                                         'data' => 'action',
                                         'name' => 'action',

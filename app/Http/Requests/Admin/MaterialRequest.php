@@ -30,6 +30,7 @@ class MaterialRequest extends FormRequest
             'unitary_value',
             'group_id',
             'department_id',
+            'status',
             'user_id',
         ];
     }
