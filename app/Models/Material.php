@@ -24,4 +24,11 @@ class Material extends Model
         'status',
         'user_id',
     ];
+
+    /** Accessors */
+
+    public function getUnitaryValueAttribute($value)
+    {
+        return 'R$ ' . number_format($value, 2, ',', '.');
+    }
 }

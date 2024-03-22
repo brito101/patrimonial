@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CheckPermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MaterialRequest;
+use App\Models\Department;
+use App\Models\Group;
 use App\Models\Material;
 use App\Models\Views\Material as ViewsMaterial;
 use Illuminate\Http\Request;
@@ -15,6 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class MaterialController extends Controller
 {
@@ -26,17 +29,20 @@ class MaterialController extends Controller
         CheckPermission::checkAuth('Listar Materiais');
 
         if ($request->ajax()) {
-            $groups = ViewsMaterial::all('id', 'registration', 'description', 'department_name');
+            $groups = ViewsMaterial::all('id', 'registration', 'description', 'department_name', 'status');
 
             $token = csrf_token();
 
             return Datatables::of($groups)
                 ->addIndexColumn()
+                ->addColumn('description', function ($row) {
+                    return Str::limit($row->description);
+                })
                 ->addColumn('action', function ($row) use ($token) {
                     return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="materials/' . $row->id . '/edit"><i class="fa fa-lg fa-fw fa-pen"></i></a>' .
                         '<form method="POST" action="materials/' . $row->id . '" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="' . $token . '"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['description', 'action'])
                 ->make(true);
         }
 
@@ -52,7 +58,10 @@ class MaterialController extends Controller
     {
         CheckPermission::checkAuth('Criar Materiais');
 
-        return view('admin.materials.create');
+        $groups = Group::orderBy('name')->get();
+        $departments = Department::orderBy('name')->get();
+
+        return view('admin.materials.create', compact('groups', 'departments'));
     }
 
     /**
@@ -97,7 +106,10 @@ class MaterialController extends Controller
             abort(403, 'Acesso não autorizado');
         }
 
-        return view('admin.materials.edit', compact('material'));
+        $groups = Group::orderBy('name')->get();
+        $departments = Department::orderBy('name')->get();
+
+        return view('admin.materials.edit', compact('material', 'groups', 'departments'));
     }
 
     /**

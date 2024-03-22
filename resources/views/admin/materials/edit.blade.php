@@ -1,6 +1,7 @@
 @extends('adminlte::page')
+@section('plugins.select2', true)
 
-@section('title', '- Edição de Grupo')
+@section('title', '- Edição de Material')
 
 @section('content')
 
@@ -8,15 +9,15 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><i class="fas fa-fw fa-layer-group"></i> Editar Grupo {{ $group->name }}</h1>
+                    <h1><i class="fas fa-fw fa-box"></i> Editar Material {{ $material->registration }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                        @can('Listar Grupos')
-                            <li class="breadcrumb-item"><a href="{{ route('admin.groups.index') }}">Grupos</a></li>
+                        @can('Listar Materiais')
+                            <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais</a></li>
                         @endcan
-                        <li class="breadcrumb-item active">Editar Grupo</li>
+                        <li class="breadcrumb-item active">Editar Material</li>
                     </ol>
                 </div>
             </div>
@@ -32,28 +33,93 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Dados Cadastrais do Grupo</h3>
+                            <h3 class="card-title">Dados Cadastrais do Material</h3>
                         </div>
 
-                        <form method="POST" action="{{ route('admin.groups.update', ['group' => $group->id]) }}">
-                            @csrf
+                        <form method="POST" action="{{ route('admin.materials.update', ['material' => $material->id]) }}">
                             @method('PUT')
-                            <input type="hidden" name="id" value="{{ $group->id }}">
+                            <input type="hidden" name="id" value="{{ $material->id }}">
+                            @csrf
                             <div class="card-body">
 
-                                <div class="d-flex flex-wrap justify-content-between">
-                                    <div class="col-12 col-md-4 form-group px-0 pr-md-2">
-                                        <label for="code">Código</label>
-                                        <input type="text" class="form-control" id="code"
-                                            placeholder="Código de referência" name="code"
-                                            value="{{ old('code') ?? $group->code }}">
+                                <div class="d-flex flex-wrap justify-content-start">
+                                    <div class="col-12 col-md-3 form-group px-0 pr-md-2">
+                                        <label for="registration">RM *</label>
+                                        <input type="text" class="form-control" id="registration"
+                                            placeholder="Registro de Material" name="registration"
+                                            value="{{ old('registration') ?? $material->registration }}" required>
                                     </div>
-                                    <div class="col-12 col-md-8 form-group px-0 pl-md-2">
-                                        <label for="name">Nome *</label>
+                                    <div class="col-12 col-md-3 form-group px-0 px-md-2">
+                                        <label for="secondary_code">SIADI</label>
                                         <input type="text" class="form-control" id="name"
-                                            placeholder="Nome do Grupo" name="name"
-                                            value="{{ old('name') ?? $group->name }}" required>
+                                            placeholder="Código do SIADI" name="secondary_code"
+                                            value="{{ old('secondary_code') ?? $material->secondary_code }}">
                                     </div>
+                                    <div class="col-12 col-md-3 form-group px-0 px-md-2">
+                                        <label for="serial_number">Nº Série</label>
+                                        <input type="text" class="form-control" id="name"
+                                            placeholder="Nº de série do material" name="serial_number"
+                                            value="{{ old('serial_number') ?? $material->serial_number }}">
+                                    </div>
+
+                                    <div class="col-12 col-md-3 form-group px-0 pl-md-2">
+                                        <label for="unitary_value">Valor unitário *</label>
+                                        <input type="text" class="form-control money_format_2" id="unitary_value"
+                                            name="unitary_value"
+                                            value="{{ old('unitary_value') ?? $material->unitary_value }}" required>
+                                    </div>
+
+                                    <div class="col-12 form-group px-0 mb-0">
+                                        <x-adminlte-textarea label="Descrição" rows=5 name="description"
+                                            placeholder="Texto descritivo..."
+                                            enable-old-support="true">{{ old('description') ?? $material->description }}</x-adminlte-textarea>
+                                    </div>
+
+                                    <div class="col-12 col-md-5 form-group px-0 pr-md-2 mb-0">
+                                        <label for="group_id">Grupo</label>
+                                        <x-adminlte-select2 name="group_id" id="group_id">
+                                            <option value="">Nenhum</option>
+                                            @foreach ($groups as $group)
+                                                <option
+                                                    {{ old('group_id') == $group->id ? 'selected' : ($material->group_id == $group->id ? 'selected' : '') }}
+                                                    value="{{ $group->id }}">
+                                                    {{ $group->code ? $group->code . ' - ' : '' }} {{ $group->name }}
+                                                </option>
+                                            @endforeach
+                                        </x-adminlte-select2>
+                                    </div>
+
+                                    <div class="col-12 col-md-5 form-group px-0 px-md-2 mb-0">
+                                        <label for="department_id">Setor</label>
+                                        <x-adminlte-select2 name="department_id" id="department_id">
+                                            <option value="">Nenhum</option>
+                                            @foreach ($departments as $department)
+                                                <option
+                                                    {{ old('department_id') == $department->id ? 'selected' : ($material->department_id == $department->id ? 'selected' : '') }}
+                                                    value="{{ $department->id }}">
+                                                    {{ $department->code ? $department->code . ' - ' : '' }}
+                                                    {{ $department->name }}
+                                                </option>
+                                            @endforeach
+                                        </x-adminlte-select2>
+                                    </div>
+
+                                    <div class="col-12 col-md-2 form-group px-0 px-md-2 mb-0">
+                                        <label for="status">Status *</label>
+                                        <x-adminlte-select2 name="status" id="status">
+                                            <option {{ old('status') == 'Ativo' ? 'selected' : '' }} value="Ativo">Ativo
+                                            </option>
+                                            <option {{ old('status') == 'Baixa' ? 'selected' : '' }} value="Baixa">Baixa
+                                            </option>
+                                        </x-adminlte-select2>
+                                    </div>
+
+                                    <div class="col-12 form-group px-0 mb-0">
+                                        <x-adminlte-textarea label="Observações" rows=5 name="observations"
+                                            placeholder="Texto descritivo..."
+                                            enable-old-support="true">{{ old('observations') ?? $material->observations }}</x-adminlte-textarea>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -68,4 +134,9 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('custom_js')
+    <script src="{{ asset('vendor/jquery/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/money.js') }}"></script>
 @endsection

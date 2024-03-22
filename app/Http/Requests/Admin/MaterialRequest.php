@@ -14,6 +14,13 @@ class MaterialRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'unitary_value'  => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $this->unitary_value))),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,16 +29,22 @@ class MaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration',
-            'secondary_code',
-            'serial_number',
-            'description',
-            'observations',
-            'unitary_value',
-            'group_id',
-            'department_id',
-            'status',
-            'user_id',
+            'registration' => 'required|max:191',
+            'secondary_code' => 'nullable|max:191',
+            'serial_number' => 'nullable|max:191',
+            'description'  => 'nullable|max:400000000',
+            'observations' => 'nullable|max:400000000',
+            'unitary_value' => 'required|numeric|between:0,999999999.999',
+            'group_id' => 'nullable|exists:groups,id',
+            'department_id'  => 'nullable|exists:departments,id',
+            'status' => 'required|in:Ativo,Baixa',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'unitary_value.between' => 'O valor unitário deve ser entre 0 e 999.999.999,999.',
         ];
     }
 }

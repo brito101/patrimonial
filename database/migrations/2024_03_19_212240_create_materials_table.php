@@ -21,11 +21,11 @@ return new class extends Migration
             $table->longText('observations')->nullable();
             $table->decimal('unitary_value', 11, 2)->default(0);
             $table->string('status')->nullable();
-            $table->foreignId('group_id')
+            $table->foreignId('group_id')->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('department_id')
+            $table->foreignId('department_id')->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
