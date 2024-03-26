@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CheckPermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
+use App\Models\Department;
 use App\Models\User;
 use App\Models\Views\User as ViewsUser;
 use Illuminate\Contracts\Foundation\Application;
@@ -34,7 +35,7 @@ class UserController extends Controller
 
         if ($request->ajax()) {
             if (Auth::user()->hasRole('Programador')) {
-                $users = ViewsUser::all('id', 'name', 'email', 'type');
+                $users = ViewsUser::all('id', 'name', 'email', 'type', 'department');
             } elseif (Auth::user()->hasRole('Administrador')) {
                 $users = ViewsUser::whereIn('type', ['Administrador', 'Usuário'])->get();
             } else {
@@ -70,7 +71,10 @@ class UserController extends Controller
         } else {
             $roles = Role::where('name', '!=', 'Programador')->get(['id', 'name']);
         }
-        return view('admin.users.create', compact('roles'));
+
+        $departments = Department::orderBy('name')->get(['id', 'name']);
+
+        return view('admin.users.create', compact('roles', 'departments'));
     }
 
     /**
@@ -135,7 +139,9 @@ class UserController extends Controller
             $roles = Role::where('name', '!=', 'Programador')->get(['id', 'name']);
         }
 
-        return view('admin.users.edit', compact('user', 'roles'));
+        $departments = Department::orderBy('name')->get(['id', 'name']);
+
+        return view('admin.users.edit', compact('user', 'roles', 'departments'));
     }
 
     /**
@@ -176,6 +182,12 @@ class UserController extends Controller
             }
 
             $data = $this->saveImage($request, $name, $data);
+        }
+
+        if (Auth::user()->hasPermissionTo('Atribuir Perfis')) {
+            $data['department_id'] = $request->department_id;
+        } else {
+            $data['department_id'] = Auth::user()->department_id;
         }
 
         if ($user->update($data)) {

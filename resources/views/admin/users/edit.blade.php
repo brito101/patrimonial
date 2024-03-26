@@ -44,7 +44,7 @@
                             <input type="hidden" name="id" value="{{ $user->id }}">
                             <div class="card-body">
                                 <div class="d-flex flex-wrap justify-content-between">
-                                    <div class="col-12 col-md-6 form-group px-0 pr-md-2">
+                                    <div class="col-12 form-group px-0">
                                         <label for="name">Nome</label>
                                         <input type="text" class="form-control" id="name"
                                             placeholder="Nome Completo" name="name"
@@ -56,7 +56,7 @@
                                     <div class="col-12 col-md-6 form-group px-0 pr-md-2">
                                         <label for="telephone">Telefone</label>
                                         <input type="tel" class="form-control" id="telephone" placeholder="Telefone"
-                                            name="telephone" value="{{ old('telephone') ?? $user->telephone }}" required>
+                                            name="telephone" value="{{ old('telephone') ?? $user->telephone }}">
                                     </div>
                                     <div class="col-12 col-md-6 form-group px-0 pl-md-2">
                                         <label for="cell">Celular</label>
@@ -100,11 +100,26 @@
                                     @can('Atribuir Perfis')
                                         <div class="col-12 col-md-6 form-group px-0 pr-md-2">
                                             <label for="role">Tipo de Usuário</label>
-                                            <x-adminlte-select2 name="role">
+                                            <x-adminlte-select2 name="role" id="role">
                                                 @foreach ($roles as $role)
                                                     <option
                                                         {{ old('role') == $role->name ? 'selected' : ($user->roles->first()->id == $role->id ? 'selected' : '') }}
                                                         value="{{ $role->name }}">{{ $role->name }}</option>
+                                                @endforeach
+                                            </x-adminlte-select2>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 form-group px-0 pl-md-2">
+                                            <label for="department_id">Setor</label>
+                                            <x-adminlte-select2 name="department_id" id="department_id">
+                                                <option
+                                                    {{ old('department_id') == '' ? 'selected' : ($user->department_id == '' ? 'selected' : '') }}
+                                                    value="">Não
+                                                    informado</option>
+                                                @foreach ($departments as $department)
+                                                    <option
+                                                        {{ old('department_id') == $department->id ? 'selected' : ($user->department_id == $department->id ? 'selected' : '') }}
+                                                        value="{{ $department->id }}">{{ $department->name }}</option>
                                                 @endforeach
                                             </x-adminlte-select2>
                                         </div>

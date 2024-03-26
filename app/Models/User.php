@@ -34,6 +34,7 @@ class User extends Authenticatable
         'photo',
         'telephone',
         'cell',
+        'department_id',
     ];
 
     /**
