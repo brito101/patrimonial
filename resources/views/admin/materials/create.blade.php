@@ -61,9 +61,9 @@
                                     </div>
 
                                     <div class="col-12 col-md-3 form-group px-0 pl-md-2">
-                                        <label for="unitary_value">Valor unitário *</label>
-                                        <input type="text" class="form-control money_format_2" id="unitary_value"
-                                            name="unitary_value" value="{{ old('unitary_value') }}" required>
+                                        <label for="value">Valor unitário *</label>
+                                        <input type="text" class="form-control money_format_2" id="value"
+                                            name="value" value="{{ old('value') }}" required>
                                     </div>
 
                                     <div class="col-12 form-group px-0 mb-0">
@@ -72,8 +72,8 @@
                                     </div>
 
                                     <div class="col-12 col-md-5 form-group px-0 pr-md-2 mb-0">
-                                        <label for="group_id">Grupo</label>
-                                        <x-adminlte-select2 name="group_id" id="group_id">
+                                        <label for="group_id">Grupo *</label>
+                                        <x-adminlte-select2 name="group_id" id="group_id" required>
                                             <option value="">Nenhum</option>
                                             @foreach ($groups as $group)
                                                 <option {{ old('group_id') == $group->id ? 'selected' : '' }}

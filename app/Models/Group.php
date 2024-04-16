@@ -17,4 +17,27 @@ class Group extends Model
         'code',
         'user_id',
     ];
+
+    protected $appends = [
+        'value',
+        'quantity',
+    ];
+
+    /** Accessors */
+
+    public function getValueAttribute()
+    {
+        return 'R$ ' . number_format($this->activeMaterials()->sum('value'), 2, ',', '.');
+    }
+
+    public function getQuantityAttribute()
+    {
+        return $this->activeMaterials()->count();
+    }
+
+    /** Relationships */
+    public function activeMaterials()
+    {
+        return $this->hasMany(Material::class, 'group_id', 'id')->where('status', 'Ativo');
+    }
 }

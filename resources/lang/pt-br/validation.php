@@ -227,7 +227,7 @@ return [
         'secondary_code' => 'SIADI',
         'serial_number' => 'número de série',
         'observations' => 'observações',
-        'unitary_value' => 'valor unitário',
+        'value' => 'valor unitário',
         'group_id' => 'grupo',
         'department_id' => 'setor',
     ],

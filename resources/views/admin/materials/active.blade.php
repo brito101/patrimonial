@@ -10,12 +10,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><i class="fas fa-fw fa-box"></i> Materiais</h1>
+                    <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Materiais</li>
+                        <li class="breadcrumb-item active">Materiais Ativos</li>
                     </ol>
                 </div>
             </div>
@@ -40,15 +40,30 @@
                         </div>
 
                         @php
-                            $heads = [['label' => 'ID', 'width' => 10], 'Grupo', 'Descrição', 'Valor', 'Quantidade'];
+                            $heads = [
+                                ['label' => 'ID', 'width' => 10],
+                                'RM',
+                                'Descrição',
+                                'Grupo',
+                                'Setor',
+                                'Valor',
+                                ['label' => 'Ações', 'no-export' => true, 'width' => 10],
+                            ];
                             $config = [
-                                'ajax' => url('/admin/materials'),
+                                'ajax' => url('/admin/materials/active'),
                                 'columns' => [
                                     ['data' => 'id', 'name' => 'id'],
-                                    ['data' => 'code', 'name' => 'code'],
-                                    ['data' => 'name', 'name' => 'name'],
+                                    ['data' => 'registration', 'name' => 'registration'],
+                                    ['data' => 'description', 'name' => 'description'],
+                                    ['data' => 'group_name', 'name' => 'group_name'],                                    
+                                    ['data' => 'department_name', 'name' => 'department_name'],
                                     ['data' => 'value', 'name' => 'value'],
-                                    ['data' => 'quantity', 'name' => 'quantity'],
+                                    [
+                                        'data' => 'action',
+                                        'name' => 'action',
+                                        'orderable' => false,
+                                        'searchable' => false,
+                                    ],
                                 ],
                                 'language' => ['url' => asset('vendor/datatables/js/pt-BR.json')],
                                 'autoFill' => true,

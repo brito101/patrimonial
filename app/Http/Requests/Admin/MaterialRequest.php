@@ -17,7 +17,7 @@ class MaterialRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'unitary_value'  => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $this->unitary_value))),
+            'value'  => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $this->value))),
         ]);
     }
 
@@ -34,8 +34,8 @@ class MaterialRequest extends FormRequest
             'serial_number' => 'nullable|max:191',
             'description'  => 'nullable|max:400000000',
             'observations' => 'nullable|max:400000000',
-            'unitary_value' => 'required|numeric|between:0,999999999.999',
-            'group_id' => 'nullable|exists:groups,id',
+            'value' => 'required|numeric|between:0,999999999.999',
+            'group_id' => 'required|exists:groups,id',
             'department_id'  => 'nullable|exists:departments,id',
             'status' => 'required|in:Ativo,Baixa',
         ];
@@ -44,7 +44,7 @@ class MaterialRequest extends FormRequest
     public function messages()
     {
         return [
-            'unitary_value.between' => 'O valor unitário deve ser entre 0 e 999.999.999,999.',
+            'value.between' => 'O valor unitário deve ser entre 0 e 999.999.999,999.',
         ];
     }
 }

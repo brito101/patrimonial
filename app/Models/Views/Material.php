@@ -10,4 +10,11 @@ class Material extends Model
     use HasFactory;
 
     protected $table = 'materials_view';
+
+    /** Accessors */
+
+    public function getValueAttribute($value)
+    {
+        return 'R$ ' . number_format($value, 2, ',', '.');
+    }
 }

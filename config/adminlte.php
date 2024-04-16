@@ -48,7 +48,7 @@ return [
     */
 
     'logo' => env('APP_NAME'),
-    'logo_img' => 'vendor/adminlte/dist/img/logo.png',
+    'logo_img' => 'img/brand.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -256,7 +256,7 @@ return [
                     'can'  => 'Listar Usuários',
                 ],
                 [
-                    'text' => 'Cadastro de Usuários',
+                    'text' => 'Cadastro de Usuário',
                     'url'  => 'admin/users/create',
                     'icon' => 'fas fa-fw fa-chevron-right',
                     'can'  => 'Criar Usuários',
@@ -270,17 +270,30 @@ return [
             'can'         => 'Acessar Materiais',
             'submenu' => [
                 [
-                    'text' => 'Listagem de Materiais',
+                    'text' => 'Materiais por grupo',
                     'url'  => 'admin/materials',
                     'icon' => 'fas fa-fw fa-chevron-right',
                     'can'  => 'Listar Materiais',
                 ],
                 [
-                    'text' => 'Cadastro de Materiais',
+                    'text' => 'Cadastro de Material',
                     'url'  => 'admin/materials/create',
                     'icon' => 'fas fa-fw fa-chevron-right',
                     'can'  => 'Criar Materiais',
                 ],
+                [
+                    'text' => 'Materiais Ativos',
+                    'url'  => 'admin/materials/active',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Listar Materiais',
+                ],
+                [
+                    'text' => 'Materiais em Baixa',
+                    'url'  => 'admin/materials/write-off',
+                    'icon' => 'fas fa-fw fa-chevron-right',
+                    'can'  => 'Listar Materiais',
+                ],
+
             ],
         ],
         [
@@ -296,7 +309,7 @@ return [
                     'can'  => 'Listar Setores',
                 ],
                 [
-                    'text' => 'Cadastro de Setores',
+                    'text' => 'Cadastro de Setore',
                     'url'  => 'admin/departments/create',
                     'icon' => 'fas fa-fw fa-chevron-right',
                     'can'  => 'Criar Setores',
@@ -316,7 +329,7 @@ return [
                     'can'  => 'Listar Grupos',
                 ],
                 [
-                    'text' => 'Cadastro de Grupos',
+                    'text' => 'Cadastro de Grupo',
                     'url'  => 'admin/groups/create',
                     'icon' => 'fas fa-fw fa-chevron-right',
                     'can'  => 'Criar Grupos',
@@ -336,7 +349,7 @@ return [
                     'can'     => 'Listar Perfis',
                 ],
                 [
-                    'text' => 'Cadastro de Perfis',
+                    'text' => 'Cadastro de Perfil',
                     'url'  => 'admin/role/create',
                     'icon'    => 'fas fa-fw fa-chevron-right',
                     'can'     => 'Criar Perfis',
@@ -347,7 +360,7 @@ return [
                     'icon'    => 'fas fa-fw fa-chevron-right',
                 ],
                 [
-                    'text' => 'Cadastro de Permissões',
+                    'text' => 'Cadastro de Permissão',
                     'url'  => 'admin/permission/create',
                     'icon'    => 'fas fa-fw fa-chevron-right',
                     'can'     => 'Criar Permissões',
@@ -359,12 +372,6 @@ return [
             'url'    => 'admin/changelog',
             'icon'    => 'fas fa-fw fa-code mr-2',
         ],
-        [
-            'text'        => 'Site',
-            'url'    => '/',
-            'icon'    => 'fas fa-fw fa-link mr-2',
-            'target' => '_blank',
-        ]
     ],
 
     /*

@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\MaterialRequest;
 use App\Models\Department;
 use App\Models\Group;
 use App\Models\Material;
+use App\Models\Views\Group as ViewsGroup;
 use App\Models\Views\Material as ViewsMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Foundation\Application;
@@ -29,7 +30,7 @@ class MaterialController extends Controller
         CheckPermission::checkAuth('Listar Materiais');
 
         if ($request->ajax()) {
-            $groups = ViewsMaterial::all('id', 'registration', 'description', 'department_name', 'status');
+            $groups = Group::get();
 
             $token = csrf_token();
 
@@ -38,15 +39,61 @@ class MaterialController extends Controller
                 ->addColumn('description', function ($row) {
                     return Str::limit($row->description);
                 })
+                ->rawColumns(['description'])
+                ->make(true);
+        }
+
+        return view('admin.materials.index');
+    }
+
+    public function active(Request $request): View|Factory|Application|JsonResponse
+    {
+        CheckPermission::checkAuth('Listar Materiais');
+
+        if ($request->ajax()) {
+            $materials = ViewsMaterial::select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Ativo')->get();
+
+            $token = csrf_token();
+
+            return Datatables::of($materials)
+                ->addIndexColumn()
+                ->addColumn('description', function ($row) {
+                    return Str::limit($row->description);
+                })
                 ->addColumn('action', function ($row) use ($token) {
-                    return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="materials/' . $row->id . '/edit"><i class="fa fa-lg fa-fw fa-pen"></i></a>' .
-                        '<form method="POST" action="materials/' . $row->id . '" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="' . $token . '"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
+                    return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="' . route('admin.materials.edit', ['material' => $row->id]) . '"><i class="fa fa-lg fa-fw fa-pen"></i></a>' .
+                        '<form method="POST" action="' . route('admin.materials.destroy', ['material' => $row->id]) . '" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="' . $token . '"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
                 })
                 ->rawColumns(['description', 'action'])
                 ->make(true);
         }
 
-        return view('admin.materials.index');
+        return view('admin.materials.active');
+    }
+
+    public function writeOff(Request $request): View|Factory|Application|JsonResponse
+    {
+        CheckPermission::checkAuth('Listar Materiais');
+
+        if ($request->ajax()) {
+            $materials = ViewsMaterial::select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Baixa')->get();
+
+            $token = csrf_token();
+
+            return Datatables::of($materials)
+                ->addIndexColumn()
+                ->addColumn('description', function ($row) {
+                    return Str::limit($row->description);
+                })
+                ->addColumn('action', function ($row) use ($token) {
+                    return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="' . route('admin.materials.edit', ['material' => $row->id]) . '"><i class="fa fa-lg fa-fw fa-pen"></i></a>' .
+                        '<form method="POST" action="' . route('admin.materials.destroy', ['material' => $row->id]) . '" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="' . $token . '"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
+                })
+                ->rawColumns(['description', 'action'])
+                ->make(true);
+        }
+
+        return view('admin.materials.write-off');
     }
 
     /**

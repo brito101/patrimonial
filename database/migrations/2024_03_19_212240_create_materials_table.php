@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('serial_number')->nullable();
             $table->text('description')->nullable();
             $table->longText('observations')->nullable();
-            $table->decimal('unitary_value', 11, 2)->default(0);
+            $table->decimal('value', 11, 2)->default(0);
             $table->string('status')->nullable();
             $table->foreignId('group_id')->nullable()
                 ->constrained()
@@ -39,7 +39,7 @@ return new class extends Migration
 
         DB::statement("
         CREATE OR REPLACE VIEW `materials_view` AS
-        SELECT m.id, m.registration, m.serial_number, m.description, m.unitary_value, m.group_id, g.name as group_name, m.department_id, d.name as department_name, m.status
+        SELECT m.id, m.registration, m.serial_number, m.description, m.value, m.group_id, g.name as group_name, m.department_id, d.name as department_name, m.status
         FROM `materials` as m
         LEFT JOIN `groups` as g ON g.id = m.group_id
         LEFT JOIN `departments` as d ON d.id = m.department_id

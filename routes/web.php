@@ -42,6 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('groups', GroupController::class)->except('show');
 
         /** Materials */
+        Route::get('materials/active', [MaterialController::class, 'active'])->name('materials.active');
+        Route::get('materials/write-off', [MaterialController::class, 'writeOff'])->name('materials.writeOff');
         Route::resource('materials', MaterialController::class)->except('show');
 
         /**

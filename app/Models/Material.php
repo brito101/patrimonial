@@ -18,7 +18,7 @@ class Material extends Model
         'serial_number',
         'description',
         'observations',
-        'unitary_value',
+        'value',
         'group_id',
         'department_id',
         'status',
@@ -27,7 +27,7 @@ class Material extends Model
 
     /** Accessors */
 
-    public function getUnitaryValueAttribute($value)
+    public function getValueAttribute($value)
     {
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
