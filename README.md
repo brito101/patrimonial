@@ -1,6 +1,6 @@
 # Asset Management System (UFRRJ)
 
-## Project with Laravel 10 + Docker + Telescope + Debugar + AdminLTE3 + DataTables server side + Spatie ACL
+## Project with Laravel 11 + Docker + Telescope + Debugar + AdminLTE3 + DataTables server side + Spatie ACL
 
 ### Resources
 
