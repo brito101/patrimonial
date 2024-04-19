@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('registration')->nullable();
             $table->string('secondary_code')->nullable();
             $table->string('serial_number')->nullable();
+            $table->year('year');  
             $table->text('description')->nullable();
             $table->longText('observations')->nullable();
             $table->decimal('value', 11, 2)->default(0);
