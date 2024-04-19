@@ -101,6 +101,10 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'role_id' => 2
             ],
             [
+                'permission_id' => 15,
+                'role_id' => 3
+            ],
+            [
                 'permission_id' => 16,
                 'role_id' => 1
             ],
@@ -198,7 +202,7 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'permission_id' => 27,
                 'role_id' => 2
             ],
-            /** Materials 28 to 32 (programmer and administrator) */
+            /** Materials 28 to 32 (programmer, administrator and users) */
             [
                 'permission_id' => 28,
                 'role_id' => 1
@@ -206,6 +210,10 @@ class RolesHasPermissionTableSeeder extends Seeder
             [
                 'permission_id' => 28,
                 'role_id' => 2
+            ],
+            [
+                'permission_id' => 28,
+                'role_id' => 3
             ],
             [
                 'permission_id' => 29,
@@ -216,12 +224,20 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'role_id' => 2
             ],
             [
+                'permission_id' => 29,
+                'role_id' => 3
+            ],
+            [
                 'permission_id' => 30,
                 'role_id' => 1
             ],
             [
                 'permission_id' => 30,
                 'role_id' => 2
+            ],
+            [
+                'permission_id' => 30,
+                'role_id' => 3
             ],
             [
                 'permission_id' => 31,
@@ -232,12 +248,20 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'role_id' => 2
             ],
             [
+                'permission_id' => 31,
+                'role_id' => 3
+            ],
+            [
                 'permission_id' => 32,
                 'role_id' => 1
             ],
             [
                 'permission_id' => 32,
                 'role_id' => 2
+            ],
+            [
+                'permission_id' => 33,
+                'role_id' => 3
             ],
         ]);
     }

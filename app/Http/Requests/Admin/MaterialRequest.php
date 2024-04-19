@@ -36,7 +36,7 @@ class MaterialRequest extends FormRequest
             'observations' => 'nullable|max:400000000',
             'value' => 'required|numeric|between:0,999999999.999',
             'group_id' => 'required|exists:groups,id',
-            'department_id'  => 'nullable|exists:departments,id',
+            'department_id'  => 'required|exists:departments,id',
             'status' => 'required|in:Ativo,Baixa',
         ];
     }

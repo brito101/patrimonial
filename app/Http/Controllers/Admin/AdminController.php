@@ -16,12 +16,14 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
+        $programmers = ViewsUser::where('type', 'Programador')->count();
         $administrators = ViewsUser::where('type', 'Administrador')->count();
+        $users = ViewsUser::where('type', 'Usuário')->count();
 
         $visits = Visit::where('url', '!=', route('admin.home.chart'))
             ->where('url', 'NOT LIKE', '%columns%')
             ->where('url', 'NOT LIKE', '%storage%')
-            ->where('url', 'NOT LIKE', '%admin%')
+            // ->where('url', 'NOT LIKE', '%admin%')
             ->where('url', 'NOT LIKE', '%offline%')
             ->where('url', 'NOT LIKE', '%manifest.json%')
             ->where('url', 'NOT LIKE', '%.png%')
@@ -45,7 +47,9 @@ class AdminController extends Controller
         $chart = $statistics['chart'];
 
         return view('admin.home.index', compact(
+            'programmers',
             'administrators',
+            'users',
             'onlineUsers',
             'percent',
             'access',
@@ -83,7 +87,7 @@ class AdminController extends Controller
         $accessToday = Visit::where('url', '!=', route('admin.home.chart'))
             ->where('url', 'NOT LIKE', '%columns%')
             ->where('url', 'NOT LIKE', '%storage%')
-            ->where('url', 'NOT LIKE', '%admin%')
+            // ->where('url', 'NOT LIKE', '%admin%')
             ->where('url', 'NOT LIKE', '%offline%')
             ->where('url', 'NOT LIKE', '%manifest.json%')
             ->where('url', 'NOT LIKE', '%.png%')
@@ -92,7 +96,7 @@ class AdminController extends Controller
         $accessYesterday = VisitYesterday::where('url', '!=', route('admin.home.chart'))
             ->where('url', 'NOT LIKE', '%columns%')
             ->where('url', 'NOT LIKE', '%storage%')
-            ->where('url', 'NOT LIKE', '%admin%')
+            // ->where('url', 'NOT LIKE', '%admin%')
             ->where('url', 'NOT LIKE', '%offline%')
             ->where('url', 'NOT LIKE', '%manifest.json%')
             ->where('url', 'NOT LIKE', '%.png%')

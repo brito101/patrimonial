@@ -10,5 +10,6 @@
     "/js/company.js": "/js/company.js",
     "/js/address.js": "/js/address.js",
     "/js/phone.js": "/js/phone.js",
-    "/js/money.js": "/js/money.js"
+    "/js/money.js": "/js/money.js",
+    "/js/batch.js": "/js/batch.js"
 }

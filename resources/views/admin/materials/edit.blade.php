@@ -91,7 +91,6 @@
                                     <div class="col-12 col-md-5 form-group px-0 px-md-2 mb-0">
                                         <label for="department_id">Setor</label>
                                         <x-adminlte-select2 name="department_id" id="department_id">
-                                            <option value="">Nenhum</option>
                                             @foreach ($departments as $department)
                                                 <option
                                                     {{ old('department_id') == $department->id ? 'selected' : ($material->department_id == $department->id ? 'selected' : '') }}

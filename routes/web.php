@@ -42,6 +42,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('groups', GroupController::class)->except('show');
 
         /** Materials */
+        Route::post('materials/batch/write-off', [MaterialController::class, 'batchWriteOff'])->name('materials.batch.write-off');
+        Route::post('materials/batch/active', [MaterialController::class, 'batchActive'])->name('materials.batch.active');
+        Route::post('materials/batch/delete', [MaterialController::class, 'batchDelete'])->name('materials.batch.delete');
+
         Route::get('materials/active', [MaterialController::class, 'active'])->name('materials.active');
         Route::get('materials/write-off', [MaterialController::class, 'writeOff'])->name('materials.writeOff');
         Route::resource('materials', MaterialController::class)->except('show');
@@ -63,8 +67,6 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 /** Web */
-/** Home */
-// Route::get('/', [SiteController::class, 'index'])->name('home');
 Route::get('/', function () {
     return redirect('admin');
 });
@@ -72,7 +74,3 @@ Route::get('/', function () {
 Auth::routes([
     'register' => false,
 ]);
-
-Route::fallback(function () {
-    return view('404');
-});

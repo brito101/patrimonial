@@ -46,8 +46,7 @@
                                                 <input type="checkbox" style="cursor: pointer" id="{{ $permission->id }}"
                                                     name="{{ $permission->id }}"
                                                     {{ $permission->can == '1' ? 'checked' : '' }}>
-                                                <label for="name" class="my-0 ml-2">{{ $permission->name }}</label>
-                                                </label>
+                                                <label for="{{ $permission->id }}" class="my-0 ml-2">{{ $permission->name }}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -64,9 +63,4 @@
             </div>
         </div>
     </section>
-@endsection
-
-@section('adminlte_js')
-    <script src="{{ asset('vendor/jquery/jquery.inputmask.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/company.js') }}"></script>
 @endsection

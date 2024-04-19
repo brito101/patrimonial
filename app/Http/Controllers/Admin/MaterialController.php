@@ -30,6 +30,7 @@ class MaterialController extends Controller
         CheckPermission::checkAuth('Listar Materiais');
 
         if ($request->ajax()) {
+
             $groups = Group::get();
 
             $token = csrf_token();
@@ -51,7 +52,11 @@ class MaterialController extends Controller
         CheckPermission::checkAuth('Listar Materiais');
 
         if ($request->ajax()) {
-            $materials = ViewsMaterial::select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Ativo')->get();
+            if (Auth::user()->hasRole('Programador|Administrador')) {
+                $materials = ViewsMaterial::select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Ativo')->get();
+            } else {
+                $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Ativo')->get();
+            }
 
             $token = csrf_token();
 
@@ -76,7 +81,12 @@ class MaterialController extends Controller
         CheckPermission::checkAuth('Listar Materiais');
 
         if ($request->ajax()) {
-            $materials = ViewsMaterial::select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Baixa')->get();
+
+            if (Auth::user()->hasRole('Programador|Administrador')) {
+                $materials = ViewsMaterial::select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Baixa')->get();
+            } else {
+                $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->select('id', 'registration', 'description', 'group_name', 'department_name', 'value')->where('status', 'Baixa')->get();
+            }
 
             $token = csrf_token();
 
@@ -106,7 +116,12 @@ class MaterialController extends Controller
         CheckPermission::checkAuth('Criar Materiais');
 
         $groups = Group::orderBy('name')->get();
-        $departments = Department::orderBy('name')->get();
+
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $departments = Department::orderBy('name')->get();
+        } else {
+            $departments = Department::where('id', Auth::user()->department_id)->get();
+        }
 
         return view('admin.materials.create', compact('groups', 'departments'));
     }
@@ -122,6 +137,14 @@ class MaterialController extends Controller
         CheckPermission::checkAuth('Criar Materiais');
 
         $data = $request->all();
+
+        if (Auth::user()->hasRole('Usuário')) {
+            $department = Department::where('id', $request->department_id)->where('id', Auth::user()->department_id)->first();
+            if (!$department) {
+                abort(403, 'Acesso não autorizado');
+            }
+        }
+
         $data['user_id'] = Auth::user()->id;
 
         $material = Material::create($data);
@@ -148,13 +171,23 @@ class MaterialController extends Controller
     {
         CheckPermission::checkAuth('Editar Materiais');
 
-        $material = Material::find($id);
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $material = Material::find($id);
+        } else {
+            $material = Material::where('department_id', Auth::user()->department_id)->where('id', $id)->first();
+        }
+
         if (!$material) {
             abort(403, 'Acesso não autorizado');
         }
 
         $groups = Group::orderBy('name')->get();
-        $departments = Department::orderBy('name')->get();
+
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $departments = Department::orderBy('name')->get();
+        } else {
+            $departments = Department::where('id', Auth::user()->department_id)->get();
+        }
 
         return view('admin.materials.edit', compact('material', 'groups', 'departments'));
     }
@@ -170,9 +203,21 @@ class MaterialController extends Controller
     {
         CheckPermission::checkAuth('Editar Materiais');
 
-        $material = Material::find($id);
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $material = Material::find($id);
+        } else {
+            $material = Material::where('department_id', Auth::user()->department_id)->where('id', $id)->first();
+        }
+
         if (!$material) {
             abort(403, 'Acesso não autorizado');
+        }
+
+        if (Auth::user()->hasRole('Usuário')) {
+            $department = Department::where('id', $request->department_id)->where('id', Auth::user()->department_id)->first();
+            if (!$department) {
+                abort(403, 'Acesso não autorizado');
+            }
         }
 
         $data = $request->all();
@@ -197,9 +242,14 @@ class MaterialController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        CheckPermission::checkAuth('Excluir Grupos');
+        CheckPermission::checkAuth('Excluir Materiais');
 
-        $material = Material::find($id);
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $material = Material::find($id);
+        } else {
+            $material = Material::where('department_id', Auth::user()->department_id)->where('id', $id)->first();
+        }
+
         if (!$material) {
             abort(403, 'Acesso não autorizado');
         }
@@ -213,5 +263,107 @@ class MaterialController extends Controller
                 ->back()
                 ->with('error', 'Erro ao excluir!');
         }
+    }
+
+    public function batchWriteOff(Request $request)
+    {
+        if (!Auth::user()->hasPermissionTo('Editar Materiais')) {
+            abort(403, 'Acesso não autorizado');
+        }
+
+        if (!$request->ids) {
+            return redirect()
+                ->back()
+                ->with('error', 'Selecione ao menos uma linha!');
+        }
+
+        $ids = explode(",", $request->ids);
+
+        foreach ($ids as $id) {
+            if (Auth::user()->hasRole('Programador|Administrador')) {
+                $material = $material = Material::where('id', $id)->where('status', 'Ativo')->first();
+            } else {
+                $material = Material::where('department_id', Auth::user()->department_id)->where('id', $id)->where('status', 'Ativo')->first();
+            }
+
+            if (!$material) {
+                abort(403, 'Acesso não autorizado');
+            }
+
+            $material->status = 'Baixa';
+            $material->update();
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', 'Materiais atualizados para baixa com sucesso!');
+    }
+
+    public function batchActive(Request $request)
+    {
+        if (!Auth::user()->hasPermissionTo('Editar Materiais')) {
+            abort(403, 'Acesso não autorizado');
+        }
+
+        if (!$request->ids) {
+            return redirect()
+                ->back()
+                ->with('error', 'Selecione ao menos uma linha!');
+        }
+
+        $ids = explode(",", $request->ids);
+
+        foreach ($ids as $id) {
+
+            if (Auth::user()->hasRole('Programador|Administrador')) {
+                $material = $material = Material::where('id', $id)->where('status', 'Baixa')->first();
+            } else {
+                $material = Material::where('department_id', Auth::user()->department_id)->where('id', $id)->where('status', 'Baixa')->first();
+            }
+
+            if (!$material) {
+                abort(403, 'Acesso não autorizado');
+            }
+
+            $material->status = 'Ativo';
+            $material->update();
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', 'Materiais atualizados para ativo com sucesso!');
+    }
+
+    public function batchDelete(Request $request)
+    {
+        if (!Auth::user()->hasPermissionTo('Excluir Materiais')) {
+            abort(403, 'Acesso não autorizado');
+        }
+
+        if (!$request->ids) {
+            return redirect()
+                ->back()
+                ->with('error', 'Selecione ao menos uma linha!');
+        }
+
+        $ids = explode(",", $request->ids);
+
+        foreach ($ids as $id) {
+            if (Auth::user()->hasRole('Programador|Administrador')) {
+                $material = $material = Material::where('id', $id)->first();
+            } else {
+                $material = Material::where('department_id', Auth::user()->department_id)->where('id', $id)->first();
+            }
+
+            if (!$material) {
+                abort(403, 'Acesso não autorizado');
+            }
+
+            $material->delete();
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', 'Materiais excluídos com sucesso!');
     }
 }

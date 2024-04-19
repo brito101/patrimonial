@@ -39,6 +39,30 @@
                             </div>
                         </div>
 
+
+                        <div class="col-12 d-flex flex-wrap justify-content-end align-content-center py-2">
+                            <h5 class="col-12 col-md-8 h6 text-muted text-center text-md-right align-self-center m-md-0">
+                                Operações em lote</h5>
+                            <div class="px-2 col-12 col-md-2 d-flex justify-content-center">
+                                <form method="POST" action="{{ route('admin.materials.batch.write-off') }}" class="w-100">
+                                    @csrf
+                                    <input type="hidden" name="ids" value="" id="ids" class="ids">
+                                    <button type="submit" id="change-status" class="change-status btn btn-warning w-100"
+                                        data-confirm="Confirma a baixa desta seleção?" title="Alterar os materiais das linhas selecionadas para situação de baixa"><i class="fas fa-fw fa-sync"></i>
+                                        Baixa</button>
+                                </form>
+                            </div>
+                            <div class="px-2 col-12 col-md-2 d-flex justify-content-center">
+                                <form method="POST" action="{{ route('admin.materials.batch.delete') }}" class="w-100">
+                                    @csrf
+                                    <input type="hidden" name="ids" value="" id="ids" class="ids">
+                                    <button type="submit" id="batch-delete" class="btn btn-danger w-100"
+                                        data-confirm="Confirma a exclusão desta seleção?" title="Excluir os materiais das linhas selecionadas"><i class="fas fa-fw fa-trash"></i>
+                                        Exclusão</button>
+                                </form>
+                            </div>
+                        </div>
+
                         @php
                             $heads = [
                                 ['label' => 'ID', 'width' => 10],
@@ -55,7 +79,7 @@
                                     ['data' => 'id', 'name' => 'id'],
                                     ['data' => 'registration', 'name' => 'registration'],
                                     ['data' => 'description', 'name' => 'description'],
-                                    ['data' => 'group_name', 'name' => 'group_name'],                                    
+                                    ['data' => 'group_name', 'name' => 'group_name'],
                                     ['data' => 'department_name', 'name' => 'department_name'],
                                     ['data' => 'value', 'name' => 'value'],
                                     [
@@ -70,6 +94,8 @@
                                 'processing' => true,
                                 'serverSide' => true,
                                 'responsive' => true,
+                                'pageLength' => 50,
+                                'lengthMenu' => [[10, 50, 100, 500, 1000, -1], [10, 50, 100, 500, 1000, 'Tudo']],
                                 'dom' => '<"d-flex flex-wrap col-12 justify-content-between"Bf>rtip',
                                 'buttons' => [
                                     ['extend' => 'pageLength', 'className' => 'btn-default'],
@@ -79,6 +105,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-copy text-secondary"></i>',
                                         'titleAttr' => 'Copiar',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'print',
@@ -86,6 +113,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-print text-info"></i>',
                                         'titleAttr' => 'Imprimir',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'csv',
@@ -93,6 +121,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-csv text-primary"></i>',
                                         'titleAttr' => 'Exportar para CSV',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'excel',
@@ -100,6 +129,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-excel text-success"></i>',
                                         'titleAttr' => 'Exportar para Excel',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'pdf',
@@ -107,6 +137,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-pdf text-danger"></i>',
                                         'titleAttr' => 'Exportar para PDF',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                 ],
                             ];
@@ -114,11 +145,15 @@
 
                         <div class="card-body">
                             <x-adminlte-datatable id="table1" :heads="$heads" :heads="$heads" :config="$config"
-                                striped hoverable beautify />
+                                striped hoverable beautify withFooter="materials" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+@endsection
+
+@section('custom_js')
+    <script src="{{ asset('js/batch.js') }}"></script>
 @endsection

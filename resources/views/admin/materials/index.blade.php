@@ -55,6 +55,8 @@
                                 'processing' => true,
                                 'serverSide' => true,
                                 'responsive' => true,
+                                'pageLength' => 50,
+                                'lengthMenu' => [[10, 50, 100, 500, 1000, -1], [10, 50, 100, 500, 1000, 'Tudo']],
                                 'dom' => '<"d-flex flex-wrap col-12 justify-content-between"Bf>rtip',
                                 'buttons' => [
                                     ['extend' => 'pageLength', 'className' => 'btn-default'],
@@ -64,6 +66,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-copy text-secondary"></i>',
                                         'titleAttr' => 'Copiar',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'print',
@@ -71,6 +74,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-print text-info"></i>',
                                         'titleAttr' => 'Imprimir',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'csv',
@@ -78,6 +82,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-csv text-primary"></i>',
                                         'titleAttr' => 'Exportar para CSV',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'excel',
@@ -85,6 +90,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-excel text-success"></i>',
                                         'titleAttr' => 'Exportar para Excel',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                     [
                                         'extend' => 'pdf',
@@ -92,6 +98,7 @@
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-pdf text-danger"></i>',
                                         'titleAttr' => 'Exportar para PDF',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                        'footer' => true,
                                     ],
                                 ],
                             ];
@@ -99,7 +106,7 @@
 
                         <div class="card-body">
                             <x-adminlte-datatable id="table1" :heads="$heads" :heads="$heads" :config="$config"
-                                striped hoverable beautify />
+                                striped hoverable beautify withFooter="groups" />
                         </div>
                     </div>
                 </div>
@@ -107,3 +114,4 @@
         </div>
     </section>
 @endsection
+
