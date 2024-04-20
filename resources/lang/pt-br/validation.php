@@ -230,6 +230,7 @@ return [
         'value' => 'valor unitário',
         'group_id' => 'grupo',
         'department_id' => 'setor',
+        'year' => 'ano',
     ],
 
 ];

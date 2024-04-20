@@ -29,7 +29,7 @@ class MaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration' => 'required|max:191',
+            'registration' => "required|max:191|unique:materials,registration,$this->id,id,deleted_at,NULL",
             'secondary_code' => 'nullable|max:191',
             'serial_number' => 'nullable|max:191',
             'description'  => 'nullable|max:400000000',
@@ -38,6 +38,7 @@ class MaterialRequest extends FormRequest
             'group_id' => 'required|exists:groups,id',
             'department_id'  => 'required|exists:departments,id',
             'status' => 'required|in:Ativo,Baixa',
+            'year' => 'required|date_format:Y',
         ];
     }
 

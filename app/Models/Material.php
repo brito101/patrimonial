@@ -22,6 +22,7 @@ class Material extends Model
         'group_id',
         'department_id',
         'status',
+        'year',
         'user_id',
     ];
 

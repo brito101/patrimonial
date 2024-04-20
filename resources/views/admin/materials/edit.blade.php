@@ -74,7 +74,7 @@
                                             enable-old-support="true">{{ old('description') ?? $material->description }}</x-adminlte-textarea>
                                     </div>
 
-                                    <div class="col-12 col-md-5 form-group px-0 pr-md-2 mb-0">
+                                    <div class="col-12 col-md-4 form-group px-0 pr-md-2 mb-0">
                                         <label for="group_id">Grupo *</label>
                                         <x-adminlte-select2 name="group_id" id="group_id" required>
                                             <option value="">Nenhum</option>
@@ -88,8 +88,8 @@
                                         </x-adminlte-select2>
                                     </div>
 
-                                    <div class="col-12 col-md-5 form-group px-0 px-md-2 mb-0">
-                                        <label for="department_id">Setor</label>
+                                    <div class="col-12 col-md-4 form-group px-0 px-md-2 mb-0">
+                                        <label for="department_id">Setor *</label>
                                         <x-adminlte-select2 name="department_id" id="department_id">
                                             @foreach ($departments as $department)
                                                 <option
@@ -102,12 +102,22 @@
                                         </x-adminlte-select2>
                                     </div>
 
+                                    <div class="col-12 col-md-2 form-group px-0 px-md-2">
+                                        <label for="year">Ano *</label>
+                                        <input type="number" class="form-control" id="year" name="year"
+                                            value="{{ old('year') ?? $material->year }}" required>
+                                    </div>
+
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2 mb-0">
                                         <label for="status">Status *</label>
                                         <x-adminlte-select2 name="status" id="status">
-                                            <option {{ old('status') == 'Ativo' ? 'selected' : '' }} value="Ativo">Ativo
+                                            <option
+                                                {{ old('status') == 'Ativo' ? 'selected' : ($material->status == 'Ativo' ? 'selected' : '') }}
+                                                value="Ativo">Ativo
                                             </option>
-                                            <option {{ old('status') == 'Baixa' ? 'selected' : '' }} value="Baixa">Baixa
+                                            <option
+                                                {{ old('status') == 'Baixa' ? 'selected' : ($material->status == 'Baixa' ? 'selected' : '') }}
+                                                value="Baixa">Baixa
                                             </option>
                                         </x-adminlte-select2>
                                     </div>

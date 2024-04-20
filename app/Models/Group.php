@@ -28,7 +28,23 @@ class Group extends Model
 
     public function getValueAttribute()
     {
-        return 'R$ ' . number_format($this->activeMaterials()->sum('value'), 2, ',', '.');
+        // Depreciation calculation
+        $now  = date('Y');
+        $total = 0;
+
+        foreach ($this->activeMaterials() as $material) {
+            $value = str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $material->value)));
+            $differ = (int) $now - (int) $material->year;
+            if ($differ > 0 && $differ <= 10) {
+                $total += $value - ($value * (($differ * 10) / 100));
+            } elseif ($differ < 0) {
+                $total += $value;
+            } else {
+                $total += 0;
+            }
+        }
+
+        return 'R$ ' . number_format($total, 2, ',', '.');
     }
 
     public function getQuantityAttribute()
@@ -37,12 +53,12 @@ class Group extends Model
     }
 
     /** Relationships */
-    public function activeMaterials()
+    private function activeMaterials()
     {
         if (Auth::user()->hasRole('Programador|Administrador')) {
-            return $this->hasMany(Material::class, 'group_id', 'id')->where('status', 'Ativo');
+            return Material::where('group_id', $this->id)->where('status', 'Ativo')->get();
         } else {
-            return $this->hasMany(Material::class, 'group_id', 'id')->where('department_id', Auth::user()->department_id)->where('status', 'Ativo');
+            return Material::where('group_id', $this->id)->where('department_id', Auth::user()->department_id)->where('status', 'Ativo');
         }
     }
 }

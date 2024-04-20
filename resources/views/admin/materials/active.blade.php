@@ -48,7 +48,9 @@
                                     @csrf
                                     <input type="hidden" name="ids" value="" id="ids" class="ids">
                                     <button type="submit" id="change-status" class="change-status btn btn-warning w-100"
-                                        data-confirm="Confirma a baixa desta seleção?" title="Alterar os materiais das linhas selecionadas para situação de baixa"><i class="fas fa-fw fa-sync"></i>
+                                        data-confirm="Confirma a baixa desta seleção?"
+                                        title="Alterar os materiais das linhas selecionadas para situação de baixa"><i
+                                            class="fas fa-fw fa-sync"></i>
                                         Baixa</button>
                                 </form>
                             </div>
@@ -57,7 +59,9 @@
                                     @csrf
                                     <input type="hidden" name="ids" value="" id="ids" class="ids">
                                     <button type="submit" id="batch-delete" class="btn btn-danger w-100"
-                                        data-confirm="Confirma a exclusão desta seleção?" title="Excluir os materiais das linhas selecionadas"><i class="fas fa-fw fa-trash"></i>
+                                        data-confirm="Confirma a exclusão desta seleção?"
+                                        title="Excluir os materiais das linhas selecionadas"><i
+                                            class="fas fa-fw fa-trash"></i>
                                         Exclusão</button>
                                 </form>
                             </div>
@@ -71,6 +75,7 @@
                                 'Grupo',
                                 'Setor',
                                 'Valor',
+                                'Ano',
                                 ['label' => 'Ações', 'no-export' => true, 'width' => 10],
                             ];
                             $config = [
@@ -82,6 +87,7 @@
                                     ['data' => 'group_name', 'name' => 'group_name'],
                                     ['data' => 'department_name', 'name' => 'department_name'],
                                     ['data' => 'value', 'name' => 'value'],
+                                    ['data' => 'year', 'name' => 'year'],
                                     [
                                         'data' => 'action',
                                         'name' => 'action',

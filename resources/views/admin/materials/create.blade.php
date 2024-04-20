@@ -71,10 +71,9 @@
                                             placeholder="Texto descritivo..." enable-old-support="true" />
                                     </div>
 
-                                    <div class="col-12 col-md-5 form-group px-0 pr-md-2 mb-0">
+                                    <div class="col-12 col-md-4 form-group px-0 pr-md-2 mb-0">
                                         <label for="group_id">Grupo *</label>
                                         <x-adminlte-select2 name="group_id" id="group_id" required>
-                                            <option value="">Nenhum</option>
                                             @foreach ($groups as $group)
                                                 <option {{ old('group_id') == $group->id ? 'selected' : '' }}
                                                     value="{{ $group->id }}">
@@ -84,16 +83,24 @@
                                         </x-adminlte-select2>
                                     </div>
 
-                                    <div class="col-12 col-md-5 form-group px-0 px-md-2 mb-0">
-                                        <label for="department_id">Setor</label>
+                                    <div class="col-12 col-md-4 form-group px-0 px-md-2 mb-0">
+                                        <label for="department_id">Setor *</label>
                                         <x-adminlte-select2 name="department_id" id="department_id">
                                             @foreach ($departments as $department)
                                                 <option {{ old('department_id') == $department->id ? 'selected' : '' }}
                                                     value="{{ $department->id }}">
-                                                    {{ $department->code ? $department->code . ' - ' : '' }} {{ $department->name }}
+                                                    {{ $department->code ? $department->code . ' - ' : '' }}
+                                                    {{ $department->name }}
                                                 </option>
                                             @endforeach
                                         </x-adminlte-select2>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-2 form-group px-0 px-md-2">
+                                        <label for="year">Ano *</label>
+                                        <input type="number" class="form-control" id="year" name="year"
+                                            value="{{ old('year') ?? date('Y') }}" required>
                                     </div>
 
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2 mb-0">

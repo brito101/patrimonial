@@ -15,6 +15,17 @@ class Material extends Model
 
     public function getValueAttribute($value)
     {
+        // Depreciation calculation
+        $now  = date('Y');
+        $differ = (int) $now - (int) $this->year;
+        if ($differ >= 0 && $differ <= 10) {
+            $value = $value - ($value * (($differ * 10) / 100));
+        } elseif ($differ < 0) {
+            $value = $value;
+        } else {
+            $value = 0;
+        }
+
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
 }

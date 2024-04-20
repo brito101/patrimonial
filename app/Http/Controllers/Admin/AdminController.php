@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Views\Material as ViewsMaterial;
 use App\Models\Views\User as ViewsUser;
 use App\Models\Views\Visit;
 use App\Models\Views\VisitYesterday;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 use stdClass;
 
 class AdminController extends Controller
@@ -19,6 +21,14 @@ class AdminController extends Controller
         $programmers = ViewsUser::where('type', 'Programador')->count();
         $administrators = ViewsUser::where('type', 'Administrador')->count();
         $users = ViewsUser::where('type', 'Usuário')->count();
+
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $activeMaterials = ViewsMaterial::where('status', 'Ativo')->count();
+            $writeOffMaterials = ViewsMaterial::where('status', 'Baixa')->count();
+        } else {
+            $activeMaterials = ViewsMaterial::where('department_id', Auth::user()->department_id)->where('status', 'Ativo')->count();
+            $writeOffMaterials = ViewsMaterial::where('department_id', Auth::user()->department_id)->where('status', 'Baixa')->count();
+        }
 
         $visits = Visit::where('url', '!=', route('admin.home.chart'))
             ->where('url', 'NOT LIKE', '%columns%')
@@ -50,6 +60,8 @@ class AdminController extends Controller
             'programmers',
             'administrators',
             'users',
+            'activeMaterials',
+            'writeOffMaterials',
             'onlineUsers',
             'percent',
             'access',
