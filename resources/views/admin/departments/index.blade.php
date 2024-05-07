@@ -83,27 +83,6 @@
                                         'titleAttr' => 'Imprimir',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                     ],
-                                    [
-                                        'extend' => 'csv',
-                                        'className' => 'btn-default',
-                                        'text' => '<i class="fas fa-fw fa-lg fa-file-csv text-primary"></i>',
-                                        'titleAttr' => 'Exportar para CSV',
-                                        'exportOptions' => ['columns' => ':not([dt-no-export])'],
-                                    ],
-                                    [
-                                        'extend' => 'excel',
-                                        'className' => 'btn-default',
-                                        'text' => '<i class="fas fa-fw fa-lg fa-file-excel text-success"></i>',
-                                        'titleAttr' => 'Exportar para Excel',
-                                        'exportOptions' => ['columns' => ':not([dt-no-export])'],
-                                    ],
-                                    [
-                                        'extend' => 'pdf',
-                                        'className' => 'btn-default',
-                                        'text' => '<i class="fas fa-fw fa-lg fa-file-pdf text-danger"></i>',
-                                        'titleAttr' => 'Exportar para PDF',
-                                        'exportOptions' => ['columns' => ':not([dt-no-export])'],
-                                    ],
                                 ],
                             ];
                         @endphp

@@ -35,7 +35,8 @@ class Group extends Model
         foreach ($this->activeMaterials() as $material) {
             $value = str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $material->value)));
             $differ = (int) $now - (int) $material->year;
-            if ($differ > 0 && $differ <= 10) {
+
+            if ($differ >= 0 && $differ <= 10) {
                 $total += $value - ($value * (($differ * 10) / 100));
             } elseif ($differ < 0) {
                 $total += $value;
@@ -58,7 +59,7 @@ class Group extends Model
         if (Auth::user()->hasRole('Programador|Administrador')) {
             return Material::where('group_id', $this->id)->where('status', 'Ativo')->get();
         } else {
-            return Material::where('group_id', $this->id)->where('department_id', Auth::user()->department_id)->where('status', 'Ativo');
+            return Material::where('group_id', $this->id)->where('department_id', Auth::user()->department_id)->where('status', 'Ativo')->get();
         }
     }
 }

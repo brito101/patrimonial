@@ -6,6 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-dom": "*",
+        "ext-iconv": "*",
+        "ext-libxml": "*",
         "eusonlito/laravel-meta": "^3.2",
         "fahlisaputra/laravel-minify": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
@@ -16,14 +19,12 @@
         "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "maatwebsite/excel": "^3.1",
         "shetabit/visitor": "^4.0",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^6.0",
         "tymon/jwt-auth": "^2.0",
-        "yajra/laravel-datatables": "^11.0",
-      "ext-iconv": "*",
-        "ext-dom": "*",
-        "ext-libxml": "*"
+        "yajra/laravel-datatables": "^11.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

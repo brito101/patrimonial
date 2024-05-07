@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CheckPermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
+use App\Imports\UsersImport;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Views\User as ViewsUser;
@@ -20,6 +21,7 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Image;
 use DataTables;
+use Excel;
 
 class UserController extends Controller
 {
@@ -245,6 +247,21 @@ class UserController extends Controller
                 ->back()
                 ->with('error', 'Erro ao excluir!');
         }
+    }
+
+    public function fileImport(Request $request)
+    {
+        if (!Auth::user()->hasPermissionTo('Editar Usuários')) {
+            abort(403, 'Acesso não autorizado');
+        }
+
+        if (!$request->file()) {
+            return redirect()
+                ->back()
+                ->with('error', 'Nenhum arquivo selecionado!');
+        }
+        Excel::import(new UsersImport, $request->file('file')->store('temp'));
+        return back()->with('success', 'Importação realizada!');
     }
 
     /**

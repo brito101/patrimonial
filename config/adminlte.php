@@ -309,7 +309,7 @@ return [
                     'can'  => 'Listar Setores',
                 ],
                 [
-                    'text' => 'Cadastro de Setore',
+                    'text' => 'Cadastro de SetoreS',
                     'url'  => 'admin/departments/create',
                     'icon' => 'fas fa-fw fa-chevron-right',
                     'can'  => 'Criar Setores',

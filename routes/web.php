@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/chart', [AdminController::class, 'chart'])->name('home.chart');
 
         /** Users */
+        Route::post('users-import', [UserController::class, 'fileImport'])->name('users.import');
         Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::resource('users', UserController::class)->except('show');
 
