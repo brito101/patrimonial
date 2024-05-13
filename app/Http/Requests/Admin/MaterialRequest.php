@@ -17,6 +17,7 @@ class MaterialRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
+            'registration'  => preg_replace('/\D/', '', $this->registration),
             'value'  => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $this->value))),
         ]);
     }
