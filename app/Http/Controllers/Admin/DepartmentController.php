@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CheckPermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DepartmentRequest;
+use App\Imports\DepartmentsImport;
 use App\Models\Department;
 use App\Models\Views\Department as ViewsDepartment;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
+use Excel;
 
 class DepartmentController extends Controller
 {
@@ -154,5 +156,20 @@ class DepartmentController extends Controller
                 ->back()
                 ->with('error', 'Erro ao excluir!');
         }
+    }
+
+    public function fileImport(Request $request)
+    {
+        if (!Auth::user()->hasPermissionTo('Editar Setores')) {
+            abort(403, 'Acesso não autorizado');
+        }
+
+        if (!$request->file()) {
+            return redirect()
+                ->back()
+                ->with('error', 'Nenhum arquivo selecionado!');
+        }
+        Excel::import(new DepartmentsImport, $request->file('file')->store('temp'));
+        return back()->with('success', 'Importação realizada!');
     }
 }

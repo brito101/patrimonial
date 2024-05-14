@@ -28,6 +28,30 @@
 
                     @include('components.alert')
 
+                    <div class="card card-solid">
+                        <div class="card-header d-flex flex-wrap">
+                            <div class="col-12 col-md-6 align-self-center"><i class="fas fa-fw fa-upload"></i> Importação de
+                                Planilha</div>
+
+                            <div class="col-12 col-md-6 d-flex justify-content-end">
+                                <a class="btn btn-secondary" href="{{ asset('worksheets/groups.ods') }}" download><i
+                                        class="fas fa-fw fa-download"></i> Planilha padrão para
+                                    cadastro de grupos</a>
+                            </div>
+                        </div>
+
+                        <form action="{{ route('admin.groups.import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="card-body pb-0">
+                                <x-adminlte-input-file name="file" label="Arquivo" placeholder="Selecione o arquivo..."
+                                    legend="Selecionar" />
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary">Importar</button>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex flex-wrap justify-content-between col-12 align-content-center">

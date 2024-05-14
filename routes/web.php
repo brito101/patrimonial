@@ -37,9 +37,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('users', UserController::class)->except('show');
 
         /** Departments */
+        Route::post('departments-import', [DepartmentController::class, 'fileImport'])->name('departments.import');
         Route::resource('departments', DepartmentController::class)->except('show');
 
         /** Groups */
+        Route::post('groups-import', [GroupController::class, 'fileImport'])->name('groups.import');
         Route::resource('groups', GroupController::class)->except('show');
 
         /** Materials */

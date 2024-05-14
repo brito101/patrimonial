@@ -21,7 +21,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
     {
         $userCheck = User::where('email', $row['e_mail'])->first();
 
-        if (empty($userCheck->email)) {
+        if (!$userCheck) {
             $newUser = User::create([
                 'name'      => $row['nome'],
                 'email'     => $row['e_mail'],
