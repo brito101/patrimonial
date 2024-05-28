@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('registration')->nullable();
+            $table->bigInteger('registration', false, true)->nullable();
             $table->string('secondary_code')->nullable();
             $table->string('serial_number')->nullable();
             $table->year('year');  

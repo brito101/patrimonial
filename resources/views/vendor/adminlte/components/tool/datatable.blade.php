@@ -103,6 +103,7 @@
                                 `
                              <th colspan="5" class="text-center"></th>
                              <th colspan="1" class="text-center">Total: ${value}</th>
+                             <th colspan="1" class="text-center"></th>
                              <th colspan="1" class="text-center"></th>`
                             );
                         }

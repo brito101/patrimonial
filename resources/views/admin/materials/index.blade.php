@@ -3,6 +3,7 @@
 @section('title', '- Materiais')
 @section('plugins.Datatables', true)
 @section('plugins.DatatablesPlugins', true)
+@section('plugins.BsCustomFileInput', true)
 
 @section('content')
 
@@ -15,7 +16,11 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Materiais</li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.active') }}">Materiais Ativos</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.writeOff') }}">Materiais em Baixa</a>
+                        </li>
+                        <li class="breadcrumb-item active">Materiais por Grupo</li>
                     </ol>
                 </div>
             </div>
@@ -27,6 +32,30 @@
                 <div class="col-12">
 
                     @include('components.alert')
+
+                    <div class="card card-solid">
+                        <div class="card-header d-flex flex-wrap">
+                            <div class="col-12 col-md-6 align-self-center"><i class="fas fa-fw fa-upload"></i> Importação de
+                                Planilha</div>
+                
+                            <div class="col-12 col-md-6 d-flex justify-content-end">
+                                <a class="btn btn-secondary" href="{{ asset('worksheets/materials.ods') }}" download><i
+                                        class="fas fa-fw fa-download"></i> Planilha padrão para
+                                    cadastro de materiais</a>
+                            </div>
+                        </div>
+                
+                        <form action="{{ route('admin.materials.import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="card-body pb-0">
+                                <x-adminlte-input-file name="file" label="Arquivo" placeholder="Selecione o arquivo..."
+                                    legend="Selecionar" />
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary">Importar</button>
+                            </div>
+                        </form>
+                    </div>
 
                     <div class="card">
                         <div class="card-header">
@@ -90,4 +119,3 @@
         </div>
     </section>
 @endsection
-

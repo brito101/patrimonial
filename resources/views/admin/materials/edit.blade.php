@@ -15,7 +15,8 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                         @can('Listar Materiais')
-                            <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.active') }}">Materiais Ativos</a></li>
                         @endcan
                         <li class="breadcrumb-item active">Editar Material</li>
                     </ol>
@@ -45,9 +46,9 @@
                                 <div class="d-flex flex-wrap justify-content-start">
                                     <div class="col-12 col-md-3 form-group px-0 pr-md-2">
                                         <label for="registration">RM *</label>
-                                        <input type="text" class="form-control" id="registration"
+                                        <input type="number" class="form-control" id="registration"
                                             placeholder="Registro de Material" name="registration"
-                                            value="{{ old('registration') ?? $material->registration }}" required>
+                                            value="{{ old('registration') ?? $material->registration }}" required  max="18446744073709551615" min="1">
                                     </div>
                                     <div class="col-12 col-md-3 form-group px-0 px-md-2">
                                         <label for="secondary_code">SIADI</label>

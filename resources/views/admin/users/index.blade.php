@@ -3,6 +3,7 @@
 @section('title', '- Usuários')
 @section('plugins.Datatables', true)
 @section('plugins.DatatablesPlugins', true)
+@section('plugins.BsCustomFileInput', true)
 
 @section('content')
 

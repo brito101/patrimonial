@@ -15,6 +15,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.writeOff') }}">Materiais em Baixa</a></li>
                         <li class="breadcrumb-item active">Materiais Ativos</li>
                     </ol>
                 </div>

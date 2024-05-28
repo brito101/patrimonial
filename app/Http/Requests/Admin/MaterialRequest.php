@@ -30,7 +30,7 @@ class MaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration' => "required|max:191|unique:materials,registration,$this->id,id,deleted_at,NULL",
+            'registration' => "required|numeric|between:1,18446744073709551615|unique:materials,registration,$this->id,id,deleted_at,NULL",
             'secondary_code' => 'nullable|max:191',
             'serial_number' => 'nullable|max:191',
             'description'  => 'nullable|max:400000000',
@@ -40,6 +40,7 @@ class MaterialRequest extends FormRequest
             'department_id'  => 'required|exists:departments,id',
             'status' => 'required|in:Ativo,Baixa',
             'year' => 'required|date_format:Y',
+            'quantity' => 'nullable|numeric|min:1',
         ];
     }
 

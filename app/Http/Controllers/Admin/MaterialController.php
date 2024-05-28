@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CheckPermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MaterialRequest;
+use App\Imports\MaterialsImport;
 use App\Models\Department;
 use App\Models\Group;
 use App\Models\Material;
@@ -19,6 +20,7 @@ use Illuminate\Http\RedirectResponse;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Excel;
 
 class MaterialController extends Controller
 {
@@ -147,7 +149,35 @@ class MaterialController extends Controller
 
         $data['user_id'] = Auth::user()->id;
 
-        $material = Material::create($data);
+        if ($request->quantity > 1) {
+            $rm = (int) $data['registration'];
+
+            for ($i = 0; $i < $request->quantity; $i++) {
+                $checkMaterial = Material::where('registration', $rm)->first();
+                if ($checkMaterial) {
+                    return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with('error', 'Há um RM ocupado (' . $rm . ') na sequência. Foram registrados ' . $i++ . ' materiais.');
+                }
+                $material = new Material();
+                $material->registration = $rm;
+                $material->secondary_code = $data['secondary_code'];
+                $material->serial_number = $data['serial_number'];
+                $material->description = $data['description'];
+                $material->observations = $data['observations'];
+                $material->value = $data['value'];
+                $material->group_id = $data['group_id'];
+                $material->department_id = $data['department_id'];
+                $material->status = $data['status'];
+                $material->year = $data['year'];
+                $material->user_id = $data['user_id'];
+                $material->save();
+                $rm++;
+            }
+        } else {
+            $material = Material::create($data);
+        }
 
         if ($material->save()) {
             return redirect()
@@ -365,5 +395,22 @@ class MaterialController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Materiais excluídos com sucesso!');
+    }
+
+    public function fileImport(Request $request)
+    {
+        if (!Auth::user()->hasPermissionTo('Editar Materiais')) {
+            abort(403, 'Acesso não autorizado');
+        }
+
+        if (!$request->file()) {
+            return redirect()
+                ->back()
+                ->with('error', 'Nenhum arquivo selecionado!');
+        }
+        
+
+        Excel::import(new MaterialsImport, $request->file('file')->store('temp'));
+        return back()->with('success', 'Importação realizada!');
     }
 }

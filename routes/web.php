@@ -45,6 +45,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('groups', GroupController::class)->except('show');
 
         /** Materials */
+        Route::post('materials-import', [MaterialController::class, 'fileImport'])->name('materials.import');
+
         Route::post('materials/batch/write-off', [MaterialController::class, 'batchWriteOff'])->name('materials.batch.write-off');
         Route::post('materials/batch/active', [MaterialController::class, 'batchActive'])->name('materials.batch.active');
         Route::post('materials/batch/delete', [MaterialController::class, 'batchDelete'])->name('materials.batch.delete');
