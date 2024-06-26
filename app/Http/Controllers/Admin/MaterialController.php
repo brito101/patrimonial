@@ -9,7 +9,6 @@ use App\Imports\MaterialsImport;
 use App\Models\Department;
 use App\Models\Group;
 use App\Models\Material;
-use App\Models\Views\Group as ViewsGroup;
 use App\Models\Views\Material as ViewsMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Foundation\Application;

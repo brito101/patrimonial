@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use App\Models\User;
+use App\Models\Views\Department as ViewsDepartment;
+use App\Models\Views\Group as ViewsGroup;
 use App\Models\Views\Material as ViewsMaterial;
 use App\Models\Views\User as ViewsUser;
 use App\Models\Views\Visit;
@@ -21,6 +24,19 @@ class AdminController extends Controller
         $programmers = ViewsUser::where('type', 'Programador')->count();
         $administrators = ViewsUser::where('type', 'Administrador')->count();
         $users = ViewsUser::where('type', 'Usuário')->count();
+
+        $departments = ViewsDepartment::count();
+        $groups = Group::get();
+
+        $materialChart = new stdClass();
+        $materialChart->labels = [];
+        $materialChart->datasets = [];
+
+        foreach ($groups as $group) {
+            $materialChart->labels[] = $group->name;
+            $materialChart->quantity[] = $group->quantity;
+            $materialChart->value[] = (float) str_replace(['R$ ', '.', ','], ['', '', '.'], $group->value);
+        }
 
         if (Auth::user()->hasRole('Programador|Administrador')) {
             $activeMaterials = ViewsMaterial::where('status', 'Ativo')->count();
@@ -62,10 +78,13 @@ class AdminController extends Controller
             'users',
             'activeMaterials',
             'writeOffMaterials',
+            'departments',
+            'groups',
             'onlineUsers',
             'percent',
             'access',
             'chart',
+            'materialChart',
         ));
     }
 

@@ -23,11 +23,11 @@
     </div>
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                @if (Auth::user()->hasRole('Programador|Administrador'))
+            @if (Auth::user()->hasRole('Programador|Administrador'))
+                <div class="row">
                     <div class="col-12 col-sm-6 col-md-4">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-user-shield"></i></span>
+                            <span class="info-box-icon bg-dark elevation-1"><i class="fas fa-user-shield"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Programadores</span>
                                 <span class="info-box-number">{{ $programmers }}</span>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-4">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-user-tie"></i></span>
+                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-user-tie"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Administradores</span>
                                 <span class="info-box-number">{{ $administrators }}</span>
@@ -45,45 +45,154 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-4">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-cog"></i></span>
+                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-cog"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Usuários</span>
                                 <span class="info-box-number">{{ $users }}</span>
                             </div>
                         </div>
                     </div>
-                @endif
-            </div>
-
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>{{ $activeMaterials }}</h3>
-                            <p>Materiais Ativos</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-box-open"></i>
-                        </div>
-                        <a href="{{ route('admin.materials.active') }}" class="small-box-footer">Visualizar <i
-                                class="fas fa-arrow-circle-right"></i></a>
-                    </div>
                 </div>
 
-                <div class="col-12 col-md-6">
-                    <div class="small-box bg-dark">
-                        <div class="inner">
-                            <h3>{{ $writeOffMaterials }}</h3>
-                            <p>Materiais em Baixa</p>
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3>{{ $departments }}</h3>
+                                <p>Setores</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-building"></i>
+                            </div>
+                            <a href="{{ route('admin.departments.index') }}" class="small-box-footer">Visualizar <i
+                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="fa fa-box"></i>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>{{ $groups->count() }}</h3>
+                                <p>Grupos de Materiais</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-layer-group"></i>
+                            </div>
+                            <a href="{{ route('admin.groups.index') }}" class="small-box-footer">Visualizar <i
+                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <a href="{{ route('admin.materials.writeOff') }}" class="small-box-footer">Visualizar <i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{ $activeMaterials }}</h3>
+                                <p>Materiais Ativos</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-box-open"></i>
+                            </div>
+                            <a href="{{ route('admin.materials.active') }}" class="small-box-footer">Visualizar <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="small-box bg-dark">
+                            <div class="inner">
+                                <h3>{{ $writeOffMaterials }}</h3>
+                                <p>Materiais em Baixa</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-box"></i>
+                            </div>
+                            <a href="{{ route('admin.materials.writeOff') }}" class="small-box-footer">Visualizar <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{ $activeMaterials }}</h3>
+                                <p>Materiais Ativos</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-box-open"></i>
+                            </div>
+                            <a href="{{ route('admin.materials.active') }}" class="small-box-footer">Visualizar <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="small-box bg-dark">
+                            <div class="inner">
+                                <h3>{{ $writeOffMaterials }}</h3>
+                                <p>Materiais em Baixa</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-box"></i>
+                            </div>
+                            <a href="{{ route('admin.materials.writeOff') }}" class="small-box-footer">Visualizar <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <div class="row px-2">
+                <div class="card col-12">
+                    <div class="card-header">
+                        Gráficos
+                    </div>
+                    <div class="card-body px-0 pb-0 d-flex flex-wrap justify-content-center">
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <p class="mb-0">Materiais por Grupo</p>
+                                </div>
+                                <div class="cardy-body py-2">
+                                    <div class="chart-responsive">
+                                        <div class="chartjs-size-monitor">
+                                            <div class="chartjs-size-monitor-expand">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class="chartjs-size-monitor-shrink">
+                                                <div class=""></div>
+                                            </div>
+                                        </div>
+                                        <canvas id="material-by-group" style="display: block; width: 203px; height: 100px;"
+                                            class="chartjs-render-monitor" width="203" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <p class="mb-0">Valor por Grupo</p>
+                                </div>
+                                <div class="cardy-body py-2">
+                                    <div class="chart-responsive">
+                                        <div class="chartjs-size-monitor">
+                                            <div class="chartjs-size-monitor-expand">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class="chartjs-size-monitor-shrink">
+                                                <div class=""></div>
+                                            </div>
+                                        </div>
+                                        <canvas id="value-by-group" style="display: block; width: 203px; height: 100px;"
+                                            class="chartjs-render-monitor" width="203" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             @if (Auth::user()->hasRole('Programador|Administrador'))
                 <div class="card">
@@ -151,7 +260,6 @@
                     </div>
                 </div>
 
-
                 <div class="row px-0">
 
                     <div class="col-12">
@@ -169,7 +277,8 @@
                                         <span>Acessos Diários</span>
                                     </p>
                                     <p class="ml-auto d-flex flex-column text-right">
-                                        <span id="percentclass" class="{{ $percent > 0 ? 'text-success' : 'text-danger' }}">
+                                        <span id="percentclass"
+                                            class="{{ $percent > 0 ? 'text-success' : 'text-danger' }}">
                                             <i id="percenticon"
                                                 class="fas {{ $percent > 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}  mr-1"></i><span
                                                 id="percentvalue">{{ $percent }}</span>%
@@ -196,6 +305,8 @@
 
                 </div>
             @endif
+
+
 
         </div>
     </section>
@@ -266,4 +377,116 @@
             }
         </script>
     @endif
+    <script>
+        function generateGradientColors(colors, steps) {
+            let gradientColorsRGB = [];
+            let gradientColorsRGBA = [];
+            let totalColors = colors.length;
+
+            for (let i = 0; i < totalColors - 1; i++) {
+                let startColor = colors[i];
+                let endColor = colors[i + 1];
+
+                let startRGB = startColor.match(/\d+/g).map(Number);
+                let endRGB = endColor.match(/\d+/g).map(Number);
+                let segmentSteps = Math.ceil(steps / (totalColors - 1));
+
+                let stepRGB = [
+                    (endRGB[0] - startRGB[0]) / segmentSteps,
+                    (endRGB[1] - startRGB[1]) / segmentSteps,
+                    (endRGB[2] - startRGB[2]) / segmentSteps
+                ];
+
+                for (let j = 0; j < segmentSteps; j++) {
+                    let r = Math.round(startRGB[0] + stepRGB[0] * j);
+                    let g = Math.round(startRGB[1] + stepRGB[1] * j);
+                    let b = Math.round(startRGB[2] + stepRGB[2] * j);
+                    gradientColorsRGB.push(`rgb(${r}, ${g}, ${b})`);
+                    gradientColorsRGBA.push(`rgba(${r}, ${g}, ${b},  0.75)`);
+                }
+            }
+
+            gradientColorsRGB.push(colors[totalColors - 1]);
+            gradientColorsRGBA.push(colors[totalColors - 1]);
+
+            return [gradientColorsRGB.slice(0, steps), gradientColorsRGBA.slice(0, steps)];
+        }
+
+        const colorStops = [
+            "rgb(255, 0, 0)",
+            "rgb(255, 255, 0)",
+            "rgb(0, 255, 0)",
+            "rgb(0, 255, 255)",
+            "rgb(0, 0, 255)",
+            "rgb(255, 0, 255)"
+        ];
+
+        const gradient = generateGradientColors(colorStops, {{ $groups->count() }});
+
+        const materialByGroup = document.getElementById('material-by-group');
+        if (materialByGroup) {
+            materialByGroup.getContext('2d');
+            const materialByGroupChart = new Chart(materialByGroup, {
+                type: 'doughnut',
+                data: {
+                    labels: {!! json_encode($materialChart->labels) !!},
+                    datasets: [{
+                        label: 'Materiais por grupo',
+                        data: {!! json_encode($materialChart->quantity) !!},
+                        borderWidth: 1,
+                        backgroundColor: gradient[1],
+                        borderColor: gradient[0],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'left',
+                        labels: {
+                            fontSize: 10
+                        }
+                    },
+                },
+            });
+        }
+
+        const valueByGroup = document.getElementById('value-by-group');
+        if (valueByGroup) {
+            valueByGroup.getContext('2d');
+            const valueByGroupChart = new Chart(valueByGroup, {
+                type: 'doughnut',
+                data: {
+                    labels: {!! json_encode($materialChart->labels) !!},
+                    datasets: [{
+                        label: 'valor por grupo',
+                        data: {!! json_encode($materialChart->value) !!},
+                        borderWidth: 1,
+                        backgroundColor: gradient[1],
+                        borderColor: gradient[0],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'left',
+                        labels: {
+                            fontSize: 10
+                        }
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+
+                                return data.labels[tooltipItem.datasetIndex] + ': ' + (data.datasets[tooltipItem
+                                    .datasetIndex].data[tooltipItem.index]).toLocaleString('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                });
+                            }
+                        }
+                    }
+                },
+            });
+        }
+    </script>
 @endsection
