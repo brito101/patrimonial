@@ -11,6 +11,8 @@ class Material extends Model
 
     protected $table = 'materials_view';
 
+    protected $appends = ['float_value'];
+
     /** Accessors */
 
     public function getValueAttribute($value)
@@ -27,5 +29,10 @@ class Material extends Model
         }
 
         return 'R$ ' . number_format($value, 2, ',', '.');
+    }
+
+    public function getFloatValueAttribute($value)
+    {
+        return (float) str_replace(['R$ ', '.', ','], ['', '', '.'], $this->value);
     }
 }

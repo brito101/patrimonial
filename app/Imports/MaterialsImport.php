@@ -41,6 +41,7 @@ class MaterialsImport implements ToModel, WithHeadingRow, WithValidation
                         'group_id' => Group::where('name', $row['grupo'])->first()->id ?? null,
                         'department_id' => Department::where('name', $row['setor'])->first()->id ?? null,
                         'user_id' => Auth::user()->id,
+                        'write_off_date_at' => strtolower($row['status']) == 'ativo' ? null : date('Y-m-d H:i:s'),
                     ]);
 
                     $newMaterial->save();

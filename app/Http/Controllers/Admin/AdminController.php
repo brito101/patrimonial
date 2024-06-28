@@ -30,7 +30,8 @@ class AdminController extends Controller
 
         $materialChart = new stdClass();
         $materialChart->labels = [];
-        $materialChart->datasets = [];
+        $materialChart->active = ['quantity' => [], 'value' => [], 'year' => []];
+        $materialChart->writeOff = ['quantity' => [], 'value' => [], 'year' => []];
 
         foreach ($groups as $group) {
             $materialChart->labels[] = $group->name;
@@ -39,17 +40,29 @@ class AdminController extends Controller
         }
 
         if (Auth::user()->hasRole('Programador|Administrador')) {
-            $activeMaterials = ViewsMaterial::where('status', 'Ativo')->count();
-            $writeOffMaterials = ViewsMaterial::where('status', 'Baixa')->count();
+            $activeMaterials = ViewsMaterial::where('status', 'Ativo')->get();
+            $writeOffMaterials = ViewsMaterial::where('status', 'Baixa')->get();
+            $materials = ViewsMaterial::get();
         } else {
-            $activeMaterials = ViewsMaterial::where('department_id', Auth::user()->department_id)->where('status', 'Ativo')->count();
-            $writeOffMaterials = ViewsMaterial::where('department_id', Auth::user()->department_id)->where('status', 'Baixa')->count();
+            $activeMaterials = ViewsMaterial::where('department_id', Auth::user()->department_id)->where('status', 'Ativo')->get();
+            $writeOffMaterials = ViewsMaterial::where('department_id', Auth::user()->department_id)->where('status', 'Baixa')->get();
+            $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->get();
+        }
+
+        $groupMaterials = $materials->groupBy('year')->sortBy('year')->reverse();             
+
+        foreach ($groupMaterials as $material) {
+            $materialChart->materials['active']['quantity'][] = $material->where('status', 'Ativo')->count();
+            $materialChart->materials['active']['value'][] = $material->where('status', 'Ativo')->sum('float_value');
+            $materialChart->materials['active']['year'][] = $material[0]->year;
+            $materialChart->materials['writeOff']['quantity'][] = $material->where('status', 'Baixa')->count();
+            $materialChart->materials['writeOff']['value'][] = $material->where('status', 'Baixa')->sum('float_value');
+            $materialChart->materials['writeOff']['year'][] = $material[0]->year;
         }
 
         $visits = Visit::where('url', '!=', route('admin.home.chart'))
             ->where('url', 'NOT LIKE', '%columns%')
             ->where('url', 'NOT LIKE', '%storage%')
-            // ->where('url', 'NOT LIKE', '%admin%')
             ->where('url', 'NOT LIKE', '%offline%')
             ->where('url', 'NOT LIKE', '%manifest.json%')
             ->where('url', 'NOT LIKE', '%.png%')
@@ -75,9 +88,8 @@ class AdminController extends Controller
         return view('admin.home.index', compact(
             'programmers',
             'administrators',
-            'users',
-            'activeMaterials',
-            'writeOffMaterials',
+            'users',            
+            'materials',
             'departments',
             'groups',
             'onlineUsers',
@@ -117,8 +129,7 @@ class AdminController extends Controller
 
         $accessToday = Visit::where('url', '!=', route('admin.home.chart'))
             ->where('url', 'NOT LIKE', '%columns%')
-            ->where('url', 'NOT LIKE', '%storage%')
-            // ->where('url', 'NOT LIKE', '%admin%')
+            ->where('url', 'NOT LIKE', '%storage%')            
             ->where('url', 'NOT LIKE', '%offline%')
             ->where('url', 'NOT LIKE', '%manifest.json%')
             ->where('url', 'NOT LIKE', '%.png%')

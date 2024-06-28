@@ -171,6 +171,7 @@ class MaterialController extends Controller
                 $material->status = $data['status'];
                 $material->year = $data['year'];
                 $material->user_id = $data['user_id'];
+                $material->write_off_date_at = ($data['status'] == 'Baixa' ? date('Y-m-d H:i:s') : null);
                 $material->save();
                 $rm++;
             }
@@ -250,6 +251,7 @@ class MaterialController extends Controller
         }
 
         $data = $request->all();
+        $data['write_off_date_at']    = ($request->status == 'Baixa' ? date('Y-m-d H:i:s') : null);
 
         if ($material->update($data)) {
             return redirect()
@@ -320,6 +322,7 @@ class MaterialController extends Controller
             }
 
             $material->status = 'Baixa';
+            $material->write_off_date_at = date('Y-m-d H:i:s');
             $material->update();
         }
 
@@ -355,6 +358,7 @@ class MaterialController extends Controller
             }
 
             $material->status = 'Ativo';
+            $material->write_off_date_at = null;
             $material->update();
         }
 
@@ -407,7 +411,7 @@ class MaterialController extends Controller
                 ->back()
                 ->with('error', 'Nenhum arquivo selecionado!');
         }
-        
+
 
         Excel::import(new MaterialsImport, $request->file('file')->store('temp'));
         return back()->with('success', 'Importação realizada!');

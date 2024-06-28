@@ -84,7 +84,7 @@
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{ $activeMaterials }}</h3>
+                                <h3>{{ $materials->where('status', 'Ativo')->count() }}</h3>
                                 <p>Materiais Ativos</p>
                             </div>
                             <div class="icon">
@@ -98,7 +98,7 @@
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="small-box bg-dark">
                             <div class="inner">
-                                <h3>{{ $writeOffMaterials }}</h3>
+                                <h3>{{ $materials->where('status', 'Baixa')->count() }}</h3>
                                 <p>Materiais em Baixa</p>
                             </div>
                             <div class="icon">
@@ -114,7 +114,7 @@
                     <div class="col-12 col-md-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{ $activeMaterials }}</h3>
+                                <h3>{{ $materials->where('status', 'Ativo')->count() }}</h3>
                                 <p>Materiais Ativos</p>
                             </div>
                             <div class="icon">
@@ -128,7 +128,7 @@
                     <div class="col-12 col-md-6">
                         <div class="small-box bg-dark">
                             <div class="inner">
-                                <h3>{{ $writeOffMaterials }}</h3>
+                                <h3>{{ $materials->where('status', 'Baixa')->count() }}</h3>
                                 <p>Materiais em Baixa</p>
                             </div>
                             <div class="icon">
@@ -184,6 +184,28 @@
                                             </div>
                                         </div>
                                         <canvas id="value-by-group" style="display: block; width: 203px; height: 100px;"
+                                            class="chartjs-render-monitor" width="203" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <p class="mb-0">Movimentação Anual</p>
+                                </div>
+                                <div class="cardy-body py-2">
+                                    <div class="chart-responsive">
+                                        <div class="chartjs-size-monitor">
+                                            <div class="chartjs-size-monitor-expand">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class="chartjs-size-monitor-shrink">
+                                                <div class=""></div>
+                                            </div>
+                                        </div>
+                                        <canvas id="material-by-year" style="display: block; width: 203px; height: 100px;"
                                             class="chartjs-render-monitor" width="203" height="100"></canvas>
                                     </div>
                                 </div>
@@ -381,6 +403,7 @@
         function generateGradientColors(colors, steps) {
             let gradientColorsRGB = [];
             let gradientColorsRGBA = [];
+            let gradientColorsRGBAopacity = [];
             let totalColors = colors.length;
 
             for (let i = 0; i < totalColors - 1; i++) {
@@ -403,13 +426,16 @@
                     let b = Math.round(startRGB[2] + stepRGB[2] * j);
                     gradientColorsRGB.push(`rgb(${r}, ${g}, ${b})`);
                     gradientColorsRGBA.push(`rgba(${r}, ${g}, ${b},  0.75)`);
+                    gradientColorsRGBAopacity.push(`rgba(${r}, ${g}, ${b},  0.25)`);
                 }
             }
 
             gradientColorsRGB.push(colors[totalColors - 1]);
             gradientColorsRGBA.push(colors[totalColors - 1]);
+            gradientColorsRGBAopacity.push(colors[totalColors - 1]);
 
-            return [gradientColorsRGB.slice(0, steps), gradientColorsRGBA.slice(0, steps)];
+            return [gradientColorsRGB.slice(0, steps), gradientColorsRGBA.slice(0, steps), gradientColorsRGBAopacity.slice(
+                0, steps)];
         }
 
         const colorStops = [
@@ -485,6 +511,54 @@
                             }
                         }
                     }
+                },
+            });
+        }
+
+        const materialYear = document.getElementById('material-by-year');
+        if (materialYear) {
+
+            const labeslBar = {!! json_encode($materialChart->materials['active']['year']) !!};
+            const gradientBar = generateGradientColors(colorStops, labeslBar.length);
+
+            const materialYearChart = new Chart(materialYear, {
+                type: 'bar',
+                data: {
+                    labels: labeslBar,
+                    datasets: [{
+                            label: 'Ativos',
+                            data: {!! json_encode($materialChart->materials['active']['quantity']) !!},
+                            backgroundColor: gradientBar[1],
+                            borderColor: gradientBar[0],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Baixas',
+                            data: {!! json_encode($materialChart->materials['writeOff']['quantity']) !!},
+                            backgroundColor: gradientBar[2],
+                            borderColor: gradientBar[0],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            barThickness: 50,
+                            maxBarThickness: 50
+                        }]
+                    },
+                    legend: {
+                        labels: {
+                            boxWidth: 10,
+                        }
+                    },
                 },
             });
         }

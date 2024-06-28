@@ -24,6 +24,7 @@ class Material extends Model
         'status',
         'year',
         'user_id',
+        'write_off_date_at',
     ];
 
     /** Accessors */
