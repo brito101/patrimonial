@@ -116,6 +116,87 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="row px-2">
+                    <div class="card col-12">
+                        <div class="card-header">
+                            Gráficos
+                        </div>
+                        <div class="card-body px-0 pb-0 d-flex flex-wrap justify-content-center">
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <p class="mb-0">Materiais por Grupo</p>
+                                    </div>
+                                    <div class="cardy-body py-2">
+                                        <div class="chart-responsive">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
+                                            </div>
+                                            <canvas id="material-by-group"
+                                                style="display: block; width: 203px; height: 100px;"
+                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <p class="mb-0">Valor por Grupo</p>
+                                    </div>
+                                    <div class="cardy-body py-2">
+                                        <div class="chart-responsive">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
+                                            </div>
+                                            <canvas id="value-by-group" style="display: block; width: 203px; height: 100px;"
+                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (Auth::user()->hasRole('Programador'))
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header border-0">
+                                            <p class="mb-0">Movimentação Anual</p>
+                                        </div>
+                                        <div class="cardy-body py-2">
+                                            <div class="chart-responsive">
+                                                <div class="chartjs-size-monitor">
+                                                    <div class="chartjs-size-monitor-expand">
+                                                        <div class=""></div>
+                                                    </div>
+                                                    <div class="chartjs-size-monitor-shrink">
+                                                        <div class=""></div>
+                                                    </div>
+                                                </div>
+                                                <canvas id="material-by-year"
+                                                    style="display: block; width: 203px; height: 100px;"
+                                                    class="chartjs-render-monitor" width="203"
+                                                    height="100"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
             @else
                 @php
                     $heads = ['SIAD', 'RM', 'Descrição', 'Valor'];
@@ -196,83 +277,6 @@
             @endif
 
             @if (Auth::user()->hasRole('Programador'))
-                <div class="row px-2">
-                    <div class="card col-12">
-                        <div class="card-header">
-                            Gráficos
-                        </div>
-                        <div class="card-body px-0 pb-0 d-flex flex-wrap justify-content-center">
-                            <div class="col-12 col-md-6">
-                                <div class="card">
-                                    <div class="card-header border-0">
-                                        <p class="mb-0">Materiais por Grupo</p>
-                                    </div>
-                                    <div class="cardy-body py-2">
-                                        <div class="chart-responsive">
-                                            <div class="chartjs-size-monitor">
-                                                <div class="chartjs-size-monitor-expand">
-                                                    <div class=""></div>
-                                                </div>
-                                                <div class="chartjs-size-monitor-shrink">
-                                                    <div class=""></div>
-                                                </div>
-                                            </div>
-                                            <canvas id="material-by-group"
-                                                style="display: block; width: 203px; height: 100px;"
-                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="card">
-                                    <div class="card-header border-0">
-                                        <p class="mb-0">Valor por Grupo</p>
-                                    </div>
-                                    <div class="cardy-body py-2">
-                                        <div class="chart-responsive">
-                                            <div class="chartjs-size-monitor">
-                                                <div class="chartjs-size-monitor-expand">
-                                                    <div class=""></div>
-                                                </div>
-                                                <div class="chartjs-size-monitor-shrink">
-                                                    <div class=""></div>
-                                                </div>
-                                            </div>
-                                            <canvas id="value-by-group"
-                                                style="display: block; width: 203px; height: 100px;"
-                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header border-0">
-                                        <p class="mb-0">Movimentação Anual</p>
-                                    </div>
-                                    <div class="cardy-body py-2">
-                                        <div class="chart-responsive">
-                                            <div class="chartjs-size-monitor">
-                                                <div class="chartjs-size-monitor-expand">
-                                                    <div class=""></div>
-                                                </div>
-                                                <div class="chartjs-size-monitor-shrink">
-                                                    <div class=""></div>
-                                                </div>
-                                            </div>
-                                            <canvas id="material-by-year"
-                                                style="display: block; width: 203px; height: 100px;"
-                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex flex-wrap justify-content-between col-12 align-content-center">
