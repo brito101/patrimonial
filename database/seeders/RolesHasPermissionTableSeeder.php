@@ -62,36 +62,36 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'role_id' => 1
             ],
             /* A Profile assignment by administrator type user */
-            [
-                'permission_id' => 11,
-                'role_id' => 2
-            ],
+            // [
+            //     'permission_id' => 11,
+            //     'role_id' => 2
+            // ],
 
             /** Users 12 to 17 (programmer and administrator) */
             [
                 'permission_id' => 12,
                 'role_id' => 1
             ],
-            [
-                'permission_id' => 12,
-                'role_id' => 2
-            ],
+            // [
+            //     'permission_id' => 12,
+            //     'role_id' => 2
+            // ],
             [
                 'permission_id' => 13,
                 'role_id' => 1
             ],
-            [
-                'permission_id' => 13,
-                'role_id' => 2
-            ],
+            // [
+            //     'permission_id' => 13,
+            //     'role_id' => 2
+            // ],
             [
                 'permission_id' => 14,
                 'role_id' => 1
             ],
-            [
-                'permission_id' => 14,
-                'role_id' => 2
-            ],
+            // [
+            //     'permission_id' => 14,
+            //     'role_id' => 2
+            // ],
             [
                 'permission_id' => 15,
                 'role_id' => 1
@@ -108,18 +108,18 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'permission_id' => 16,
                 'role_id' => 1
             ],
-            [
-                'permission_id' => 16,
-                'role_id' => 2
-            ],
+            // [
+            //     'permission_id' => 16,
+            //     'role_id' => 2
+            // ],
             [
                 'permission_id' => 17,
                 'role_id' => 1
             ],
-            [
-                'permission_id' => 17,
-                'role_id' => 2
-            ],
+            // [
+            //     'permission_id' => 17,
+            //     'role_id' => 2
+            // ],
             /** Departments 18 to 22 (programmer and administrator) */
             [
                 'permission_id' => 18,
