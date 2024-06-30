@@ -58,7 +58,7 @@
                         <x-adminlte-profile-widget name="{{ env('APP_NAME')}}" desc="{{ env('APP_DES')}}"
                             theme="bg-gradient-dark" img="{{ asset('img/brand.png') }}" layout-type="classic">
                             <x-adminlte-profile-row-item
-                                title="Rodrigo Carvalho de Brito, e-mail: contato@rodrigobrito.dev.br"
+                                title="Contatos: e-mail patrimonioufrrj@gmail.com e WhatsApp (21) 99359-4700"
                                 class="text-left border-bottom border-secondary" />
                             <x-adminlte-profile-col-item title="Javascript" icon="fab fa-2x fa-js text-primary" size=4 />
                             <x-adminlte-profile-col-item title="PHP" icon="fab fa-2x fa-php text-primary" ssize=4 />
