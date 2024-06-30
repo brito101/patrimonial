@@ -10,14 +10,21 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><i class="fa fa-fw fa-digital-tachograph"></i> Dashboard</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
+                @if (Auth::user()->hasRole('Programador|Administrador'))
+                    <div class="col-sm-6">
+                        <h1><i class="fa fa-fw fa-digital-tachograph"></i> Dashboard</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+                @else
+                    <div class="col-sm-12">
+                        <h1><i class="fa fa-fw fa-digital-tachograph"></i> Inventário do Setor
+                            {{ Auth::user()->department->name }}</h1>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -110,113 +117,162 @@
                     </div>
                 </div>
             @else
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>{{ $materials->where('status', 'Ativo')->count() }}</h3>
-                                <p>Materiais Ativos</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-box-open"></i>
-                            </div>
-                            <a href="{{ route('admin.materials.active') }}" class="small-box-footer">Visualizar <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                @php
+                    $heads = ['SIAD', 'RM', 'Descrição', 'Valor'];
+                    $config = [
+                        'ajax' => url('/admin/materials/active'),
+                        'columns' => [
+                            ['data' => 'secondary_code', 'name' => 'secondary_code'],
+                            ['data' => 'registration', 'name' => 'registration'],
+                            ['data' => 'description', 'name' => 'description'],
+                            ['data' => 'value', 'name' => 'value'],
+                        ],
+                        'language' => ['url' => asset('vendor/datatables/js/pt-BR.json')],
+                        'autoFill' => true,
+                        'processing' => true,
+                        'serverSide' => true,
+                        'responsive' => true,
+                        'pageLength' => -1,
+                        'paging' => false,
+                        'dom' => '<"d-flex flex-wrap col-12 justify-content-between"Bf>rtip',
+                        'buttons' => [
+                            // ['extend' => 'pageLength', 'className' => 'btn-default'],
+                            [
+                                'extend' => 'copy',
+                                'className' => 'btn-default',
+                                'text' => '<i class="fas fa-fw fa-lg fa-copy text-secondary"></i>',
+                                'titleAttr' => 'Copiar',
+                                'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                'footer' => true,
+                            ],
+                            [
+                                'extend' => 'print',
+                                'className' => 'btn-default',
+                                'text' => '<i class="fas fa-fw fa-lg fa-print text-info"></i>',
+                                'titleAttr' => 'Imprimir',
+                                'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                'footer' => true,
+                            ],
+                            [
+                                'extend' => 'csv',
+                                'className' => 'btn-default',
+                                'text' => '<i class="fas fa-fw fa-lg fa-file-csv text-primary"></i>',
+                                'titleAttr' => 'Exportar para CSV',
+                                'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                'footer' => true,
+                            ],
+                            [
+                                'extend' => 'excel',
+                                'className' => 'btn-default',
+                                'text' => '<i class="fas fa-fw fa-lg fa-file-excel text-success"></i>',
+                                'titleAttr' => 'Exportar para Excel',
+                                'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                'footer' => true,
+                            ],
+                            [
+                                'extend' => 'pdf',
+                                'className' => 'btn-default',
+                                'text' => '<i class="fas fa-fw fa-lg fa-file-pdf text-danger"></i>',
+                                'titleAttr' => 'Exportar para PDF',
+                                'exportOptions' => ['columns' => ':not([dt-no-export])'],
+                                'footer' => true,
+                            ],
+                        ],
+                    ];
+                @endphp
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex flex-wrap justify-content-between col-12 align-content-center">
+                            <h3 class="card-title align-self-center">Materiais Cadastrados</h3>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6">
-                        <div class="small-box bg-dark">
-                            <div class="inner">
-                                <h3>{{ $materials->where('status', 'Baixa')->count() }}</h3>
-                                <p>Materiais em Baixa</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-box"></i>
-                            </div>
-                            <a href="{{ route('admin.materials.writeOff') }}" class="small-box-footer">Visualizar <i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
+                    <div class="card-body">
+                        <x-adminlte-datatable id="table1" :heads="$heads" :heads="$heads" :config="$config" striped
+                            hoverable beautify withFooter="materials_user" />
                     </div>
                 </div>
             @endif
 
-            <div class="row px-2">
-                <div class="card col-12">
-                    <div class="card-header">
-                        Gráficos
-                    </div>
-                    <div class="card-body px-0 pb-0 d-flex flex-wrap justify-content-center">
-                        <div class="col-12 col-md-6">
-                            <div class="card">
-                                <div class="card-header border-0">
-                                    <p class="mb-0">Materiais por Grupo</p>
-                                </div>
-                                <div class="cardy-body py-2">
-                                    <div class="chart-responsive">
-                                        <div class="chartjs-size-monitor">
-                                            <div class="chartjs-size-monitor-expand">
-                                                <div class=""></div>
+            @if (Auth::user()->hasRole('Programador'))
+                <div class="row px-2">
+                    <div class="card col-12">
+                        <div class="card-header">
+                            Gráficos
+                        </div>
+                        <div class="card-body px-0 pb-0 d-flex flex-wrap justify-content-center">
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <p class="mb-0">Materiais por Grupo</p>
+                                    </div>
+                                    <div class="cardy-body py-2">
+                                        <div class="chart-responsive">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
                                             </div>
-                                            <div class="chartjs-size-monitor-shrink">
-                                                <div class=""></div>
-                                            </div>
+                                            <canvas id="material-by-group"
+                                                style="display: block; width: 203px; height: 100px;"
+                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
                                         </div>
-                                        <canvas id="material-by-group" style="display: block; width: 203px; height: 100px;"
-                                            class="chartjs-render-monitor" width="203" height="100"></canvas>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="card">
-                                <div class="card-header border-0">
-                                    <p class="mb-0">Valor por Grupo</p>
-                                </div>
-                                <div class="cardy-body py-2">
-                                    <div class="chart-responsive">
-                                        <div class="chartjs-size-monitor">
-                                            <div class="chartjs-size-monitor-expand">
-                                                <div class=""></div>
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <p class="mb-0">Valor por Grupo</p>
+                                    </div>
+                                    <div class="cardy-body py-2">
+                                        <div class="chart-responsive">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
                                             </div>
-                                            <div class="chartjs-size-monitor-shrink">
-                                                <div class=""></div>
-                                            </div>
+                                            <canvas id="value-by-group"
+                                                style="display: block; width: 203px; height: 100px;"
+                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
                                         </div>
-                                        <canvas id="value-by-group" style="display: block; width: 203px; height: 100px;"
-                                            class="chartjs-render-monitor" width="203" height="100"></canvas>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header border-0">
-                                    <p class="mb-0">Movimentação Anual</p>
-                                </div>
-                                <div class="cardy-body py-2">
-                                    <div class="chart-responsive">
-                                        <div class="chartjs-size-monitor">
-                                            <div class="chartjs-size-monitor-expand">
-                                                <div class=""></div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <p class="mb-0">Movimentação Anual</p>
+                                    </div>
+                                    <div class="cardy-body py-2">
+                                        <div class="chart-responsive">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
                                             </div>
-                                            <div class="chartjs-size-monitor-shrink">
-                                                <div class=""></div>
-                                            </div>
+                                            <canvas id="material-by-year"
+                                                style="display: block; width: 203px; height: 100px;"
+                                                class="chartjs-render-monitor" width="203" height="100"></canvas>
                                         </div>
-                                        <canvas id="material-by-year" style="display: block; width: 203px; height: 100px;"
-                                            class="chartjs-render-monitor" width="203" height="100"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-
-            @if (Auth::user()->hasRole('Programador|Administrador'))
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex flex-wrap justify-content-between col-12 align-content-center">
@@ -327,8 +383,6 @@
 
                 </div>
             @endif
-
-
 
         </div>
     </section>

@@ -211,10 +211,10 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'permission_id' => 28,
                 'role_id' => 2
             ],
-            [
-                'permission_id' => 28,
-                'role_id' => 3
-            ],
+            // [
+            //     'permission_id' => 28,
+            //     'role_id' => 3
+            // ],
             [
                 'permission_id' => 29,
                 'role_id' => 1
@@ -235,10 +235,10 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'permission_id' => 30,
                 'role_id' => 2
             ],
-            [
-                'permission_id' => 30,
-                'role_id' => 3
-            ],
+            // [
+            //     'permission_id' => 30,
+            //     'role_id' => 3
+            // ],
             [
                 'permission_id' => 31,
                 'role_id' => 1
@@ -247,10 +247,10 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'permission_id' => 31,
                 'role_id' => 2
             ],
-            [
-                'permission_id' => 31,
-                'role_id' => 3
-            ],
+            // [
+            //     'permission_id' => 31,
+            //     'role_id' => 3
+            // ],
             [
                 'permission_id' => 32,
                 'role_id' => 1
@@ -259,10 +259,10 @@ class RolesHasPermissionTableSeeder extends Seeder
                 'permission_id' => 32,
                 'role_id' => 2
             ],
-            [
-                'permission_id' => 32,
-                'role_id' => 3
-            ],
+        //     [
+        //         'permission_id' => 32,
+        //         'role_id' => 3
+        //     ],
         ]);
     }
 }

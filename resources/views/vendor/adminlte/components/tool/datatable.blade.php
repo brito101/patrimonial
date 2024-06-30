@@ -111,6 +111,38 @@
             );
             })
         </script>
+    @elseif (isset($withFooter) && $withFooter == 'materials_user')
+        <script>
+            $(() => {
+                let {{ $id }} = $('#{{ $id }}').DataTable(
+                        {!! substr(json_encode($config), 0, -1) !!},
+                        "footerCallback": function(tfoot, data, start, end, display) {
+                            const api = this.api();
+                            let value = 0;;
+                            data.forEach(el => {
+                                value += parseFloat((el['value']).replace(/^R\$|\s/g, '').replace(/\./g, '')
+                                    .replace(',', '.'));
+                            });
+
+                            value = value.toLocaleString('pt-br', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            });
+
+                            $(api.column(0).footer()).html('');
+                            $(api.column(1).footer()).html('');
+                            $(api.column(2).footer()).html('');
+                            $(api.column(3).footer()).html(value);
+                            $(tfoot).html(
+                                `
+                              <th colspan="3" class="text-center"></th>
+                              <th colspan="1" class="text-center">Total: ${value}</th>`
+                            );
+                        }
+                    },
+            );
+            })
+        </script>
     @else
         <script>
             $(() => {
