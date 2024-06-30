@@ -42,27 +42,22 @@
                             <div class="card-body">
 
                                 <div class="d-flex flex-wrap justify-content-start">
-                                    <div class="col-12 col-md-3 form-group px-0 pr-md-2">
+                                    
+                                    <div class="col-12 col-md-4 form-group px-0 pr-md-2">
+                                        <label for="secondary_code">SIADS</label>
+                                        <input type="text" class="form-control" id="name"
+                                            placeholder="Código do SIADS" name="secondary_code"
+                                            value="{{ old('secondary_code') }}">
+                                    </div>
+                                    <div class="col-12 col-md-4 form-group px-0 px-md-2">
                                         <label for="registration">RM *<small>(em caso de mais de um item será o valor
                                                 inicial)</small></label>
                                         <input type="number" class="form-control" id="registration"
                                             placeholder="Registro de Material" name="registration"
                                             value="{{ old('registration') }}" required max="18446744073709551615" min="1">
                                     </div>
-                                    <div class="col-12 col-md-3 form-group px-0 px-md-2">
-                                        <label for="secondary_code">SIADI</label>
-                                        <input type="text" class="form-control" id="name"
-                                            placeholder="Código do SIADI" name="secondary_code"
-                                            value="{{ old('secondary_code') }}">
-                                    </div>
-                                    <div class="col-12 col-md-3 form-group px-0 px-md-2">
-                                        <label for="serial_number">Nº Série</label>
-                                        <input type="text" class="form-control" id="name"
-                                            placeholder="Nº de série do material" name="serial_number"
-                                            value="{{ old('serial_number') }}">
-                                    </div>
 
-                                    <div class="col-12 col-md-2 form-group px-0 px-md-2">
+                                    <div class="col-12 col-md-3 form-group px-0 px-md-2">
                                         <label for="value">Valor unitário *</label>
                                         <input type="text" class="form-control money_format_2" id="value"
                                             name="value" value="{{ old('value') }}" required>

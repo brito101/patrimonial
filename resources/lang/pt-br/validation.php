@@ -224,7 +224,7 @@ return [
         'photo' => 'foto',
         'code' => 'código',
         'registration' => 'registro',
-        'secondary_code' => 'SIADI',
+        'secondary_code' => 'SIADIS',
         'serial_number' => 'número de série',
         'observations' => 'observações',
         'value' => 'valor unitário',

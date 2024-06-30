@@ -199,7 +199,7 @@
                 </div>
             @else
                 @php
-                    $heads = ['SIAD', 'RM', 'Descrição', 'Valor'];
+                    $heads = ['SIADS', 'RM', 'Descrição', 'Valor'];
                     $config = [
                         'ajax' => url('/admin/materials/active'),
                         'columns' => [

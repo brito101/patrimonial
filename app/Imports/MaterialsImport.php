@@ -30,7 +30,7 @@ class MaterialsImport implements ToModel, WithHeadingRow, WithValidation
                 if (!$materialCheck) {
                     $newMaterial = Material::create([
                         'registration' => $rm,
-                        'secondary_code' => $row['siadi'],
+                        'secondary_code' => $row['siads'],
                         'serial_number' => $row['serial'],
                         'description' => $row['descricao'],
                         'observations' => $row['obs'],
@@ -55,7 +55,7 @@ class MaterialsImport implements ToModel, WithHeadingRow, WithValidation
             if (!$materialCheck) {
                 $newMaterial = Material::create([
                     'registration' => $row['rm'],
-                    'secondary_code' => $row['siadi'],
+                    'secondary_code' => $row['siads'],
                     'serial_number' => $row['serial'],
                     'description' => $row['descricao'],
                     'observations' => $row['observacoes'],
