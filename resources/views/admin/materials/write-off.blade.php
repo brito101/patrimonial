@@ -67,7 +67,8 @@
 
                         @php
                             $heads = [
-                                ['label' => 'ID', 'width' => 10],
+                                // ['label' => 'ID', 'width' => 10],
+                                'SIADS',
                                 'RM',
                                 'Descrição',
                                 'Grupo',
@@ -78,7 +79,8 @@
                             $config = [
                                 'ajax' => url('/admin/materials/write-off'),
                                 'columns' => [
-                                    ['data' => 'id', 'name' => 'id'],
+                                    // ['data' => 'id', 'name' => 'id'],
+                                    ['data' => 'secondary_code', 'name' => 'secondary_code'],
                                     ['data' => 'registration', 'name' => 'registration'],
                                     ['data' => 'description', 'name' => 'description'],
                                     ['data' => 'group_name', 'name' => 'group_name'],

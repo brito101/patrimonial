@@ -77,7 +77,7 @@ class MaterialsImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'rm' => "required|numeric|between:1,18446744073709551615|unique:materials,registration",
-            'siadi' => 'nullable|max:191',
+            'siads' => 'nullable|required|max:191',
             'serial' => 'nullable|max:191',
             'descricao'  => 'nullable|max:400000000',
             'descricao' => 'nullable|max:400000000',

@@ -56,7 +56,7 @@ class MaterialController extends Controller
             if (Auth::user()->hasRole('Programador|Administrador')) {
                 $materials = ViewsMaterial::select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Ativo')->get();
             } else {
-                $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->select('id', 'secondary_code','registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Ativo')->get();
+                $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Ativo')->get();
             }
 
             $token = csrf_token();
@@ -84,9 +84,9 @@ class MaterialController extends Controller
         if ($request->ajax()) {
 
             if (Auth::user()->hasRole('Programador|Administrador')) {
-                $materials = ViewsMaterial::select('id', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
+                $materials = ViewsMaterial::select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
             } else {
-                $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->select('id', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
+                $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
             }
 
             $token = csrf_token();

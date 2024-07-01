@@ -71,25 +71,27 @@
 
                         @php
                             $heads = [
-                                ['label' => 'ID', 'width' => 10],
+                                // ['label' => 'ID', 'width' => 10],
+                                'SIADS',
                                 'RM',
                                 'Descrição',
                                 'Grupo',
                                 'Setor',
                                 'Valor',
-                                'Ano',
+                                // 'Ano',
                                 ['label' => 'Ações', 'no-export' => true, 'width' => 10],
                             ];
                             $config = [
                                 'ajax' => url('/admin/materials/active'),
                                 'columns' => [
-                                    ['data' => 'id', 'name' => 'id'],
+                                    // ['data' => 'id', 'name' => 'id'],
+                                    ['data' => 'secondary_code', 'name' => 'secondary_code'],
                                     ['data' => 'registration', 'name' => 'registration'],
                                     ['data' => 'description', 'name' => 'description'],
                                     ['data' => 'group_name', 'name' => 'group_name'],
                                     ['data' => 'department_name', 'name' => 'department_name'],
                                     ['data' => 'value', 'name' => 'value'],
-                                    ['data' => 'year', 'name' => 'year'],
+                                    // ['data' => 'year', 'name' => 'year'],
                                     [
                                         'data' => 'action',
                                         'name' => 'action',
