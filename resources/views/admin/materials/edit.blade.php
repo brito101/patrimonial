@@ -46,7 +46,7 @@
                                 <div class="d-flex flex-wrap justify-content-start">
                                     <div class="col-12 col-md-4 form-group px-0 pr-md-2">
                                         <label for="secondary_code">SIADS</label>
-                                        <input type="text" class="form-control" id="name"
+                                        <input type="number" class="form-control" id="name"
                                             placeholder="Código do SIADS" name="secondary_code"
                                             value="{{ old('secondary_code') ?? $material->secondary_code }}">
                                     </div>

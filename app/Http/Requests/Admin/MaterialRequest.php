@@ -18,6 +18,7 @@ class MaterialRequest extends FormRequest
     {
         $this->merge([
             'registration'  => preg_replace('/\D/', '', $this->registration),
+            'secondary_code'  => preg_replace('/\D/', '', $this->registration),
             'value'  => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $this->value))),
         ]);
     }
@@ -31,7 +32,7 @@ class MaterialRequest extends FormRequest
     {
         return [
             'registration' => "required|numeric|between:1,18446744073709551615|unique:materials,registration,$this->id,id,deleted_at,NULL",
-            'secondary_code' => 'nullable|max:191',
+            'secondary_code' => 'nullable|numeric|between:1,18446744073709551615',
             'serial_number' => 'nullable|max:191',
             'description'  => 'nullable|max:400000000',
             'observations' => 'nullable|max:400000000',
