@@ -11,7 +11,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><i class="fas fa-fw fa-box"></i> Materiais</h1>
+
+                    @if (Auth::user()->hasRole('Programador|Administrador'))
+                        <h1><i class="fas fa-fw fa-box"></i> Materiais</h1>
+                    @else
+                        <h1><i class="fas fa-fw fa-box"></i> Materiais do Setor {{ Auth::user()->department->name }}</h1>
+                    @endif
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -37,14 +42,14 @@
                         <div class="card-header d-flex flex-wrap">
                             <div class="col-12 col-md-6 align-self-center"><i class="fas fa-fw fa-upload"></i> Importação de
                                 Planilha</div>
-                
+
                             <div class="col-12 col-md-6 d-flex justify-content-end">
                                 <a class="btn btn-secondary" href="{{ asset('worksheets/materials.ods') }}" download><i
                                         class="fas fa-fw fa-download"></i> Planilha padrão para
                                     cadastro de materiais</a>
                             </div>
                         </div>
-                
+
                         <form action="{{ route('admin.materials.import') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body pb-0">

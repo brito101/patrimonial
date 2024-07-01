@@ -10,13 +10,20 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos</h1>
+                    @if (Auth::user()->hasRole('Programador|Administrador'))
+                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos</h1>
+                    @else
+                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos do setor
+                            {{ Auth::user()->department->name }}</h1>
+                    @endif
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.writeOff') }}">Materiais em Baixa</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.writeOff') }}">Materiais em Baixa</a>
+                        </li>
                         <li class="breadcrumb-item active">Materiais Ativos</li>
                     </ol>
                 </div>

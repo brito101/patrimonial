@@ -10,14 +10,22 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
+
+                </div>
+                @if (Auth::user()->hasRole('Programador|Administrador'))
                     <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
                         Materiais em Baixa</h1>
-                </div>
+                @else
+                    <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
+                        Materiais em Baixa do Setor {{ Auth::user()->department->name }}</h1>
+                @endif
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.active') }}">Materiais Ativos</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.active') }}">Materiais Ativos</a>
+                        </li>
                         <li class="breadcrumb-item active">Materiais em Baixa</li>
                     </ol>
                 </div>
@@ -50,7 +58,9 @@
                                     @csrf
                                     <input type="hidden" name="ids" value="" id="ids" class="ids">
                                     <button type="submit" id="change-status" class="change-status btn btn-warning w-100"
-                                        data-confirm="Confirma a baixa desta seleção?" title="Alterar os materiais das linhas selecionadas para situação de ativo"><i class="fas fa-fw fa-sync"></i>
+                                        data-confirm="Confirma a baixa desta seleção?"
+                                        title="Alterar os materiais das linhas selecionadas para situação de ativo"><i
+                                            class="fas fa-fw fa-sync"></i>
                                         Ativo</button>
                                 </form>
                             </div>
@@ -59,7 +69,9 @@
                                     @csrf
                                     <input type="hidden" name="ids" value="" id="ids" class="ids">
                                     <button type="submit" id="batch-delete" class="btn btn-danger w-100"
-                                        data-confirm="Confirma a exclusão desta seleção?" title="Excluir os materiais das linhas selecionadas"><i class="fas fa-fw fa-trash"></i>
+                                        data-confirm="Confirma a exclusão desta seleção?"
+                                        title="Excluir os materiais das linhas selecionadas"><i
+                                            class="fas fa-fw fa-trash"></i>
                                         Exclusão</button>
                                 </form>
                             </div>
