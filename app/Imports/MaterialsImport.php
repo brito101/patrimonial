@@ -2,6 +2,8 @@
 
 namespace App\Imports;
 
+ini_set('max_execution_time', 300);
+
 use App\Models\Group;
 use App\Models\Material;
 use App\Models\Views\Department;
@@ -20,70 +22,32 @@ class MaterialsImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
-
-        if ($row['qtd'] > 1) {
-            $rm = $row['rm'];
-            for ($i = 0; $i < $row['qtd']; $i++) {
-
-                $materialCheck = Material::where('registration', $rm)->first();
-
-                if (!$materialCheck) {
-                    $newMaterial = Material::create([
-                        'registration' => $rm,
-                        'secondary_code' => $row['siads'],
-                        'serial_number' => $row['serial'],
-                        'description' => $row['descricao'],
-                        'observations' => $row['obs'],
-                        'value' => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $row['valor']))),
-                        'status' => strtolower($row['status']) == 'ativo' ? 'Ativo' : 'Baixa',
-                        'year' => $row['ano'],
-                        'created_at' => new DateTime('now'),
-                        'group_id' => Group::where('name', $row['grupo'])->first()->id ?? null,
-                        'department_id' => Department::where('name', $row['setor'])->first()->id ?? null,
-                        'user_id' => Auth::user()->id,
-                        'write_off_date_at' => strtolower($row['status']) == 'ativo' ? null : date('Y-m-d H:i:s'),
-                    ]);
-
-                    $newMaterial->save();
-                }
-
-                $rm++;
-            }
-        } else {
-            $materialCheck = Material::where('registration', $row['rm'])->first();
-
-            if (!$materialCheck) {
-                $newMaterial = Material::create([
-                    'registration' => $row['rm'],
-                    'secondary_code' => $row['siads'],
-                    'serial_number' => $row['serial'],
-                    'description' => $row['descricao'],
-                    'observations' => $row['observacoes'],
-                    'value' => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $row['valor']))),
-                    'status' => strtolower($row['status']) == 'ativo' ? 'Ativo' : 'Baixa',
-                    'year' => $row['ano'],
-                    'created_at' => new DateTime('now'),
-                    'group_id' => Group::where('name', $row['grupo'])->first()->id ?? null,
-                    'department_id' => Department::where('name', $row['setor'])->first()->id ?? null,
-                    'user_id' => Auth::user()->id,
-                ]);
-
-                $newMaterial->save();
-            }
-        }
+        $group = Group::where('code', $row['cod_grupo'])->first();
+        $department = Department::where('id', $row['id_setor'])->first();
+        
+        return new Material([
+            'registration' => preg_replace('/\D/', '', $row['rm']),
+            'secondary_code' => preg_replace('/\D/', '', $row['siads']),
+            'description' => $row['descricao'],
+            'observations' => $row['obs'],
+            'value' => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $row['valor']))),
+            'status' =>  'Ativo',
+            'year' => $row['ano'] ?? date('Y'),
+            'created_at' => new DateTime('now'),
+            'group_id' => $group->id ?? null,
+            'department_id' =>  $department->id ?? null,
+            'user_id' => Auth::user()->id,
+        ]);
     }
 
     public function rules(): array
     {
         return [
-            'rm' => "required|numeric|between:1,18446744073709551615|unique:materials,registration",
-            'siads' => 'nullable|required|max:191',
-            'serial' => 'nullable|max:191',
+            'rm' => 'nullable|numeric|between:1,18446744073709551615',
+            'siads' => 'nullable|numeric|between:1,18446744073709551615',
             'descricao'  => 'nullable|max:400000000',
-            'descricao' => 'nullable|max:400000000',
             'valor' => 'required|numeric|between:0,999999999.999',
-            'ano' => 'required|date_format:Y',
-            'qtd' => 'nullable|numeric|min:1',
+            'ano' => 'nullable|date_format:Y',
         ];
     }
 }

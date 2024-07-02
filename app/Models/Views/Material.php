@@ -19,7 +19,12 @@ class Material extends Model
     {
         // Depreciation calculation
         $now  = date('Y');
-        $differ = (int) $now - (int) $this->year;
+        $differ = 0;
+
+        if ($this->year) {
+            $differ = (int) $now - (int) $this->year;
+        }
+
         if ($differ >= 0 && $differ <= 10) {
             $value = $value - ($value * (($differ * 10) / 100));
         } elseif ($differ < 0) {

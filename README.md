@@ -4,11 +4,11 @@
 
 ### Resources
 
-- Basic user controller
-- Visitors log
-- Departments controller
-- Groups controller
-- Material controller
+-   Basic user controller
+-   Visitors log
+-   Departments controller
+-   Groups controller
+-   Material controller
 
 ### Usage
 
@@ -29,3 +29,9 @@
 
 -   user: <programador@base.com>
 -   pass: 12345678
+
+#### Pending tasks
+
+-   Implementar alteração em lote a partir do RM
+-   Colocar a opção de selecionar o inventário para o usuário comum e na página do material aparecer a seleção de material com uma default
+-   Deixar todos os valores como não obrigatórios ao importar os materiais

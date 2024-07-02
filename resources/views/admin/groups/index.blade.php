@@ -66,7 +66,7 @@
 
                         @php
                             $heads = [
-                                ['label' => 'ID', 'width' => 10],
+                                // ['label' => 'ID', 'width' => 10],
                                 'Código',
                                 'Nome',
                                 ['label' => 'Ações', 'no-export' => true, 'width' => 10],
@@ -74,7 +74,7 @@
                             $config = [
                                 'ajax' => url('/admin/groups'),
                                 'columns' => [
-                                    ['data' => 'id', 'name' => 'id'],
+                                    // ['data' => 'id', 'name' => 'id'],
                                     ['data' => 'code', 'name' => 'code'],
                                     ['data' => 'name', 'name' => 'name'],
                                     [

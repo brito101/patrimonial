@@ -58,8 +58,8 @@
                             <div class="d-flex flex-wrap justify-content-between col-12 align-content-center">
                                 <h3 class="card-title align-self-center">Setores Cadastrados</h3>
                                 @can('Criar Setores')
-                                    <a href="{{ route('admin.departments.create') }}" title="Novo Setor" class="btn btn-success"><i
-                                            class="fas fa-fw fa-plus"></i>Novo Setor</a>
+                                    <a href="{{ route('admin.departments.create') }}" title="Novo Setor"
+                                        class="btn btn-success"><i class="fas fa-fw fa-plus"></i>Novo Setor</a>
                                 @endcan
                             </div>
                         </div>
@@ -89,11 +89,12 @@
                                 'processing' => true,
                                 'serverSide' => true,
                                 'responsive' => true,
-                                'pageLength' => 50,
-                                'lengthMenu' => [[10, 50, 100, 500, 1000, -1], [10, 50, 100, 500, 1000, 'Tudo']],
+                                'pageLength' => -1,
+                                'paging' => false,
+                                // 'lengthMenu' => [[10, 50, 100, 500, 1000, -1], [10, 50, 100, 500, 1000, 'Tudo']],
                                 'dom' => '<"d-flex flex-wrap col-12 justify-content-between"Bf>rtip',
                                 'buttons' => [
-                                    ['extend' => 'pageLength', 'className' => 'btn-default'],
+                                    // ['extend' => 'pageLength', 'className' => 'btn-default'],
                                     [
                                         'extend' => 'copy',
                                         'className' => 'btn-default',

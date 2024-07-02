@@ -15,8 +15,10 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                         @can('Listar Materiais')
-                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.materials.active') }}">Materiais Ativos</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.materials.index') }}">Materiais por Grupo</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.materials.active') }}">Materiais Ativos</a>
+                            </li>
                         @endcan
                         <li class="breadcrumb-item active">Editar Material</li>
                     </ol>
@@ -48,13 +50,15 @@
                                         <label for="secondary_code">SIADS</label>
                                         <input type="number" class="form-control" id="name"
                                             placeholder="Código do SIADS" name="secondary_code"
-                                            value="{{ old('secondary_code') ?? $material->secondary_code }}">
+                                            value="{{ old('secondary_code') ?? $material->secondary_code }}"
+                                            max="18446744073709551615" min="1">
                                     </div>
                                     <div class="col-12 col-md-4 form-group px-0 px-md-2">
-                                        <label for="registration">RM *</label>
+                                        <label for="registration">RM</label>
                                         <input type="number" class="form-control" id="registration"
                                             placeholder="Registro de Material" name="registration"
-                                            value="{{ old('registration') ?? $material->registration }}" required  max="18446744073709551615" min="1">
+                                            value="{{ old('registration') ?? $material->registration }}"
+                                            max="18446744073709551615" min="1">
                                     </div>
 
                                     <div class="col-12 col-md-4 form-group px-0 pl-md-2">
@@ -98,9 +102,9 @@
                                     </div>
 
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2">
-                                        <label for="year">Ano *</label>
+                                        <label for="year">Ano</label>
                                         <input type="number" class="form-control" id="year" name="year"
-                                            value="{{ old('year') ?? $material->year }}" required>
+                                            value="{{ old('year') ?? $material->year }}">
                                     </div>
 
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2 mb-0">

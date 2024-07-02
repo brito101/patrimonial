@@ -74,11 +74,13 @@
                         </div>
 
                         @php
-                            $heads = [['label' => 'ID', 'width' => 10], 'Grupo', 'Descrição', 'Valor', 'Quantidade'];
+                            $heads = [
+                                // ['label' => 'ID', 'width' => 10], 
+                                'Grupo', 'Descrição', 'Valor', 'Quantidade'];
                             $config = [
                                 'ajax' => url('/admin/materials'),
                                 'columns' => [
-                                    ['data' => 'id', 'name' => 'id'],
+                                    // ['data' => 'id', 'name' => 'id'],
                                     ['data' => 'code', 'name' => 'code'],
                                     ['data' => 'name', 'name' => 'name'],
                                     ['data' => 'value', 'name' => 'value'],

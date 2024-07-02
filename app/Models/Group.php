@@ -31,10 +31,14 @@ class Group extends Model
         // Depreciation calculation
         $now  = date('Y');
         $total = 0;
+        $differ = 0;
 
         foreach ($this->activeMaterials() as $material) {
             $value = str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $material->value)));
-            $differ = (int) $now - (int) $material->year;
+            
+            if ($material->year) {
+                $differ = (int) $now - (int) $material->year;
+            }
 
             if ($differ >= 0 && $differ <= 10) {
                 $total += $value - ($value * (($differ * 10) / 100));

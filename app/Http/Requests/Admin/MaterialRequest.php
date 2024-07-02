@@ -18,7 +18,7 @@ class MaterialRequest extends FormRequest
     {
         $this->merge([
             'registration'  => preg_replace('/\D/', '', $this->registration),
-            'secondary_code'  => preg_replace('/\D/', '', $this->registration),
+            'secondary_code'  => preg_replace('/\D/', '', $this->secondary_code),
             'value'  => str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $this->value))),
         ]);
     }
@@ -31,7 +31,7 @@ class MaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration' => "required|numeric|between:1,18446744073709551615|unique:materials,registration,$this->id,id,deleted_at,NULL",
+            'registration' => 'nullable|numeric|between:1,18446744073709551615',
             'secondary_code' => 'nullable|numeric|between:1,18446744073709551615',
             'serial_number' => 'nullable|max:191',
             'description'  => 'nullable|max:400000000',
@@ -40,7 +40,7 @@ class MaterialRequest extends FormRequest
             'group_id' => 'required|exists:groups,id',
             'department_id'  => 'required|exists:departments,id',
             'status' => 'required|in:Ativo,Baixa',
-            'year' => 'required|date_format:Y',
+            'year' => 'nullable|date_format:Y',
             'quantity' => 'nullable|numeric|min:1',
         ];
     }

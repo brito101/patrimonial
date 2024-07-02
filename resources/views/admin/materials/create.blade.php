@@ -47,14 +47,14 @@
                                         <label for="secondary_code">SIADS</label>
                                         <input type="number" class="form-control" id="name"
                                             placeholder="Código do SIADS" name="secondary_code"
-                                            value="{{ old('secondary_code') }}">
+                                            value="{{ old('secondary_code') }}" max="18446744073709551615" min="1">
                                     </div>
                                     <div class="col-12 col-md-4 form-group px-0 px-md-2">
-                                        <label for="registration">RM *<small>(em caso de mais de um item será o valor
+                                        <label for="registration">RM<small>(em caso de mais de um item será o valor
                                                 inicial)</small></label>
                                         <input type="number" class="form-control" id="registration"
                                             placeholder="Registro de Material" name="registration"
-                                            value="{{ old('registration') }}" required max="18446744073709551615" min="1">
+                                            value="{{ old('registration') }}" max="18446744073709551615" min="1">
                                     </div>
 
                                     <div class="col-12 col-md-3 form-group px-0 px-md-2">
@@ -101,9 +101,9 @@
 
 
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2">
-                                        <label for="year">Ano *</label>
+                                        <label for="year">Ano</label>
                                         <input type="number" class="form-control" id="year" name="year"
-                                            value="{{ old('year') ?? date('Y') }}" required>
+                                            value="{{ old('year') ?? date('Y') }}">
                                     </div>
 
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2 mb-0">

@@ -59,13 +59,12 @@
 
                             $(api.column(0).footer()).html('');
                             $(api.column(1).footer()).html('');
-                            $(api.column(2).footer()).html('');
-                            $(api.column(3).footer()).html(value);
-                            $(api.column(4).footer()).html(quantity);
+                            $(api.column(2).footer()).html(value);
+                            $(api.column(3).footer()).html(quantity);
 
                             $(tfoot).html(
                                 `
-                                <th colspan="3" class="text-center"></th>
+                                <th colspan="2" class="text-center"></th>
                                 <th colspan="1" class="text-center">Total: ${value}</th>
                                 <th colspan="1" class="text-center">Total: ${quantity}</th>`
                             );
