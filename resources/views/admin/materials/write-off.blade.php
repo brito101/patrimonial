@@ -10,15 +10,15 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-
+                    @if (Auth::user()->hasRole('Programador|Administrador'))
+                        <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
+                            Materiais em Baixa</h1>
+                    @else
+                        <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
+                            Materiais em Baixa do Setor {{ Auth::user()->department->name }}</h1>
+                    @endif
                 </div>
-                @if (Auth::user()->hasRole('Programador|Administrador'))
-                    <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
-                        Materiais em Baixa</h1>
-                @else
-                    <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
-                        Materiais em Baixa do Setor {{ Auth::user()->department->name }}</h1>
-                @endif
+
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
