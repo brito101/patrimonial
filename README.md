@@ -34,4 +34,5 @@
 
 -   Implementar alteração em lote a partir do RM
 -   Colocar a opção de selecionar o inventário para o usuário comum e na página do material aparecer a seleção de material com uma default
--   Deixar todos os valores como não obrigatórios ao importar os materiais
+-   Fazer o cálculo por setores igual ao de grupo
+-   Apresentar o valor real dos materiais
