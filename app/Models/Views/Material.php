@@ -37,7 +37,7 @@ class Material extends Model
             $total = $value * 10 / 100;
         }
 
-        return 'R$ ' . number_format($value, 2, ',', '.');
+        return 'R$ ' . number_format($total, 2, ',', '.');
     }
 
     public function getFloatValueAttribute($value)
