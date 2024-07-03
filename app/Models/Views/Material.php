@@ -13,6 +13,10 @@ class Material extends Model
 
     protected $appends = ['float_value'];
 
+    protected $casts = [
+        'registration' => 'string',
+    ];
+
     /** Accessors */
 
     public function getValueAttribute($value)
