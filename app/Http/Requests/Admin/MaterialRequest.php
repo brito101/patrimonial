@@ -32,7 +32,7 @@ class MaterialRequest extends FormRequest
     {
         return [
             'registration' => 'nullable|numeric|between:1,18446744073709551615',
-            'secondary_code' => 'nullable|numeric|between:1,18446744073709551615',
+            'secondary_code' => "nullable|numeric|between:1,18446744073709551615|unique:materials,secondary_code,$this->id,id,deleted_at,NULL",
             'serial_number' => 'nullable|max:191',
             'description'  => 'nullable|max:400000000',
             'observations' => 'nullable|max:400000000',

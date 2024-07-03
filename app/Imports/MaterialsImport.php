@@ -44,7 +44,7 @@ class MaterialsImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'rm' => 'nullable|numeric|between:1,18446744073709551615',
-            'siads' => 'nullable|numeric|between:1,18446744073709551615',
+            'siads' => 'nullable|numeric|between:1,18446744073709551615|unique:materials,secondary_code,NULL,id,deleted_at,NULL',
             'descricao'  => 'nullable|max:400000000',
             'valor' => 'required|numeric|between:0,999999999.999',
             'ano' => 'nullable|date_format:Y',
