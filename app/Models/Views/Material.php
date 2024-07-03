@@ -15,7 +15,6 @@ class Material extends Model
 
     protected $casts = [
         'registration' => 'string',
-        'year' => 'integer',
     ];
 
     /** Accessors */
