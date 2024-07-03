@@ -26,11 +26,15 @@ class Material extends Model
         }
 
         if ($differ >= 0 && $differ <= 10) {
-            $value = $value - ($value * (($differ * 10) / 100));
+            $total = $value - ($value * (($differ * 10) / 100));
         } elseif ($differ < 0) {
-            $value = $value;
+            $total = $value;
         } else {
-            $value = 0;
+            $total = 0;
+        }
+
+        if ($total == 0) {
+            $total = $value * 10 / 100;
         }
 
         return 'R$ ' . number_format($value, 2, ',', '.');

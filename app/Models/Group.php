@@ -35,7 +35,7 @@ class Group extends Model
 
         foreach ($this->activeMaterials() as $material) {
             $value = str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $material->value)));
-            
+
             if ($material->year) {
                 $differ = (int) $now - (int) $material->year;
             }
@@ -46,6 +46,10 @@ class Group extends Model
                 $total += $value;
             } else {
                 $total += 0;
+            }
+
+            if ($total == 0) {
+                $total = $value * 10 / 100;
             }
         }
 
