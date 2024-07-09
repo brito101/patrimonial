@@ -69,9 +69,9 @@ class UserController extends Controller
         CheckPermission::checkAuth('Criar Usuários');
 
         if (Auth::user()->hasRole('Programador')) {
-            $roles = Role::all(['id', 'name']);
+            $roles = Role::select(['id', 'name'])->orderBy('id', 'desc')->get();
         } else {
-            $roles = Role::where('name', '!=', 'Programador')->get(['id', 'name']);
+            $roles = Role::where('name', '!=', 'Programador')->select(['id', 'name'])->orderBy('id', 'desc')->get();
         }
 
         $departments = Department::orderBy('name')->get(['id', 'name']);
@@ -136,9 +136,9 @@ class UserController extends Controller
         }
 
         if (Auth::user()->hasRole('Programador')) {
-            $roles = Role::all(['id', 'name']);
+            $roles = Role::select(['id', 'name'])->orderBy('id', 'desc')->get();
         } else {
-            $roles = Role::where('name', '!=', 'Programador')->get(['id', 'name']);
+            $roles = Role::where('name', '!=', 'Programador')->select(['id', 'name'])->orderBy('id', 'desc')->get();
         }
 
         $departments = Department::orderBy('name')->get(['id', 'name']);

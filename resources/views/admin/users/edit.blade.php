@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
 
-                                <div class="d-flex flex-wrap justify-content-between">
+                                {{-- <div class="d-flex flex-wrap justify-content-between">
                                     <div class="col-12 col-md-6 form-group px-0 pr-md-2">
                                         <label for="telephone">Telefone</label>
                                         <input type="tel" class="form-control" id="telephone" placeholder="Telefone"
@@ -82,7 +82,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="d-flex flex-wrap justify-content-between">
                                     <div class="col-12 col-md-6 form-group px-0 pr-md-2">

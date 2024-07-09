@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\Views\Department as ViewsDepartment;
-use App\Models\Views\Group as ViewsGroup;
 use App\Models\Views\Material as ViewsMaterial;
 use App\Models\Views\User as ViewsUser;
 use App\Models\Views\Visit;

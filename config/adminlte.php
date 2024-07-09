@@ -244,6 +244,11 @@ return [
             'icon'        => 'fa fa-fw fa-digital-tachograph mr-2',
         ],
         [
+            'text'        => 'Trocar Senha',
+            'url'         => 'admin/user/edit',
+            'icon'        => 'fa fa-fw fa-id-badge mr-2',
+        ],
+        [
             'text'        => 'Usuários',
             'url'         => '#',
             'icon'        => 'fas fa-fw fa-users mr-2',
@@ -368,10 +373,15 @@ return [
             ]
         ],
         [
-            'text'        => 'Changelog',
-            'url'    => 'admin/changelog',
-            'icon'    => 'fas fa-fw fa-code mr-2',
+            'text'        => 'Contato',
+            'url'    => 'admin/contact',
+            'icon'    => 'fas fa-fw fa-phone-alt mr-2',
         ],
+        // [
+        //     'text'        => 'Changelog',
+        //     'url'    => 'admin/changelog',
+        //     'icon'    => 'fas fa-fw fa-code mr-2',
+        // ],
     ],
 
     /*

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{
     ACL\PermissionController,
     ACL\RoleController,
     ChangelogController,
+    ContactController,
     DepartmentController,
     GroupController,
     MaterialController,
@@ -67,7 +68,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('role', RoleController::class);
 
         /** Changelog */
-        Route::get('/changelog', [ChangelogController::class, 'index'])->name('changelog');
+        // Route::get('/changelog', [ChangelogController::class, 'index'])->name('changelog');
+
+        /** Contact */
+        Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     });
 });
 

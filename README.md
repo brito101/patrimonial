@@ -32,7 +32,13 @@
 
 #### Pending tasks
 
--   Implementar alteração em lote a partir do RM
 -   Colocar a opção de selecionar o inventário para o usuário comum e na página do material aparecer a seleção de material com uma default
 -   Fazer o cálculo por setores igual ao de grupo
 -   Apresentar o valor real dos materiais
+-   Em qualquer relatório mostrar valor real ao invés de valor depreciado
+-   Na página impressa do relatório trocar o título Dashboard para o nome do setor
+-   Aba Cadastro de usuário, poder escolher mais de 1 inventário por usuário (marcar X)
+-   Aba Materiais por grupo, entre valor e quantidade incluir valor depreciado
+-   Aba Material, incluir material por setor igual usuário comum
+-   Criar Aba Material por setor (menos para usuário), escolher inventário, gerar relatório na tela
+-   Aba Materiais ativos, do lado esquerdo do SIADS incluir opção de marcar X ao lado de vários itens. Ao lado da opção Operações em lote incluir botão Alterar em Lote. Vai abrir nova página com todos os itens marcados anteriormente para edição em ordem numérica de SIADS. O que fizer no primeiro item e apertar botão OK vai ser repetido nos demais. No final das alterações deve ter botão Salvar Alterações.

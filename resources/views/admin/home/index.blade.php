@@ -275,7 +275,7 @@
                     </div>
                 </div>
             @endif
-
+{{-- 
             @if (Auth::user()->hasRole('Programador'))
                 <div class="card">
                     <div class="card-header">
@@ -386,14 +386,14 @@
                     </div>
 
                 </div>
-            @endif
+            @endif --}}
 
         </div>
     </section>
 @endsection
 
 @section('custom_js')
-    @if (Auth::user()->hasRole('Programador|Administrador'))
+    {{-- @if (Auth::user()->hasRole('Programador|Administrador'))
         <script>
             const ctx = document.getElementById('visitors-chart');
             if (ctx) {
@@ -456,7 +456,7 @@
                 setInterval(getData, 10000);
             }
         </script>
-    @endif
+    @endif --}}
     <script>
         function generateGradientColors(colors, steps) {
             let gradientColorsRGB = [];
