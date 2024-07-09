@@ -51,7 +51,7 @@ class AdminController extends Controller
             $materials = ViewsMaterial::where('department_id', Auth::user()->department_id)->get();
         }
 
-        $groupMaterials = $materials->groupBy('year_cast')->sortBy('year_cast');
+        $groupMaterials = $materials->groupBy('year')->sortBy('year');
 
         foreach ($groupMaterials as $material) {
             $materialChart->materials['active']['quantity'][] = $material->where('status', 'Ativo')->count();

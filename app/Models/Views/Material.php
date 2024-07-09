@@ -11,18 +11,13 @@ class Material extends Model
 
     protected $table = 'materials_view';
 
-    protected $appends = ['float_value', 'year_cast'];
+    protected $appends = ['float_value'];
 
     protected $casts = [
         'registration' => 'string',
-        'year_cast' => 'date:Y',
     ];
 
     /** Accessors */
-    public function getYearCastAttribute($value)
-    {
-        return $this->year;
-    }
 
     public function getValueAttribute($value)
     {
