@@ -42,3 +42,7 @@
 -   Aba Material, incluir material por setor igual usuário comum
 -   Criar Aba Material por setor (menos para usuário), escolher inventário, gerar relatório na tela
 -   Aba Materiais ativos, do lado esquerdo do SIADS incluir opção de marcar X ao lado de vários itens. Ao lado da opção Operações em lote incluir botão Alterar em Lote. Vai abrir nova página com todos os itens marcados anteriormente para edição em ordem numérica de SIADS. O que fizer no primeiro item e apertar botão OK vai ser repetido nos demais. No final das alterações deve ter botão Salvar Alterações.
+-   no usuário, relação mostra valor depreciado, deve ser valor real
+-   página Materiais por grupo, mudar nome valor para valor depreciado (já aparece depreciado)
+-   página Materiais por grupo, entre descrição e valor depreciado incluir aba Valor (com valor real)
+-   página Material, incluir "Material por setor" q mostra relação de material (igual usuário comum)
