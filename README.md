@@ -46,3 +46,8 @@
 -   página Materiais por grupo, mudar nome valor para valor depreciado (já aparece depreciado)
 -   página Materiais por grupo, entre descrição e valor depreciado incluir aba Valor (com valor real)
 -   página Material, incluir "Material por setor" q mostra relação de material (igual usuário comum)
+-   Na aba Materiais por grupo, mudar "valor" para "valor depreciado" (já aparece depreciado)
+-   Na aba Materiais por grupo, entre "descrição" e "valor depreciado" incluir aba Valor (com valor real)
+-   Na tabela de materiais ativos, pesquisar por SIADS (ao invés de RM)
+-   Na tabela de materiais ativos, mostrar valor real e não valor depreciado
+-   No gráfico, quando clicar em alguma barra então mostrar relação de material daquele ano.
