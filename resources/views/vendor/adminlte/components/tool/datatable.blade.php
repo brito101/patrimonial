@@ -75,9 +75,9 @@
                             $(tfoot).html(
                                 `
                                 <th colspan="2" class="text-center"></th>
-                                <th colspan="1" class="text-center">Total: ${value}</th>
-                                <th colspan="1" class="text-center">Total: ${depreciated_value}</th>
-                                <th colspan="1" class="text-center">Total: ${quantity}</th>`
+                                <th colspan="1" class="text-center">Total:&nbsp;  ${value}</th>
+                                <th colspan="1" class="text-center">Total:&nbsp;  ${depreciated_value}</th>
+                                <th colspan="1" class="text-center">Total:&nbsp;  ${quantity}</th>`
                             );
                         }
                     },
@@ -123,8 +123,8 @@
                             $(tfoot).html(
                                 `
                              <th colspan="5" class="text-center"></th>
-                             <th colspan="1" class="text-center">Total: ${value}</th>
-                             <th colspan="1" class="text-center">Total: ${depreciated_value}</th>
+                             <th colspan="1" class="text-center">Total:&nbsp; ${value}</th>
+                             <th colspan="1" class="text-center">Total:&nbsp; ${depreciated_value}</th>
                              <th colspan="1" class="text-center"></th>`
                             );
                         }
@@ -169,8 +169,8 @@
                             $(tfoot).html(
                                 `
                               <th colspan="4" class="text-center"></th>
-                              <th colspan="1" class="text-center">Total: ${value}</th>
-                              <th colspan="1" class="text-center">Total: ${depreciated_value}</th>`
+                              <th colspan="1" class="text-center">Total:&nbsp;  ${value}</th>
+                              <th colspan="1" class="text-center">Total:&nbsp;  ${depreciated_value}</th>`
                             );
                         }
                     },
