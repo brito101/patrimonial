@@ -42,7 +42,7 @@ class AdminController extends Controller
         foreach ($groups as $group) {
             $materialChart->labels[] = $group->name;
             $materialChart->quantity[] = $group->quantity;
-            $materialChart->value[] = (float) str_replace(['R$ ', '.', ','], ['', '', '.'], $group->value);
+            $materialChart->value[] = (float) str_replace(['R$ ', '.', ','], ['', '', '.'], $group->depreciated_value);
         }
 
         if (Auth::user()->hasRole('Programador|Administrador')) {
@@ -55,10 +55,8 @@ class AdminController extends Controller
 
         foreach ($groupMaterials as $material) {
             $materialChart->materials['active']['quantity'][] = $material->where('status', 'Ativo')->count();
-            $materialChart->materials['active']['value'][] = $material->where('status', 'Ativo')->sum('float_value');
             $materialChart->materials['active']['year'][] = $material[0]->year;
-            $materialChart->materials['writeOff']['quantity'][] = $material->where('status', 'Baixa')->count();
-            $materialChart->materials['writeOff']['value'][] = $material->where('status', 'Baixa')->sum('float_value');
+            $materialChart->materials['writeOff']['quantity'][] = $material->where('status', 'Baixa')->count();            
             $materialChart->materials['writeOff']['year'][] = $material[0]->year;
         }
 

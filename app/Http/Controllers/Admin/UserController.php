@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UserRequest;
 use App\Imports\UsersImport;
 use App\Models\Department;
 use App\Models\User;
+use App\Models\UserDepartment;
 use App\Models\Views\User as ViewsUser;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -37,7 +38,7 @@ class UserController extends Controller
 
         if ($request->ajax()) {
             if (Auth::user()->hasRole('Programador')) {
-                $users = ViewsUser::all('id', 'name', 'email', 'type', 'department');
+                $users = ViewsUser::all('id', 'name', 'email', 'type', 'departments');
             } elseif (Auth::user()->hasRole('Administrador')) {
                 $users = ViewsUser::whereIn('type', ['Administrador', 'Usuário'])->get();
             } else {
@@ -100,10 +101,21 @@ class UserController extends Controller
         $user = User::create($data);
 
         if ($user->save()) {
-            if (!empty($request->role)) {
-                $user->syncRoles($request->role);
-                $user->save();
+            if (Auth::user()->hasPermissionTo('Atribuir Perfis')) {
+
+                if (!empty($request->role)) {
+                    $user->syncRoles($request->role);
+                    $user->save();
+                }
+
+                if ($request->departments) {
+                    foreach ($request->departments as $department) {
+                        $userDept = UserDepartment::create(['user_id' => $user->id, 'department_id' => $department]);
+                        $userDept->save();
+                    }
+                }
             }
+
             return redirect()
                 ->route('admin.users.index')
                 ->with('success', 'Cadastro realizado!');
@@ -130,7 +142,7 @@ class UserController extends Controller
             $id = Auth::user()->id;
         }
 
-        $user = User::find($id);
+        $user = User::with('departments')->find($id);
         if (!$user) {
             abort(403, 'Acesso não autorizado');
         }
@@ -186,16 +198,28 @@ class UserController extends Controller
             $data = $this->saveImage($request, $name, $data);
         }
 
-        if (Auth::user()->hasPermissionTo('Atribuir Perfis')) {
-            $data['department_id'] = $request->department_id;
-        } else {
-            $data['department_id'] = Auth::user()->department_id;
-        }
+        // if (Auth::user()->hasPermissionTo('Atribuir Perfis')) {
+        //     $data['department_id'] = $request->department_id;
+        // } else {
+        //     $data['department_id'] = Auth::user()->department_id;
+        // }
 
         if ($user->update($data)) {
-            if (!empty($request->role)) {
-                $user->syncRoles($request->role);
-                $user->save();
+
+            if (Auth::user()->hasPermissionTo('Atribuir Perfis')) {
+
+                if (!empty($request->role)) {
+                    $user->syncRoles($request->role);
+                    $user->save();
+                }
+
+                $user->userDepartments()->delete();
+                if ($request->departments) {
+                    foreach ($request->departments as $department) {
+                        $userDept = UserDepartment::create(['user_id' => $user->id, 'department_id' => $department]);
+                        $userDept->save();
+                    }
+                }
             }
 
             if (Auth::user()->hasPermissionTo('Editar Usuários')) {

@@ -34,7 +34,7 @@ class User extends Authenticatable
         'photo',
         'telephone',
         'cell',
-        'department_id',
+        // 'department_id',
     ];
 
     /**
@@ -56,8 +56,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function department()
+    // public function department()
+    // {
+    //     return $this->belongsTo(Department::class)->withDefault(['name' => 'não informado']);
+    // }
+
+    public function userDepartments()
     {
-        return $this->belongsTo(Department::class)->withDefault(['name' => 'não informado']);
+        return $this->hasMany(UserDepartment::class);
+    }
+
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class, 'user_departments', 'user_id', 'department_id')->whereNull('user_departments.deleted_at');
     }
 }

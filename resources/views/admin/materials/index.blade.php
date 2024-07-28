@@ -76,7 +76,7 @@
                         @php
                             $heads = [
                                 // ['label' => 'ID', 'width' => 10], 
-                                'Grupo', 'Descrição', 'Valor', 'Quantidade'];
+                                'Grupo', 'Descrição', 'Valor', 'Valor Depreciado', 'Quantidade'];
                             $config = [
                                 'ajax' => url('/admin/materials'),
                                 'columns' => [
@@ -84,6 +84,7 @@
                                     ['data' => 'code', 'name' => 'code'],
                                     ['data' => 'name', 'name' => 'name'],
                                     ['data' => 'value', 'name' => 'value'],
+                                    ['data' => 'depreciated_value', 'name' => 'depreciated_value'],
                                     ['data' => 'quantity', 'name' => 'quantity'],
                                 ],
                                 'language' => ['url' => asset('vendor/datatables/js/pt-BR.json')],

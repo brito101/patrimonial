@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Department;
 use App\Models\User;
+use App\Models\UserDepartment;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -27,11 +28,20 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
                 'email'     => $row['e_mail'],
                 'password'  => bcrypt($row['e_mail']),
                 'created_at' => new DateTime('now'),
-                'department_id' => Department::where('name', $row['setor'])->first()->id ?? null,
             ]);
 
             $newUser->save();
             $newUser->syncRoles('Usuário');
+
+            $departments = explode(',', $row['setor']);
+
+            foreach ($departments as $department) {
+                $department = Department::where('name', $department)->first();
+                if ($department) {
+                    $userDept = UserDepartment::create(['user_id' => $newUser->id, 'department_id' => $department->id]);
+                    $userDept->save();
+                }
+            }
         }
     }
 

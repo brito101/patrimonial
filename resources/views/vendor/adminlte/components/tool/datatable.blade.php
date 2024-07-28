@@ -46,8 +46,12 @@
                             const api = this.api();
                             let value = 0;
                             let quantity = 0;
+                            let depreciated_value = 0;
                             data.forEach(el => {
                                 value += parseFloat((el['value']).replace(/^R\$|\s/g, '').replace(/\./g, '')
+                                    .replace(',', '.'));
+                                depreciated_value += parseFloat((el['depreciated_value']).replace(/^R\$|\s/g,
+                                        '').replace(/\./g, '')
                                     .replace(',', '.'));
                                 quantity += el['quantity'];
                             });
@@ -57,15 +61,22 @@
                                 currency: 'BRL'
                             });
 
+                            depreciated_value = depreciated_value.toLocaleString('pt-br', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            });
+
                             $(api.column(0).footer()).html('');
                             $(api.column(1).footer()).html('');
                             $(api.column(2).footer()).html(value);
-                            $(api.column(3).footer()).html(quantity);
+                            $(api.column(3).footer()).html(depreciated_value);
+                            $(api.column(4).footer()).html(quantity);
 
                             $(tfoot).html(
                                 `
                                 <th colspan="2" class="text-center"></th>
                                 <th colspan="1" class="text-center">Total: ${value}</th>
+                                <th colspan="1" class="text-center">Total: ${depreciated_value}</th>
                                 <th colspan="1" class="text-center">Total: ${quantity}</th>`
                             );
                         }
@@ -80,13 +91,23 @@
                         {!! substr(json_encode($config), 0, -1) !!},
                         "footerCallback": function(tfoot, data, start, end, display) {
                             const api = this.api();
-                            let value = 0;;
+                            let value = 0;
+                            let depreciated_value = 0;
                             data.forEach(el => {
                                 value += parseFloat((el['value']).replace(/^R\$|\s/g, '').replace(/\./g, '')
+                                    .replace(',', '.'));
+
+                                depreciated_value += parseFloat((el['depreciated_value']).replace(/^R\$|\s/g,
+                                        '').replace(/\./g, '')
                                     .replace(',', '.'));
                             });
 
                             value = value.toLocaleString('pt-br', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            });
+
+                            depreciated_value = depreciated_value.toLocaleString('pt-br', {
                                 style: 'currency',
                                 currency: 'BRL'
                             });
@@ -97,12 +118,13 @@
                             $(api.column(3).footer()).html('');
                             $(api.column(4).footer()).html('');
                             $(api.column(5).footer()).html(value);
+                            $(api.column(6).footer()).html(depreciated_value);
 
                             $(tfoot).html(
                                 `
                              <th colspan="5" class="text-center"></th>
                              <th colspan="1" class="text-center">Total: ${value}</th>
-                             <th colspan="1" class="text-center"></th>
+                             <th colspan="1" class="text-center">Total: ${depreciated_value}</th>
                              <th colspan="1" class="text-center"></th>`
                             );
                         }
@@ -117,9 +139,14 @@
                         {!! substr(json_encode($config), 0, -1) !!},
                         "footerCallback": function(tfoot, data, start, end, display) {
                             const api = this.api();
-                            let value = 0;;
+                            let value = 0;
+                            let depreciated_value = 0;
                             data.forEach(el => {
                                 value += parseFloat((el['value']).replace(/^R\$|\s/g, '').replace(/\./g, '')
+                                    .replace(',', '.'));
+
+                                depreciated_value += parseFloat((el['depreciated_value']).replace(/^R\$|\s/g,
+                                        '').replace(/\./g, '')
                                     .replace(',', '.'));
                             });
 
@@ -128,14 +155,22 @@
                                 currency: 'BRL'
                             });
 
+                            depreciated_value = depreciated_value.toLocaleString('pt-br', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            });
+
                             $(api.column(0).footer()).html('');
                             $(api.column(1).footer()).html('');
                             $(api.column(2).footer()).html('');
-                            $(api.column(3).footer()).html(value);
+                            $(api.column(3).footer()).html('');
+                            $(api.column(4).footer()).html(value);
+                            $(api.column(5).footer()).html(depreciated_value);
                             $(tfoot).html(
                                 `
-                              <th colspan="3" class="text-center"></th>
-                              <th colspan="1" class="text-center">Total: ${value}</th>`
+                              <th colspan="4" class="text-center"></th>
+                              <th colspan="1" class="text-center">Total: ${value}</th>
+                              <th colspan="1" class="text-center">Total: ${depreciated_value}</th>`
                             );
                         }
                     },

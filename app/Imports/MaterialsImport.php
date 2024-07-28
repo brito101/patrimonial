@@ -23,8 +23,16 @@ class MaterialsImport implements ToModel, WithHeadingRow, WithValidation
     public function model(array $row)
     {
         $group = Group::where('code', $row['cod_grupo'])->first();
-        $department = Department::where('id', $row['id_setor'])->first();
-        
+
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $department = Department::where('id', $row['id_setor'])->first();
+        } else {
+            $department = Department::where(function ($query) use ($row) {
+                $query->where('id', $row['id_setor']);
+                $query->whereIn('id', Auth::user()->departments->pluck('id')->toArray());
+            })->first();
+        }
+
         return new Material([
             'registration' => preg_replace('/\D/', '', $row['rm']),
             'secondary_code' => preg_replace('/\D/', '', $row['siads']),

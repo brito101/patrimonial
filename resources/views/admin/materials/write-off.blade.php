@@ -86,6 +86,7 @@
                                 'Grupo',
                                 'Setor',
                                 'Valor',
+                                'Valor Depreciado',
                                 ['label' => 'Ações', 'no-export' => true, 'width' => 10],
                             ];
                             $config = [
@@ -98,6 +99,7 @@
                                     ['data' => 'group_name', 'name' => 'group_name'],
                                     ['data' => 'department_name', 'name' => 'department_name'],
                                     ['data' => 'value', 'name' => 'value'],
+                                    ['data' => 'depreciated_value', 'name' => 'depreciated_value'],
                                     [
                                         'data' => 'action',
                                         'name' => 'action',

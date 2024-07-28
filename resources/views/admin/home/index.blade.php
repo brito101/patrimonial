@@ -1,6 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', '- Dashboard')
+@if (Auth::user()->hasRole('Programador|Administrador'))
+    @section('title', '- Dashboard')
+@else
+    @section('title', '- Inventário dos Setores ' . join(' e ', array_filter(array_merge([join(', ', array_slice(Auth::user()->departments->pluck('name')->toArray(), 0, -1))], array_slice(Auth::user()->departments->pluck('name')->toArray(), -1)), 'strlen')))
+@endif
 
 @section('plugins.Chartjs', true)
 @section('plugins.Datatables', true)
@@ -21,8 +25,15 @@
                     </div>
                 @else
                     <div class="col-sm-12">
-                        <h1><i class="fa fa-fw fa-digital-tachograph"></i> Inventário do Setor
-                            {{ Auth::user()->department->name }}</h1>
+                        <h1>
+                            <i class="fa fa-fw fa-digital-tachograph"></i>
+                            @if (Auth::user()->departments->count() > 1)
+                                Inventário dos Setores
+                            @else
+                                Inventário do Setor
+                            @endif
+                            {{ join(' e ', array_filter(array_merge([join(', ', array_slice(Auth::user()->departments->pluck('name')->toArray(), 0, -1))], array_slice(Auth::user()->departments->pluck('name')->toArray(), -1)), 'strlen')) }}
+                        </h1>
                     </div>
                 @endif
             </div>
@@ -199,14 +210,16 @@
                 </div>
             @else
                 @php
-                    $heads = ['SIADS', 'RM', 'Descrição', 'Valor'];
+                    $heads = ['SIADS', 'RM', 'Descrição', 'Setor','Valor', 'Valor Depreciado'];
                     $config = [
                         'ajax' => url('/admin/materials/active'),
                         'columns' => [
                             ['data' => 'secondary_code', 'name' => 'secondary_code'],
                             ['data' => 'registration', 'name' => 'registration'],
                             ['data' => 'description', 'name' => 'description'],
+                            ['data' => 'department_name', 'name' => 'department_name'],
                             ['data' => 'value', 'name' => 'value'],
+                            ['data' => 'depreciated_value', 'name' => 'depreciated_value'],
                         ],
                         'language' => ['url' => asset('vendor/datatables/js/pt-BR.json')],
                         'autoFill' => true,
@@ -275,7 +288,7 @@
                     </div>
                 </div>
             @endif
-{{-- 
+            {{-- 
             @if (Auth::user()->hasRole('Programador'))
                 <div class="card">
                     <div class="card-header">

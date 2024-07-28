@@ -2,7 +2,7 @@
 
 @section('title', '- Cadastro de Usuário')
 @section('plugins.select2', true)
-@section('plugins.BsCustomFileInput', true)
+@section('plugins.BootstrapSelect', true)
 
 @section('content')
 
@@ -42,48 +42,26 @@
                             <div class="card-body">
 
                                 <div class="d-flex flex-wrap justify-content-between">
-                                    <div class="col-12 form-group px-0">
+                                    <div class="col-12 col-md-6 form-group px-0 pr-md-2">
                                         <label for="name">Nome</label>
                                         <input type="text" class="form-control" id="name"
                                             placeholder="Nome Completo" name="name" value="{{ old('name') }}" required>
                                     </div>
-                                </div>
 
-                                {{-- <div class="d-flex flex-wrap justify-content-between">
-                                    <div class="col-12 col-md-6 form-group px-0 pr-md-2">
-                                        <label for="telephone">Telefone</label>
-                                        <input type="tel" class="form-control" id="telephone" placeholder="Telefone"
-                                            name="telephone" value="{{ old('telephone') }}">
-                                    </div>
                                     <div class="col-12 col-md-6 form-group px-0 pl-md-2">
-                                        <label for="cell">Celular</label>
-                                        <input type="tel" class="form-control" id="cell" placeholder="Celular"
-                                            name="cell" value="{{ old('cell') }}">
-                                    </div>
-                                </div> --}}
-
-                                {{-- <div class="d-flex flex-wrap justify-content-between">
-                                    <div class="col-12 col-md-6 form-group px-0 pr-md-2">
-                                        <x-adminlte-input-file name="photo" label="Foto"
-                                            placeholder="Selecione uma imagem..." legend="Selecionar" />
-                                    </div>
-                                </div> --}}
-
-                                <div class="d-flex flex-wrap justify-content-between">
-                                    <div class="col-12 col-md-6 form-group px-0 pr-md-2">
                                         <label for="email">E-mail</label>
                                         <input type="email" class="form-control" id="email" placeholder="E-mail"
                                             name="email" value="{{ old('email') }}" required>
                                     </div>
-                                    <div class="col-12 col-md-6 form-group px-0 pl-md-2">
+
+                                    <div class="col-12 col-md-6 form-group px-0 pr-md-2">
                                         <label for="password">Senha</label>
                                         <input type="password" class="form-control" id="password" placeholder="Senha"
                                             minlength="8" name="password" value="{{ old('password') }}" required>
                                     </div>
-                                </div>
-                                <div class="d-flex flex-wrap justify-content-between">
+
                                     @can('Atribuir Perfis')
-                                        <div class="col-12 col-md-6 form-group px-0 pr-md-2">
+                                        <div class="col-12 col-md-6 form-group px-0 pl-md-2">
                                             <label for="role">Tipo de Usuário</label>
                                             <x-adminlte-select2 name="role">
                                                 @foreach ($roles as $role)
@@ -93,16 +71,24 @@
                                             </x-adminlte-select2>
                                         </div>
 
-                                        <div class="col-12 col-md-6 form-group px-0 pl-md-2">
-                                            <label for="department_id">Setor</label>
-                                            <x-adminlte-select2 name="department_id" id="department_id">
-                                                <option {{ old('department_id') == '' ? 'selected' : '' }} value="">Não
-                                                    informado</option>
+                                        <div class="col-12 form-group px-0">
+                                            @php
+                                                $configDept = [
+                                                    'title' => 'Selecione múltiplas opções',
+                                                    'showTick' => true,
+                                                    'actionsBox' => true,
+                                                    'liveSearch' => true,
+                                                    'liveSearchPlaceholder' => 'Pesquisar...',
+                                                ];
+                                            @endphp
+
+                                            <x-adminlte-select-bs id="departments" name="departments[]"
+                                                label="Setor (selecione múltiplos)" igroup-size="md" :config="$configDept" multiple
+                                                class="border rounded">
                                                 @foreach ($departments as $department)
-                                                    <option {{ old('department_id') == $department->id ? 'selected' : '' }}
-                                                        value="{{ $department->id }}">{{ $department->name }}</option>
+                                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
                                                 @endforeach
-                                            </x-adminlte-select2>
+                                            </x-adminlte-select-bs>
                                         </div>
                                     @endcan
                                 </div>

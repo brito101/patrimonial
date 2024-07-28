@@ -11,16 +11,21 @@ class Material extends Model
 
     protected $table = 'materials_view';
 
-    protected $appends = ['float_value'];
+    protected $appends = ['float_value', 'depreciated_value'];
 
     protected $casts = [
         'registration' => 'string',
     ];
 
     /** Accessors */
-
     public function getValueAttribute($value)
     {
+        return 'R$ ' . number_format($value, 2, ',', '.');
+    }
+
+    public function getDepreciatedValueAttribute($value)
+    {
+        $value = $this->floatValue;
         // Depreciation calculation
         $now  = date('Y');
         $differ = 0;

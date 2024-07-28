@@ -21,12 +21,23 @@ class Group extends Model
 
     protected $appends = [
         'value',
+        'depreciated_value',
         'quantity',
     ];
 
     /** Accessors */
-
     public function getValueAttribute()
+    {
+        $total = 0;
+        foreach ($this->activeMaterials() as $material) {
+            $value = str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $material->value)));
+            $total += $value;
+        }
+
+        return 'R$ ' . number_format($total, 2, ',', '.');
+    }
+
+    public function getDepreciatedValueAttribute()
     {
         // Depreciation calculation
         $now  = date('Y');

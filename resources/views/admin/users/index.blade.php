@@ -79,7 +79,7 @@
                                 'columns' => [
                                     ['data' => 'id', 'name' => 'id'],
                                     ['data' => 'name', 'name' => 'name'],
-                                    ['data' => 'department', 'name' => 'department'],
+                                    ['data' => 'departments', 'name' => 'departments'],
                                     ['data' => 'email', 'name' => 'email'],
                                     ['data' => 'type', 'name' => 'type'],
                                     [

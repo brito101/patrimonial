@@ -31,7 +31,8 @@ class UserRequest extends FormRequest
             'photo' => 'image|mimes:jpg,png,jpeg,gif,svg,webp|max:4096|dimensions:max_width=4000,max_height=4000',
             'telephone' => 'nullable|min:8|max:25',
             'cell' => 'nullable|min:8|max:25',
-            'department_id' => 'nullable|exists:departments,id',
+            // 'department_id' => 'nullable|exists:departments,id',
+            'departments' => 'nullable|exists:departments,id',
         ];
     }
 }
