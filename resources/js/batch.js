@@ -23,3 +23,10 @@ $("#change-status").on("click", function (e) {
         e.preventDefault();
     }
 });
+
+$("#batch-edit").on("click", function (e) {
+    if (!confirm($(this).data("confirm"))) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+    }
+});

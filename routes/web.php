@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('materials/batch/write-off', [MaterialController::class, 'batchWriteOff'])->name('materials.batch.write-off');
         Route::post('materials/batch/active', [MaterialController::class, 'batchActive'])->name('materials.batch.active');
         Route::post('materials/batch/delete', [MaterialController::class, 'batchDelete'])->name('materials.batch.delete');
+        Route::post('materials/batch/edit', [MaterialController::class, 'batchEdit'])->name('materials.batch.edit');
+        Route::put('materials/batch/update', [MaterialController::class, 'batchUpdate'])->name('materials.batch.update');
 
         Route::get('materials/active', [MaterialController::class, 'active'])->name('materials.active');
         Route::get('materials/write-off', [MaterialController::class, 'writeOff'])->name('materials.writeOff');

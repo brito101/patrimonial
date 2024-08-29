@@ -50,8 +50,19 @@
 
 
                         <div class="col-12 d-flex flex-wrap justify-content-end align-content-center py-2">
-                            <h5 class="col-12 col-md-8 h6 text-muted text-center text-md-right align-self-center m-md-0">
+                            <h5 class="col-12 col-md-6 h6 text-muted text-center text-md-right align-self-center m-md-0">
                                 Operações em lote</h5>
+                            <div class="px-2 col-12 col-md-2 d-flex justify-content-center">
+                                <form method="POST" action="{{ route('admin.materials.batch.edit') }}" class="w-100">
+                                    @csrf
+                                    <input type="hidden" name="ids" value="" id="ids" class="ids">
+                                    <button type="submit" id="batch-edit" class="change-status btn btn-primary w-100"
+                                        data-confirm="Confirma a edição desta seleção?"
+                                        title="Editar os materiais das linhas selecionadas"><i
+                                            class="fas fa-fw fa-edit"></i>
+                                        Edição</button>
+                                </form>
+                            </div>
                             <div class="px-2 col-12 col-md-2 d-flex justify-content-center">
                                 <form method="POST" action="{{ route('admin.materials.batch.write-off') }}" class="w-100">
                                     @csrf

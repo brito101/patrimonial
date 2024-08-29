@@ -36,7 +36,6 @@
 -   Fazer o cálculo por setores igual ao de grupo
 -   Aba Material, incluir material por setor igual usuário comum
 -   Criar Aba Material por setor (menos para usuário), escolher inventário, gerar relatório na tela
--   Aba Materiais ativos, do lado esquerdo do SIADS incluir opção de marcar X ao lado de vários itens. Ao lado da opção Operações em lote incluir botão Alterar em Lote. Vai abrir nova página com todos os itens marcados anteriormente para edição em ordem numérica de SIADS. O que fizer no primeiro item e apertar botão OK vai ser repetido nos demais. No final das alterações deve ter botão Salvar Alterações.
 -   Na tabela de materiais ativos, pesquisar por SIADS (ao invés de RM)
 -   No gráfico, quando clicar em alguma barra então mostrar relação de material daquele ano.
 -   Fazer relatório por grupos, com todos os materiais pertencentes ao grupo, similar ao de setor
