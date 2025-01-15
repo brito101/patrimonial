@@ -223,7 +223,7 @@ return [
         'activities' => 'atividades',
         'photo' => 'foto',
         'code' => 'código',
-        'registration' => 'registro',
+        'registration' => 'RM',
         'secondary_code' => 'SIADIS',
         'serial_number' => 'número de série',
         'observations' => 'observações',

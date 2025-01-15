@@ -163,7 +163,7 @@ class MaterialController extends Controller
                 $material = new Material();
                 $material->registration = $rm;
                 $material->secondary_code = $data['secondary_code'];
-                $material->serial_number = $data['serial_number'];
+                $material->serial_number = $data['serial_number'] ?? null;
                 $material->description = $data['description'];
                 $material->observations = $data['observations'];
                 $material->value = $data['value'];

@@ -13,8 +13,8 @@
                     @if (Auth::user()->hasRole('Programador|Administrador'))
                         <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos</h1>
                     @else
-                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos do setor
-                            {{ Auth::user()->department->name }}</h1>
+                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos do setor:
+                            {{ Auth::user()->departmentsName() }}</h1>
                     @endif
                 </div>
                 <div class="col-sm-6">
@@ -93,10 +93,10 @@
                                 'SIADS',
                                 'RM',
                                 'Descrição',
-                                'Grupo',
-                                'Setor',
-                                'Valor',
-                                'Valor Depreciado',
+                                ['label' => 'Grupo', 'no-export' => true],
+                                ['label' => 'Setor', 'no-export' => true],
+                                ['label' => 'Valor', 'no-export' => true],
+                                ['label' => 'Valor Depreciado', 'no-export' => true],
                                 // 'Ano',
                                 ['label' => 'Ações', 'no-export' => true, 'width' => 10],
                             ];
@@ -133,6 +133,7 @@
                                         'extend' => 'copy',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-copy text-secondary"></i>',
+                                        'title' => Auth::user()->departmentsName(),
                                         'titleAttr' => 'Copiar',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,
@@ -141,6 +142,7 @@
                                         'extend' => 'print',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-print text-info"></i>',
+                                        'title' => Auth::user()->departmentsName(),
                                         'titleAttr' => 'Imprimir',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,
@@ -157,6 +159,7 @@
                                         'extend' => 'excel',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-excel text-success"></i>',
+                                        'title' => Auth::user()->departmentsName(),
                                         'titleAttr' => 'Exportar para Excel',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,
@@ -165,6 +168,7 @@
                                         'extend' => 'pdf',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-pdf text-danger"></i>',
+                                        'title' => Auth::user()->departmentsName(),
                                         'titleAttr' => 'Exportar para PDF',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,

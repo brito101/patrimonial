@@ -50,7 +50,7 @@
                                             value="{{ old('secondary_code') }}" max="18446744073709551615" min="1">
                                     </div>
                                     <div class="col-12 col-md-4 form-group px-0 px-md-2">
-                                        <label for="registration">RM<small>(em caso de mais de um item será o valor
+                                        <label for="registration">RM<small> (em caso de mais de um item será o valor
                                                 inicial)</small></label>
                                         <input type="number" class="form-control" id="registration"
                                             placeholder="Registro de Material" name="registration"

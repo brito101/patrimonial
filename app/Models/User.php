@@ -70,4 +70,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Department::class, 'user_departments', 'user_id', 'department_id')->whereNull('user_departments.deleted_at');
     }
+
+    public function departmentsName()
+    {
+        $values = $this->belongsToMany(Department::class, 'user_departments', 'user_id', 'department_id')->whereNull('user_departments.deleted_at')->pluck('name')->toArray();
+        if (empty($values) || $values == null) {
+            return 'setor não informado ou indefinido';
+        }
+        return implode(' e ', array_filter(array_merge([implode(', ', array_slice($values, 0, -1))], array_slice($values, -1)), 'strlen'));
+    }
 }

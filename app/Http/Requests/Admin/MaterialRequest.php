@@ -31,7 +31,7 @@ class MaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration' => 'nullable|numeric|between:1,18446744073709551615',
+            'registration' => "nullable|numeric|between:1,18446744073709551615|unique:materials,registration,$this->id,id,deleted_at,NULL",
             'secondary_code' => "nullable|numeric|between:1,18446744073709551615|unique:materials,secondary_code,$this->id,id,deleted_at,NULL",
             'serial_number' => 'nullable|max:191',
             'description'  => 'nullable|max:400000000',
