@@ -13,10 +13,9 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     @if (Auth::user()->hasRole('Programador|Administrador'))
-                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos</h1>
+                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos{{ $departmentId ? ' do Setor: ' . $departmentName : '' }}</h1>
                     @else
-                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos do setor:
-                            {{ $departmentName }}</h1>
+                        <h1><i class="fas fa-fw fa-box-open"></i> Materiais Ativos do setor: {{ $departmentName }}</h1>
                     @endif
                 </div>
                 <div class="col-sm-6">

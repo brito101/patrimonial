@@ -14,10 +14,10 @@
                 <div class="col-sm-6">
                     @if (Auth::user()->hasRole('Programador|Administrador'))
                         <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
-                            Materiais em Baixa</h1>
+                            Materiais em Baixa{{ $departmentId ? ' do Setor: ' . $departmentName : '' }}</h1>
                     @else
                         <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
-                            Materiais em Baixa do setor{{ $departmentName }}</h1>
+                            Materiais em Baixa do setor: {{ $departmentName }}</h1>
                     @endif
                 </div>
 
