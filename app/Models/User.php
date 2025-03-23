@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 use Shetabit\Visitor\Traits\Visitor;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, Visitor, SoftDeletes;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, SoftDeletes, Visitor;
 
     /**
      * The attributes that are mass assignable.
@@ -77,6 +77,7 @@ class User extends Authenticatable
         if (empty($values) || $values == null) {
             return 'setor não informado ou indefinido';
         }
+
         return implode(' e ', array_filter(array_merge([implode(', ', array_slice($values, 0, -1))], array_slice($values, -1)), 'strlen'));
     }
 }

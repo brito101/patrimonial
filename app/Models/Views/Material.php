@@ -20,14 +20,14 @@ class Material extends Model
     /** Accessors */
     public function getValueAttribute($value)
     {
-        return 'R$ ' . number_format($value, 2, ',', '.');
+        return 'R$ '.number_format($value, 2, ',', '.');
     }
 
     public function getDepreciatedValueAttribute($value)
     {
         $value = $this->floatValue;
         // Depreciation calculation
-        $now  = date('Y');
+        $now = date('Y');
         $differ = 0;
 
         if ($this->year) {
@@ -46,7 +46,7 @@ class Material extends Model
             $total = $value * 10 / 100;
         }
 
-        return 'R$ ' . number_format($total, 2, ',', '.');
+        return 'R$ '.number_format($total, 2, ',', '.');
     }
 
     public function getFloatValueAttribute($value)

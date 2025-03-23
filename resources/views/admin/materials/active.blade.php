@@ -3,6 +3,8 @@
 @section('title', '- Materiais')
 @section('plugins.Datatables', true)
 @section('plugins.DatatablesPlugins', true)
+@section('plugins.select2', true)
+@section('plugins.BootstrapSelect', true)
 
 @section('content')
 
@@ -32,7 +34,7 @@
     </section>
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row"> 
                 <div class="col-12">
 
                     @include('components.alert')
@@ -45,45 +47,56 @@
                                     <a href="{{ route('admin.materials.create') }}" title="Novo Material"
                                         class="btn btn-success"><i class="fas fa-fw fa-plus"></i>Novo Material</a>
                                 @endcan
-                            </div>
+                            </div>                            
                         </div>
-
-
-                        <div class="col-12 d-flex flex-wrap justify-content-end align-content-center py-2">
-                            <h5 class="col-12 col-md-6 h6 text-muted text-center text-md-right align-self-center m-md-0">
-                                Operações em lote</h5>
-                            <div class="px-2 col-12 col-md-2 d-flex justify-content-center">
-                                <form method="POST" action="{{ route('admin.materials.batch.edit') }}" class="w-100">
-                                    @csrf
-                                    <input type="hidden" name="ids" value="" id="ids" class="ids">
-                                    <button type="submit" id="batch-edit" class="change-status btn btn-primary w-100"
-                                        data-confirm="Confirma a edição desta seleção?"
-                                        title="Editar os materiais das linhas selecionadas"><i
-                                            class="fas fa-fw fa-edit"></i>
-                                        Edição</button>
-                                </form>
+                        <div class="d-flex flex-wrap px-0 px-lg-2">
+                            <div class="col-12 col-lg-4 m-0 mt-2">
+                                <x-adminlte-select2 name="sel2Basic" label="Seleção por Setor" igroup-size="md"
+                                            data-placeholder="Selecione uma opção..." class="w-100">
+                                        <option value="0" {{ $departmentId == null ? 'selected' : '' }}>Indiferente</option>
+                                        @foreach ($departments as $item)
+                                            <option value="{{ $item->id }}" {{ $departmentId == $item->id ? 'selected' : '' }}>{{ $item->name }}
+                                                </option>
+                                        @endforeach
+                                </x-adminlte-select2>                                                
                             </div>
-                            <div class="px-2 col-12 col-md-2 d-flex justify-content-center">
-                                <form method="POST" action="{{ route('admin.materials.batch.write-off') }}" class="w-100">
-                                    @csrf
-                                    <input type="hidden" name="ids" value="" id="ids" class="ids">
-                                    <button type="submit" id="change-status" class="change-status btn btn-warning w-100"
-                                        data-confirm="Confirma a baixa desta seleção?"
-                                        title="Alterar os materiais das linhas selecionadas para situação de baixa"><i
-                                            class="fas fa-fw fa-sync"></i>
-                                        Baixa</button>
-                                </form>
-                            </div>
-                            <div class="px-2 col-12 col-md-2 d-flex justify-content-center">
-                                <form method="POST" action="{{ route('admin.materials.batch.delete') }}" class="w-100">
-                                    @csrf
-                                    <input type="hidden" name="ids" value="" id="ids" class="ids">
-                                    <button type="submit" id="batch-delete" class="btn btn-danger w-100"
-                                        data-confirm="Confirma a exclusão desta seleção?"
-                                        title="Excluir os materiais das linhas selecionadas"><i
-                                            class="fas fa-fw fa-trash"></i>
-                                        Exclusão</button>
-                                </form>
+
+                            <div class="col-12 col-lg-8 d-flex flex-wrap justify-content-end align-content-center py-2">
+                                <h5 class="col-12 h6 text-bold text-center text-md-left align-self-center">
+                                    Operações em lote</h5>
+                                <div class="px-2 col-12 col-md-4 d-flex justify-content-center">
+                                    <form method="POST" action="{{ route('admin.materials.batch.edit') }}" class="w-100">
+                                        @csrf
+                                        <input type="hidden" name="ids" value="" id="ids" class="ids">
+                                        <button type="submit" id="batch-edit" class="change-status btn btn-primary w-100"
+                                            data-confirm="Confirma a edição desta seleção?"
+                                            title="Editar os materiais das linhas selecionadas"><i
+                                                class="fas fa-fw fa-edit"></i>
+                                            Edição</button>
+                                    </form>
+                                </div>
+                                <div class="px-2 col-12 col-md-4 d-flex justify-content-center">
+                                    <form method="POST" action="{{ route('admin.materials.batch.write-off') }}" class="w-100">
+                                        @csrf
+                                        <input type="hidden" name="ids" value="" id="ids" class="ids">
+                                        <button type="submit" id="change-status" class="change-status btn btn-warning w-100"
+                                            data-confirm="Confirma a baixa desta seleção?"
+                                            title="Alterar os materiais das linhas selecionadas para situação de baixa"><i
+                                                class="fas fa-fw fa-sync"></i>
+                                            Baixa</button>
+                                    </form>
+                                </div>
+                                <div class="px-2 col-12 col-md-4 d-flex justify-content-center">
+                                    <form method="POST" action="{{ route('admin.materials.batch.delete') }}" class="w-100">
+                                        @csrf
+                                        <input type="hidden" name="ids" value="" id="ids" class="ids">
+                                        <button type="submit" id="batch-delete" class="btn btn-danger w-100"
+                                            data-confirm="Confirma a exclusão desta seleção?"
+                                            title="Excluir os materiais das linhas selecionadas"><i
+                                                class="fas fa-fw fa-trash"></i>
+                                            Exclusão</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
 
@@ -101,7 +114,7 @@
                                 ['label' => 'Ações', 'no-export' => true, 'width' => 10],
                             ];
                             $config = [
-                                'ajax' => url('/admin/materials/active'),
+                                'ajax' => route('admin.materials.active', ['department' => $departmentId]),
                                 'columns' => [
                                     // ['data' => 'id', 'name' => 'id'],
                                     ['data' => 'secondary_code', 'name' => 'secondary_code'],
@@ -190,4 +203,17 @@
 
 @section('custom_js')
     <script src="{{ asset('js/batch.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#sel2Basic').on('change', function() {
+                let department = $(this).val();
+                
+                if (department == 0) {
+                    window.location.href = "{{ route('admin.materials.active') }}";
+                } else {
+                    window.location.href = "{{ route('admin.materials.active') }}" + "/" + department;
+                }
+            });
+        });
+    </script>
 @endsection

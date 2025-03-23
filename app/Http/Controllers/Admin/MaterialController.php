@@ -11,16 +11,16 @@ use App\Models\Department;
 use App\Models\Group;
 use App\Models\Material;
 use App\Models\Views\Material as ViewsMaterial;
-use Illuminate\Http\Request;
+use DataTables;
+use Excel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use DataTables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Excel;
 
 class MaterialController extends Controller
 {
@@ -49,69 +49,147 @@ class MaterialController extends Controller
         return view('admin.materials.index');
     }
 
-    public function active(Request $request): View|Factory|Application|JsonResponse
+    public function active(Request $request, $departmentId = null): View|Factory|Application|JsonResponse
     {
         CheckPermission::checkAuth('Listar Materiais');
 
-        if ($request->ajax()) {
-            if (Auth::user()->hasRole('Programador|Administrador')) {
-                $materials = ViewsMaterial::select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Ativo')->get();
-            } else {
-                $materials = ViewsMaterial::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Ativo')->get();
-            }
-
-            $token = csrf_token();
-
-            return Datatables::of($materials)
-                ->addIndexColumn()
-                ->addColumn('description', function ($row) {
-                    return Str::limit($row->description);
-                })
-                ->addColumn('action', function ($row) use ($token) {
-                    return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="' . route('admin.materials.edit', ['material' => $row->id]) . '"><i class="fa fa-lg fa-fw fa-pen"></i></a>' .
-                        '<form method="POST" action="' . route('admin.materials.destroy', ['material' => $row->id]) . '" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="' . $token . '"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
-                })
-                ->rawColumns(['description', 'action'])
-                ->make(true);
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $departments = Department::orderBy('name')->get(['id', 'name']);
+        } else {
+            $departments = Auth::user()->departments()->get(['id', 'name']);
         }
 
-        return view('admin.materials.active');
+        if ($departmentId) {
+            $department = Department::whereIn('id', $departments->pluck('id')->toArray())->where('id', $departmentId)->first();
+            if (! $department) {
+                abort('403', 'Acesso não autorizado');
+            }
+        }
+
+        if ($request->ajax()) {
+            if ($departmentId) {
+
+                if (Auth::user()->hasRole('Programador|Administrador')) {
+                    $materials = ViewsMaterial::select('id', 'department_id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')
+                        ->where('department_id', $departmentId)
+                        ->where('status', 'Ativo')->get();
+                } else {
+                    $materials = ViewsMaterial::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())
+                        ->select('id', 'department_id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')
+                        ->where('department_id', $departmentId)
+                        ->where('status', 'Ativo')->get();
+                }
+
+                $token = csrf_token();
+
+                return Datatables::of($materials)
+                    ->addIndexColumn()
+                    ->addColumn('description', function ($row) {
+                        return Str::limit($row->description);
+                    })
+                    ->addColumn('action', function ($row) use ($token) {
+                        return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="'.route('admin.materials.edit', ['material' => $row->id]).'"><i class="fa fa-lg fa-fw fa-pen"></i></a>'.
+                            '<form method="POST" action="'.route('admin.materials.destroy', ['material' => $row->id]).'" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="'.$token.'"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
+                    })
+                    ->rawColumns(['description', 'action'])
+                    ->make(true);
+            } else {
+                if (Auth::user()->hasRole('Programador|Administrador')) {
+                    $materials = ViewsMaterial::select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Ativo')->get();
+                } else {
+                    $materials = ViewsMaterial::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Ativo')->get();
+                }
+
+                $token = csrf_token();
+
+                return Datatables::of($materials)
+                    ->addIndexColumn()
+                    ->addColumn('description', function ($row) {
+                        return Str::limit($row->description);
+                    })
+                    ->addColumn('action', function ($row) use ($token) {
+                        return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="'.route('admin.materials.edit', ['material' => $row->id]).'"><i class="fa fa-lg fa-fw fa-pen"></i></a>'.
+                            '<form method="POST" action="'.route('admin.materials.destroy', ['material' => $row->id]).'" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="'.$token.'"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
+                    })
+                    ->rawColumns(['description', 'action'])
+                    ->make(true);
+            }
+        }
+
+        return view('admin.materials.active', compact('departments', 'departmentId'));
     }
 
-    public function writeOff(Request $request): View|Factory|Application|JsonResponse
+    public function writeOff(Request $request, $departmentId = null): View|Factory|Application|JsonResponse
     {
         CheckPermission::checkAuth('Listar Materiais');
 
-        if ($request->ajax()) {
-
-            if (Auth::user()->hasRole('Programador|Administrador')) {
-                $materials = ViewsMaterial::select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
-            } else {
-                $materials = ViewsMaterial::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
-            }
-
-            $token = csrf_token();
-
-            return Datatables::of($materials)
-                ->addIndexColumn()
-                ->addColumn('description', function ($row) {
-                    return Str::limit($row->description);
-                })
-                ->addColumn('action', function ($row) use ($token) {
-                    return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="' . route('admin.materials.edit', ['material' => $row->id]) . '"><i class="fa fa-lg fa-fw fa-pen"></i></a>' .
-                        '<form method="POST" action="' . route('admin.materials.destroy', ['material' => $row->id]) . '" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="' . $token . '"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
-                })
-                ->rawColumns(['description', 'action'])
-                ->make(true);
+        if (Auth::user()->hasRole('Programador|Administrador')) {
+            $departments = Department::orderBy('name')->get(['id', 'name']);
+        } else {
+            $departments = Auth::user()->departments()->get(['id', 'name']);
         }
 
-        return view('admin.materials.write-off');
+        if ($departmentId) {
+            $department = Department::whereIn('id', $departments->pluck('id')->toArray())->where('id', $departmentId)->first();
+            if (! $department) {
+                abort('403', 'Acesso não autorizado');
+            }
+        }
+
+        if ($request->ajax()) {
+            if ($departmentId) {
+                if (Auth::user()->hasRole('Programador|Administrador')) {
+                    $materials = ViewsMaterial::select('id', 'department_id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')
+                    > where('department_id', $departmentId)
+                        ->where('status', 'Baixa')->get();
+                } else {
+                    $materials = ViewsMaterial::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())
+                        ->select('id', 'department_id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')
+                    > where('department_id', $departmentId)
+                        ->where('status', 'Baixa')->get();
+                }
+
+                $token = csrf_token();
+
+                return Datatables::of($materials)
+                    ->addIndexColumn()
+                    ->addColumn('description', function ($row) {
+                        return Str::limit($row->description);
+                    })
+                    ->addColumn('action', function ($row) use ($token) {
+                        return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="'.route('admin.materials.edit', ['material' => $row->id]).'"><i class="fa fa-lg fa-fw fa-pen"></i></a>'.
+                            '<form method="POST" action="'.route('admin.materials.destroy', ['material' => $row->id]).'" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="'.$token.'"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
+                    })
+                    ->rawColumns(['description', 'action'])
+                    ->make(true);
+            } else {
+                if (Auth::user()->hasRole('Programador|Administrador')) {
+                    $materials = ViewsMaterial::select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
+                } else {
+                    $materials = ViewsMaterial::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->select('id', 'secondary_code', 'registration', 'description', 'group_name', 'department_name', 'value', 'year')->where('status', 'Baixa')->get();
+                }
+
+                $token = csrf_token();
+
+                return Datatables::of($materials)
+                    ->addIndexColumn()
+                    ->addColumn('description', function ($row) {
+                        return Str::limit($row->description);
+                    })
+                    ->addColumn('action', function ($row) use ($token) {
+                        return '<a class="btn btn-xs btn-primary mx-1 shadow" title="Editar" href="'.route('admin.materials.edit', ['material' => $row->id]).'"><i class="fa fa-lg fa-fw fa-pen"></i></a>'.
+                            '<form method="POST" action="'.route('admin.materials.destroy', ['material' => $row->id]).'" class="btn btn-xs px-0"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="'.$token.'"><button class="btn btn-xs btn-danger mx-1 shadow" title="Excluir" onclick="return confirm(\'Confirma a exclusão deste material?\')"><i class="fa fa-lg fa-fw fa-trash"></i></button></form>';
+                    })
+                    ->rawColumns(['description', 'action'])
+                    ->make(true);
+            }
+        }
+
+        return view('admin.materials.write-off', compact('departments', 'departmentId'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|\Illuminate\Foundation\Application|View
      */
     public function create(): View|\Illuminate\Foundation\Application|Factory|Application
     {
@@ -131,8 +209,7 @@ class MaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param DepartmentRequest $request
-     * @return RedirectResponse
+     * @param  DepartmentRequest  $request
      */
     public function store(MaterialRequest $request): RedirectResponse
     {
@@ -142,7 +219,7 @@ class MaterialController extends Controller
 
         if (Auth::user()->hasRole('Usuário')) {
             $department = Department::where('id', $request->department_id)->where('id', Auth::user()->department_id)->first();
-            if (!$department) {
+            if (! $department) {
                 abort(403, 'Acesso não autorizado');
             }
         }
@@ -158,9 +235,9 @@ class MaterialController extends Controller
                     return redirect()
                         ->back()
                         ->withInput()
-                        ->with('error', 'Há um RM ocupado (' . $rm . ') na sequência. Foram registrados ' . $i++ . ' materiais.');
+                        ->with('error', 'Há um RM ocupado ('.$rm.') na sequência. Foram registrados '.$i++.' materiais.');
                 }
-                $material = new Material();
+                $material = new Material;
                 $material->registration = $rm;
                 $material->secondary_code = $data['secondary_code'];
                 $material->serial_number = $data['serial_number'] ?? null;
@@ -194,9 +271,6 @@ class MaterialController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param string $id
-     * @return Application|Factory|\Illuminate\Foundation\Application|View
      */
     public function edit(string $id): View|\Illuminate\Foundation\Application|Factory|Application
     {
@@ -208,7 +282,7 @@ class MaterialController extends Controller
             $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('id', $id)->first();
         }
 
-        if (!$material) {
+        if (! $material) {
             abort(403, 'Acesso não autorizado');
         }
 
@@ -225,10 +299,6 @@ class MaterialController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param MaterialRequest $request
-     * @param string $id
-     * @return RedirectResponse
      */
     public function update(MaterialRequest $request, string $id): RedirectResponse
     {
@@ -240,19 +310,19 @@ class MaterialController extends Controller
             $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('id', $id)->first();
         }
 
-        if (!$material) {
+        if (! $material) {
             abort(403, 'Acesso não autorizado');
         }
 
         if (Auth::user()->hasRole('Usuário')) {
             $department = Department::where('id', $request->department_id)->where('id', Auth::user()->department_id)->first();
-            if (!$department) {
+            if (! $department) {
                 abort(403, 'Acesso não autorizado');
             }
         }
 
         $data = $request->all();
-        $data['write_off_date_at']    = ($request->status == 'Baixa' ? date('Y-m-d H:i:s') : null);
+        $data['write_off_date_at'] = ($request->status == 'Baixa' ? date('Y-m-d H:i:s') : null);
 
         if ($material->update($data)) {
             return redirect()
@@ -268,9 +338,6 @@ class MaterialController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param string $id
-     * @return RedirectResponse
      */
     public function destroy(string $id): RedirectResponse
     {
@@ -282,7 +349,7 @@ class MaterialController extends Controller
             $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('id', $id)->first();
         }
 
-        if (!$material) {
+        if (! $material) {
             abort(403, 'Acesso não autorizado');
         }
 
@@ -299,17 +366,17 @@ class MaterialController extends Controller
 
     public function batchWriteOff(Request $request)
     {
-        if (!Auth::user()->hasPermissionTo('Editar Materiais')) {
+        if (! Auth::user()->hasPermissionTo('Editar Materiais')) {
             abort(403, 'Acesso não autorizado');
         }
 
-        if (!$request->ids) {
+        if (! $request->ids) {
             return redirect()
                 ->back()
                 ->with('error', 'Selecione ao menos uma linha!');
         }
 
-        $ids = explode(",", $request->ids);
+        $ids = explode(',', $request->ids);
 
         foreach ($ids as $id) {
             if (Auth::user()->hasRole('Programador|Administrador')) {
@@ -318,7 +385,7 @@ class MaterialController extends Controller
                 $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('secondary_code', $id)->where('status', 'Ativo')->first();
             }
 
-            if (!$material) {
+            if (! $material) {
                 abort(403, 'Acesso não autorizado');
             }
 
@@ -334,17 +401,17 @@ class MaterialController extends Controller
 
     public function batchActive(Request $request)
     {
-        if (!Auth::user()->hasPermissionTo('Editar Materiais')) {
+        if (! Auth::user()->hasPermissionTo('Editar Materiais')) {
             abort(403, 'Acesso não autorizado');
         }
 
-        if (!$request->ids) {
+        if (! $request->ids) {
             return redirect()
                 ->back()
                 ->with('error', 'Selecione ao menos uma linha!');
         }
 
-        $ids = explode(",", $request->ids);
+        $ids = explode(',', $request->ids);
 
         foreach ($ids as $id) {
 
@@ -354,7 +421,7 @@ class MaterialController extends Controller
                 $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('secondary_code', $id)->where('status', 'Baixa')->first();
             }
 
-            if (!$material) {
+            if (! $material) {
                 abort(403, 'Acesso não autorizado');
             }
 
@@ -370,17 +437,17 @@ class MaterialController extends Controller
 
     public function batchDelete(Request $request)
     {
-        if (!Auth::user()->hasPermissionTo('Excluir Materiais')) {
+        if (! Auth::user()->hasPermissionTo('Excluir Materiais')) {
             abort(403, 'Acesso não autorizado');
         }
 
-        if (!$request->ids) {
+        if (! $request->ids) {
             return redirect()
                 ->back()
                 ->with('error', 'Selecione ao menos uma linha!');
         }
 
-        $ids = explode(",", $request->ids);
+        $ids = explode(',', $request->ids);
 
         foreach ($ids as $id) {
             if (Auth::user()->hasRole('Programador|Administrador')) {
@@ -389,7 +456,7 @@ class MaterialController extends Controller
                 $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('secondary_code', $id)->first();
             }
 
-            if (!$material) {
+            if (! $material) {
                 abort(403, 'Acesso não autorizado');
             }
 
@@ -403,17 +470,17 @@ class MaterialController extends Controller
 
     public function batchEdit(Request $request)
     {
-        if (!Auth::user()->hasPermissionTo('Editar Materiais')) {
+        if (! Auth::user()->hasPermissionTo('Editar Materiais')) {
             abort(403, 'Acesso não autorizado');
         }
 
-        if (!$request->ids) {
+        if (! $request->ids) {
             return redirect()
                 ->back()
                 ->with('error', 'Selecione ao menos uma linha!');
         }
 
-        $ids = explode(",", $request->ids);
+        $ids = explode(',', $request->ids);
 
         $materials = [];
 
@@ -424,7 +491,7 @@ class MaterialController extends Controller
                 $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('secondary_code', $id)->first();
             }
 
-            if (!$material) {
+            if (! $material) {
                 abort(403, 'Acesso não autorizado');
             }
 
@@ -446,11 +513,11 @@ class MaterialController extends Controller
 
     public function batchUpdate(MaterialBatchRequest $request)
     {
-        if (!Auth::user()->hasPermissionTo('Excluir Materiais')) {
+        if (! Auth::user()->hasPermissionTo('Excluir Materiais')) {
             abort(403, 'Acesso não autorizado');
         }
 
-        if (!$request->ids) {
+        if (! $request->ids) {
             return redirect()
                 ->back()
                 ->with('error', 'Selecione ao menos uma linha!');
@@ -458,7 +525,7 @@ class MaterialController extends Controller
 
         $data = $request->only(['description', 'observations', 'value', 'group_id', 'department_id', 'status', 'year']);
 
-        $ids = explode(",", $request->ids);
+        $ids = explode(',', $request->ids);
 
         foreach ($ids as $id) {
             if (Auth::user()->hasRole('Programador|Administrador')) {
@@ -467,7 +534,7 @@ class MaterialController extends Controller
                 $material = Material::whereIn('department_id', Auth::user()->departments->pluck('id')->toArray())->where('id', $id)->first();
             }
 
-            if (!$material) {
+            if (! $material) {
                 abort(403, 'Acesso não autorizado');
             }
 
@@ -487,18 +554,18 @@ class MaterialController extends Controller
 
     public function fileImport(Request $request)
     {
-        if (!Auth::user()->hasPermissionTo('Editar Materiais')) {
+        if (! Auth::user()->hasPermissionTo('Editar Materiais')) {
             abort(403, 'Acesso não autorizado');
         }
 
-        if (!$request->file()) {
+        if (! $request->file()) {
             return redirect()
                 ->back()
                 ->with('error', 'Nenhum arquivo selecionado!');
         }
 
-
         Excel::import(new MaterialsImport, $request->file('file')->store('temp'));
+
         return back()->with('success', 'Importação realizada!');
     }
 }

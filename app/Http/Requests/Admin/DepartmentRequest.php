@@ -23,7 +23,7 @@ class DepartmentRequest extends FormRequest
     {
         return [
             'code' => 'nullable|max:191',
-            'name' => 'required|max:191'
+            'name' => 'required|max:191',
         ];
     }
 }

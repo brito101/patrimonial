@@ -10,9 +10,9 @@ use App\Models\Views\Material as ViewsMaterial;
 use App\Models\Views\User as ViewsUser;
 use App\Models\Views\Visit;
 use App\Models\Views\VisitYesterday;
+use DataTables;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use DataTables;
 use Illuminate\Support\Facades\Auth;
 use stdClass;
 
@@ -27,7 +27,7 @@ class AdminController extends Controller
         $departments = ViewsDepartment::count();
         $groups = Group::get();
 
-        $materialChart = new stdClass();
+        $materialChart = new stdClass;
         $materialChart->labels = [];
         $materialChart->materials = ['active' => [
             'quantity' => [],
@@ -56,7 +56,7 @@ class AdminController extends Controller
         foreach ($groupMaterials as $material) {
             $materialChart->materials['active']['quantity'][] = $material->where('status', 'Ativo')->count();
             $materialChart->materials['active']['year'][] = $material[0]->year;
-            $materialChart->materials['writeOff']['quantity'][] = $material->where('status', 'Baixa')->count();            
+            $materialChart->materials['writeOff']['quantity'][] = $material->where('status', 'Baixa')->count();
             $materialChart->materials['writeOff']['year'][] = $material[0]->year;
         }
 
@@ -100,9 +100,6 @@ class AdminController extends Controller
         ));
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function chart(): JsonResponse
     {
         /** Statistics */
@@ -116,13 +113,10 @@ class AdminController extends Controller
             'onlineUsers' => $onlineUsers,
             'access' => $access,
             'percent' => $percent,
-            'chart' => $chart
+            'chart' => $chart,
         ]);
     }
 
-    /**
-     * @return array
-     */
     private function accessStatistics(): array
     {
         $onlineUsers = User::online()->count();
@@ -149,7 +143,7 @@ class AdminController extends Controller
 
         $percent = 0;
         if ($accessYesterday > 0 && $totalDaily > 0) {
-            $percent = number_format((($totalDaily - $accessYesterday) / $totalDaily * 100), 2, ",", ".");
+            $percent = number_format((($totalDaily - $accessYesterday) / $totalDaily * 100), 2, ',', '.');
         }
 
         /** Visitor Chart */
@@ -159,18 +153,18 @@ class AdminController extends Controller
 
         $dataList = [];
         foreach ($data as $key => $value) {
-            $dataList[$key . 'H'] = count($value);
+            $dataList[$key.'H'] = count($value);
         }
 
-        $chart = new stdClass();
+        $chart = new stdClass;
         $chart->labels = (array_keys($dataList));
         $chart->dataset = (array_values($dataList));
 
-        return array(
+        return [
             'onlineUsers' => $onlineUsers,
             'access' => $totalDaily,
             'percent' => $percent,
-            'chart' => $chart
-        );
+            'chart' => $chart,
+        ];
     }
 }

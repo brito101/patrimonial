@@ -28,9 +28,8 @@ class Material extends Model
     ];
 
     /** Accessors */
-
     public function getValueAttribute($value)
     {
-        return 'R$ ' . number_format($value, 2, ',', '.');
+        return 'R$ '.number_format($value, 2, ',', '.');
     }
 }

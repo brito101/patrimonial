@@ -33,7 +33,7 @@ return new class extends Migration
             if ($user->department_id) {
                 $userDepartment = UserDepartment::create([
                     'user_id' => $user->id,
-                    'department_id' => $user->department_id
+                    'department_id' => $user->department_id,
                 ]);
                 $userDepartment->save();
             }
@@ -75,7 +75,7 @@ return new class extends Migration
 
         Schema::dropIfExists('user_departments');
 
-        DB::statement("
+        DB::statement('
         CREATE OR REPLACE VIEW `users_view` AS
         SELECT u.id, u.name, u.email, mr.role_id, r.name as type, u.department_id, d.name as department
         FROM users as u
@@ -83,6 +83,6 @@ return new class extends Migration
         LEFT JOIN roles as r ON r.id = mr.role_id
         LEFT JOIN departments as d ON d.id = u.department_id
         WHERE u.deleted_at IS NULL
-        ");
+        ');
     }
 };

@@ -19,7 +19,7 @@ return new class extends Migration
                 ->onDelete('cascade');
         });
 
-        DB::statement("
+        DB::statement('
         CREATE OR REPLACE VIEW `users_view` AS
         SELECT u.id, u.name, u.email, mr.role_id, r.name as type, u.department_id, d.name as department
         FROM users as u
@@ -27,7 +27,7 @@ return new class extends Migration
         LEFT JOIN roles as r ON r.id = mr.role_id
         LEFT JOIN departments as d ON d.id = u.department_id
         WHERE u.deleted_at IS NULL
-        ");
+        ');
     }
 
     /**
@@ -39,13 +39,13 @@ return new class extends Migration
             //
         });
 
-        DB::statement("
+        DB::statement('
         CREATE OR REPLACE VIEW `users_view` AS
         SELECT u.id, u.name, u.email, mr.role_id, r.name as type
         FROM users as u
         LEFT JOIN model_has_roles as mr ON mr.model_id = u.id
         LEFT JOIN roles as r ON r.id = mr.role_id
         WHERE u.deleted_at IS NULL
-        ");
+        ');
     }
 };

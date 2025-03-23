@@ -24,12 +24,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement("
+        DB::statement('
         CREATE OR REPLACE VIEW `departments_view` AS
         SELECT d.id, d.code, d.name
         FROM departments as d
         WHERE d.deleted_at IS NULL
-        ");
+        ');
     }
 
     /**
@@ -37,7 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("DROP VIEW departments_view");
+        DB::statement('DROP VIEW departments_view');
         Schema::dropIfExists('departments');
     }
 };

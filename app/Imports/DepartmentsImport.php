@@ -12,18 +12,16 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 class DepartmentsImport implements ToModel, WithHeadingRow, WithValidation
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
         $departmentCheck = Department::where('name', $row['nome'])->where('code', $row['codigo'])->first();
 
-        if (!$departmentCheck) {
+        if (! $departmentCheck) {
             $newDepartment = Department::create([
-                'code'      => $row['codigo'],
-                'name'     => $row['nome'],
+                'code' => $row['codigo'],
+                'name' => $row['nome'],
                 'created_at' => new DateTime('now'),
                 'user_id' => Auth::user()->id,
             ]);
@@ -36,7 +34,7 @@ class DepartmentsImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'codigo' => 'nullable|max:191',
-            'nome' => 'required|max:191'
+            'nome' => 'required|max:191',
         ];
     }
 }

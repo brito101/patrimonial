@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Laravel Minify.
  *
@@ -57,7 +58,7 @@ return [
     */
     'insert_semicolon' => [
         'css' => env('MINIFY_CSS_SEMICOLON', false),
-        'js'  => env('MINIFY_JS_SEMICOLON', false),
+        'js' => env('MINIFY_JS_SEMICOLON', false),
     ],
 
     /*

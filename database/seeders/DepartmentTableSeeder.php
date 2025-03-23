@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use DateTime;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -215,7 +214,7 @@ class DepartmentTableSeeder extends Seeder
             foreach ($departments as $department) {
                 DB::table('departments')->insert([
                     'name' => $department,
-                    'user_id'  =>  $user,
+                    'user_id' => $user,
                     'created_at' => new DateTime('now'),
                 ]);
             }

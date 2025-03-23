@@ -24,12 +24,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement("
+        DB::statement('
         CREATE OR REPLACE VIEW `groups_view` AS
         SELECT g.id, g.code, g.name
         FROM `groups` as g
         WHERE g.deleted_at IS NULL
-        ");
+        ');
     }
 
     /**
@@ -37,7 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("DROP VIEW groups_view");
+        DB::statement('DROP VIEW groups_view');
         Schema::dropIfExists('groups');
     }
 };

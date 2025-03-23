@@ -34,13 +34,13 @@ class Group extends Model
             $total += $value;
         }
 
-        return 'R$ ' . number_format($total, 2, ',', '.');
+        return 'R$ '.number_format($total, 2, ',', '.');
     }
 
     public function getDepreciatedValueAttribute()
     {
         // Depreciation calculation
-        $now  = date('Y');
+        $now = date('Y');
         $total = 0;
         $differ = 0;
 
@@ -64,7 +64,7 @@ class Group extends Model
             }
         }
 
-        return 'R$ ' . number_format($total, 2, ',', '.');
+        return 'R$ '.number_format($total, 2, ',', '.');
     }
 
     public function getQuantityAttribute()

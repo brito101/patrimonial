@@ -6,7 +6,6 @@ use App\Models\Department;
 use App\Models\User;
 use App\Models\UserDepartment;
 use DateTime;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -14,19 +13,17 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 class UsersImport implements ToModel, WithHeadingRow, WithValidation
 {
     /**
-     * @param array $row
-     *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
     {
         $userCheck = User::where('email', $row['e_mail'])->first();
 
-        if (!$userCheck) {
+        if (! $userCheck) {
             $newUser = User::create([
-                'name'      => $row['nome'],
-                'email'     => $row['e_mail'],
-                'password'  => bcrypt($row['e_mail']),
+                'name' => $row['nome'],
+                'email' => $row['e_mail'],
+                'password' => bcrypt($row['e_mail']),
                 'created_at' => new DateTime('now'),
             ]);
 

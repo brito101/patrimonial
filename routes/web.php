@@ -1,17 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\{
-    AdminController,
-    UserController,
-    ACL\PermissionController,
-    ACL\RoleController,
-    ChangelogController,
-    ContactController,
-    DepartmentController,
-    GroupController,
-    MaterialController,
-};
-
+use App\Http\Controllers\Admin\ACL\PermissionController;
+use App\Http\Controllers\Admin\ACL\RoleController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ChangelogController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\MaterialController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -54,8 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('materials/batch/edit', [MaterialController::class, 'batchEdit'])->name('materials.batch.edit');
         Route::put('materials/batch/update', [MaterialController::class, 'batchUpdate'])->name('materials.batch.update');
 
-        Route::get('materials/active', [MaterialController::class, 'active'])->name('materials.active');
-        Route::get('materials/write-off', [MaterialController::class, 'writeOff'])->name('materials.writeOff');
+        Route::get('materials/active/{department?}', [MaterialController::class, 'active'])->name('materials.active');
+        Route::get('materials/write-off/{department?}', [MaterialController::class, 'writeOff'])->name('materials.writeOff');
         Route::resource('materials', MaterialController::class)->except('show');
 
         /**
