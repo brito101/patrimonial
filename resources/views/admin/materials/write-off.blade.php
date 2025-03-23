@@ -17,7 +17,7 @@
                             Materiais em Baixa</h1>
                     @else
                         <h1><img src="{{ asset('img/icons/box-archive-solid.svg') }}" style="width: 1.25em;height: 1.25em;">
-                            Materiais em Baixa do setor{{ Auth::user()->departmentsName() }}</h1>
+                            Materiais em Baixa do setor{{ $departmentName }}</h1>
                     @endif
                 </div>
 
@@ -146,7 +146,7 @@
                                         'extend' => 'copy',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-copy text-secondary"></i>',
-                                        'title' => Auth::user()->departmentsName(),
+                                        'title' => $departmentName,
                                         'titleAttr' => 'Copiar',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,
@@ -155,7 +155,7 @@
                                         'extend' => 'print',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-print text-info"></i>',
-                                        'title' => Auth::user()->departmentsName(),
+                                        'title' => $departmentName,
                                         'titleAttr' => 'Imprimir',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,
@@ -172,7 +172,7 @@
                                         'extend' => 'excel',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-excel text-success"></i>',
-                                        'title' => Auth::user()->departmentsName(),
+                                        'title' => $departmentName,
                                         'titleAttr' => 'Exportar para Excel',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,
@@ -181,7 +181,7 @@
                                         'extend' => 'pdf',
                                         'className' => 'btn-default',
                                         'text' => '<i class="fas fa-fw fa-lg fa-file-pdf text-danger"></i>',
-                                        'title' => Auth::user()->departmentsName(),
+                                        'title' => $departmentName,
                                         'titleAttr' => 'Exportar para PDF',
                                         'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                         'footer' => true,

@@ -116,7 +116,9 @@ class MaterialController extends Controller
             }
         }
 
-        return view('admin.materials.active', compact('departments', 'departmentId'));
+        $departmentName = $departmentId ? $department->name : Auth::user()->departmentsName();
+
+        return view('admin.materials.active', compact('departments', 'departmentId', 'departmentName'));
     }
 
     public function writeOff(Request $request, $departmentId = null): View|Factory|Application|JsonResponse
@@ -185,7 +187,9 @@ class MaterialController extends Controller
             }
         }
 
-        return view('admin.materials.write-off', compact('departments', 'departmentId'));
+        $departmentName = $departmentId ? $department->name : Auth::user()->departmentsName();
+
+        return view('admin.materials.write-off', compact('departments', 'departmentId', 'departmentName'));
     }
 
     /**
