@@ -104,7 +104,7 @@
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2">
                                         <label for="year">Ano</label>
                                         <input type="number" class="form-control" id="year" name="year"
-                                            value="{{ old('year') ?? $material->year }}">
+                                            value="{{ old('year') ?? $material->year }}" disabled>
                                     </div>
 
                                     <div class="col-12 col-md-2 form-group px-0 px-md-2 mb-0">

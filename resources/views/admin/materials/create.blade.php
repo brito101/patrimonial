@@ -98,15 +98,8 @@
                                             @endforeach
                                         </x-adminlte-select2>
                                     </div>
-
-
-                                    <div class="col-12 col-md-2 form-group px-0 px-md-2">
-                                        <label for="year">Ano</label>
-                                        <input type="number" class="form-control" id="year" name="year"
-                                            value="{{ old('year') ?? date('Y') }}">
-                                    </div>
-
-                                    <div class="col-12 col-md-2 form-group px-0 px-md-2 mb-0">
+                                    
+                                    <div class="col-12 col-md-4 form-group px-0 pl-md-2 mb-0">
                                         <label for="status">Status *</label>
                                         <x-adminlte-select2 name="status" id="status">
                                             <option {{ old('status') == 'Ativo' ? 'selected' : '' }} value="Ativo">Ativo
