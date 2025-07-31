@@ -3,7 +3,7 @@
 @if (Auth::user()->hasRole('Programador|Administrador'))
     @section('title', '- Dashboard')
 @else
-    @section('title', '- Inventário dos Setores ' . join(' e ', array_filter(array_merge([join(', ', array_slice(Auth::user()->departments->pluck('name')->toArray(), 0, -1))], array_slice(Auth::user()->departments->pluck('name')->toArray(), -1)), 'strlen')))
+    @section('title', '- ' . join(' e ', array_filter(array_merge([join(', ', array_slice(Auth::user()->departments->pluck('name')->toArray(), 0, -1))], array_slice(Auth::user()->departments->pluck('name')->toArray(), -1)), 'strlen')))
 @endif
 
 @section('plugins.Chartjs', true)
@@ -27,11 +27,6 @@
                     <div class="col-sm-12">
                         <h1>
                             <i class="fa fa-fw fa-digital-tachograph"></i>
-                            @if (Auth::user()->departments->count() > 1)
-                                Inventário dos Setores
-                            @else
-                                Inventário do Setor
-                            @endif
                             {{ join(' e ', array_filter(array_merge([join(', ', array_slice(Auth::user()->departments->pluck('name')->toArray(), 0, -1))], array_slice(Auth::user()->departments->pluck('name')->toArray(), -1)), 'strlen')) }}
                         </h1>
                     </div>
@@ -167,6 +162,7 @@
                 </div>
             @else
                 @php
+                    $dptName = join(' e ', array_filter(array_merge([join(', ', array_slice(Auth::user()->departments->pluck('name')->toArray(), 0, -1))], array_slice(Auth::user()->departments->pluck('name')->toArray(), -1)), 'strlen'));
                     $heads = ['SIADS', 'RM', 'Descrição', 'Setor','Valor', 'Valor Depreciado'];
                     $config = [
                         'ajax' => url('/admin/materials/active'),
@@ -195,6 +191,7 @@
                                 'titleAttr' => 'Copiar',
                                 'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                 'footer' => true,
+                                'title' => $dptName,
                             ],
                             [
                                 'extend' => 'print',
@@ -203,6 +200,7 @@
                                 'titleAttr' => 'Imprimir',
                                 'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                 'footer' => true,
+                                'title' => $dptName,
                             ],
                             [
                                 'extend' => 'csv',
@@ -211,6 +209,7 @@
                                 'titleAttr' => 'Exportar para CSV',
                                 'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                 'footer' => true,
+                                'title' => $dptName,
                             ],
                             [
                                 'extend' => 'excel',
@@ -219,6 +218,7 @@
                                 'titleAttr' => 'Exportar para Excel',
                                 'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                 'footer' => true,
+                                'title' => $dptName,
                             ],
                             [
                                 'extend' => 'pdf',
@@ -227,6 +227,7 @@
                                 'titleAttr' => 'Exportar para PDF',
                                 'exportOptions' => ['columns' => ':not([dt-no-export])'],
                                 'footer' => true,
+                                'title' => $dptName,
                             ],
                         ],
                     ];
